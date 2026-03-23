@@ -6,7 +6,10 @@ import { ENV } from "./lib/env.js";
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());//add later with specific origin and credentials
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+}));
 
 const startServer = async () => {
   try {
