@@ -85,8 +85,8 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["student", "organizer", "admin"],
-      default: "student",
+      enum: ["user", "organizer"],
+      default: "user",
     },
 
     bookmarkedEvents: [
