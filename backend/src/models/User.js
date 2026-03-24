@@ -26,6 +26,13 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    gender:{
+      type: String,
+      enum: {
+        values: ["male", "female", "other"],
+        message:"{VALUE} is not supported"
+      }
+    },
     avatar: {
       type: String,
       default:
@@ -52,9 +59,11 @@ const userSchema = new mongoose.Schema(
 
     skills: {
       type: [String],
+      default: [],
     },
     interests: {
       type: [String],
+      default: [],
     },
 
     github: {
