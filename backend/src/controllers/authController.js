@@ -7,7 +7,7 @@ import { ENV } from "../lib/env.js";
 export const signup = async (req, res) => {
   try {
     validateSignUpData(req);
-    const { fullName, email, password } = req.body;
+    const { fullName, email, password, role } = req.body;
     // Add your signup logic here
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -15,11 +15,12 @@ export const signup = async (req, res) => {
       fullName,
       email,
       password: hashedPassword,
+      role: role || "user",
     });
 
     const savedUser = await user.save();
     const token = await jwt.sign(
-      { _id: savedUser._id },
+      { _id: savedUser._id, role: savedUser.role },
       ENV.JWT_SECRET,
       {
         expiresIn: "7d",
@@ -41,16 +42,19 @@ export const signup = async (req, res) => {
 export const signin = async (req, res) => {
   try {
     validateSignInData(req);
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
       throw new Error("User not found");
+    }
+    if (role && user.role !== role) {
+      throw new Error("Invalid role for this user");
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       throw new Error("Invalid credentials");
     }
-    const token = await jwt.sign({ _id: user._id }, ENV.JWT_SECRET, {
+    const token = await jwt.sign({ _id: user._id, role: user.role }, ENV.JWT_SECRET, {
       expiresIn: "7d",
     });
     res.cookie("token", token, {
