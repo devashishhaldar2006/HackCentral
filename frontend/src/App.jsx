@@ -5,19 +5,23 @@ import appStore from "./lib/appStore";
 import LoginPage from "./pages/LoginPage";
 import Body from "./components/Body";
 import HomePage from "./pages/HomePage";
+import Dashboard from "./pages/Dashboard";
 function App() {
   return (
     <>
-    <Provider store={appStore}>
-    <BrowserRouter basename="/">
-    <Routes>
-      <Route path="/" element={<Body />} />
-        <Route path="/" element={<HomePage />} />
-        <Route path="/signin" element={<LoginPage />} />
-    </Routes>
-    </BrowserRouter>
-    </Provider>
+      <Provider store={appStore}>
+        <BrowserRouter basename="/">
+          <Routes>
+            <Route path="/" element={<Body />}>
+              <Route index element={<HomePage />} />
+              <Route path="/signin" element={<LoginPage />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </Provider>
     </>
-  );}
+  );
+}
 
 export default App;
