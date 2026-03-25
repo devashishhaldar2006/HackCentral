@@ -1,2 +1,47 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+/* ===== Custom Theme & Base Styles ===== */
+@theme {
+  --color-primary: #0d4af2;
+  --color-bg-light: #f5f6f8;
+  --color-bg-dark: #101522;
+}
+
+/* Base body styles */
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Material Symbols font settings */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Dark mode root background */
+html.dark body {
+  background-color: #101522;
+  color: #f1f5f9;
+}
+
+html body {
+  background-color: #f5f6f8;
+  color: #0f172a;
+}
+
+/* ===== Animations ===== */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(1.05); }
+}
+
+.delay-1000 {
+  animation-delay: 1s;
+}
