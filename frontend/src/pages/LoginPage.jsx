@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { addUser } from "../lib/userSlice";
-
-const BASE_URL = "http://localhost:3000";
+import { BASE_URL } from "../lib/constants";
 
 const LoginPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -31,7 +30,7 @@ const LoginPage = () => {
     setError("");
 
     try {
-      const endpoint = isSignUp ? "/api/auth/signup" : "/api/auth/signin";
+      const endpoint = isSignUp ? "/auth/signup" : "/auth/signin";
       const payload = isSignUp
         ? { fullName: formData.fullName, email: formData.email, password: formData.password }
         : { email: formData.email, password: formData.password };
