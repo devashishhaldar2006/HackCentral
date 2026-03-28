@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -50,18 +49,12 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link
-                className="hover:text-[#0d4af2] transition-colors"
-                to="#"
-              >
+              <Link className="hover:text-[#0d4af2] transition-colors" to="#">
                 Workshops
               </Link>
             </li>
             <li>
-              <Link
-                className="hover:text-[#0d4af2] transition-colors"
-                to="#"
-              >
+              <Link className="hover:text-[#0d4af2] transition-colors" to="#">
                 Resources
               </Link>
             </li>
