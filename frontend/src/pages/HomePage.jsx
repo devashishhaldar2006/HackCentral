@@ -4,29 +4,6 @@ import { EVENTS } from "../api/data";
 import heroImage from "../assets/hero-bg.png";
 import { STATS, STEPS, TESTIMONIALS } from "../api/homeData";
 
-/* ─── animated counter hook ─── */
-function useCountUp(end, duration = 2000, startOnMount = true) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!startOnMount) return;
-    let start = 0;
-    const incrementTime = 20;
-    const totalSteps = duration / incrementTime;
-    const step = end / totalSteps;
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= end) {
-        setCount(end);
-        clearInterval(timer);
-      } else {
-        setCount(Math.ceil(start));
-      }
-    }, incrementTime);
-    return () => clearInterval(timer);
-  }, [end, duration, startOnMount]);
-  return count;
-}
-
 const HomePage = () => {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -86,7 +63,7 @@ const HomePage = () => {
           {/* CTA buttons */}
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
             <Link
-              to="/signup"
+              to="/signin?mode=signup"
               id="hero-get-started"
               className="group relative px-8 py-4 bg-[#0d4af2] hover:bg-[#0b3fd4] text-white font-bold rounded-xl shadow-2xl shadow-[#0d4af2]/30 transition-all duration-300 hover:shadow-[#0d4af2]/50 hover:-translate-y-0.5 text-base flex items-center gap-2"
             >
@@ -334,7 +311,7 @@ const HomePage = () => {
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                to="/signup"
+                to="/signin?mode=signup"
                 id="cta-signup"
                 className="px-8 py-4 bg-white text-[#0d4af2] font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2 justify-center"
               >

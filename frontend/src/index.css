@@ -45,3 +45,107 @@ html body {
 .delay-1000 {
   animation-delay: 1s;
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Login Page Animations ===== */
+@keyframes orbit {
+  0% { transform: rotate(0deg) translateX(180px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(180px) rotate(-360deg); }
+}
+
+@keyframes orbit-reverse {
+  0% { transform: rotate(0deg) translateX(140px) rotate(0deg); }
+  100% { transform: rotate(-360deg) translateX(140px) rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes grid-scroll {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(40px, 40px); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  50% { transform: scale(1); opacity: 0.3; }
+  100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes card-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+/* Login page grid background */
+.login-grid-bg {
+  background-image:
+    linear-gradient(rgba(13, 74, 242, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(13, 74, 242, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: grid-scroll 20s linear infinite;
+}
+
+html.dark .login-grid-bg {
+  background-image:
+    linear-gradient(rgba(13, 74, 242, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(13, 74, 242, 0.07) 1px, transparent 1px);
+}
+
+/* Animated gradient border */
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(13, 74, 242, 0.5),
+    rgba(139, 92, 246, 0.3),
+    rgba(6, 182, 212, 0.3),
+    rgba(13, 74, 242, 0.5)
+  );
+  background-size: 300% 300%;
+  animation: shimmer 6s ease-in-out infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Login card entrance animation */
+.login-card-enter {
+  animation: slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Success animation for inputs */
+.input-focus-glow:focus {
+  box-shadow: 0 0 0 3px rgba(13, 74, 242, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Social button hover lift */
+.social-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.15);
+}
+
+html.dark .social-btn:hover {
+  box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.4);
+}
