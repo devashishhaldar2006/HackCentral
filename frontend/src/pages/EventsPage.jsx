@@ -1,7 +1,7 @@
 import { EVENTS, CATEGORIES, TECH_TAGS } from "../api/data";
 import { useState } from "react";
 
-const Dashboard = () => {
+const EventsPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("Development");
 
@@ -75,9 +75,7 @@ const Dashboard = () => {
                     >
                       <span
                         className={`material-symbols-outlined text-xl ${
-                          activeCategory === cat.label
-                            ? ""
-                            : "text-slate-400"
+                          activeCategory === cat.label ? "" : "text-slate-400"
                         }`}
                       >
                         {cat.icon}
@@ -239,6 +237,6 @@ const Dashboard = () => {
       </div>
     </>
   );
-}
+};
 
-export default Dashboard
+export default EventsPage;

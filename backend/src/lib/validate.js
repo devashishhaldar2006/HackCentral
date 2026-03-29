@@ -27,8 +27,8 @@ export const validateSignInData = (req) => {
     throw new Error("All fields are required");
   } else if (!validator.isEmail(email)) {
     throw new Error("Invalid credentials");
-  } else if (password.length < 6) {
-    throw new Error("Password must be at least 6 characters long");
+  } else if (password.length < 8) {
+    throw new Error("Password must be at least 8 characters long");
   }
   if (role && !["user", "organizer"].includes(role)) {
     throw new Error("Invalid credentials");

@@ -23,8 +23,12 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
       trim: true,
+    },
+    authProvider: {
+      type: String,
+      enum: ["local", "google", "github"],
+      default: "local",
     },
     gender:{
       type: String,
@@ -97,6 +101,26 @@ const userSchema = new mongoose.Schema(
     ],
 
     registeredEvents: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Event",
+      },
+    ],
+
+    // Organizer specific fields
+    website: {
+      type: String,
+      validate(value) {
+        if (value && !validator.isURL(value)) {
+          throw new Error("Invalid URL");
+        }
+      },
+    },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
+    submittedEvents: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Event",
