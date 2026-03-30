@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { ENV } from "./env.js";
+import { getSafeUserData } from "./safeUser.js";
 
 export const sendTokenResponse = (user, message, res) => {
   const token = jwt.sign({ _id: user._id, role: user.role }, ENV.JWT_SECRET, {
@@ -13,9 +14,7 @@ export const sendTokenResponse = (user, message, res) => {
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
   });
 
-  const userObj = user.toObject();
-  delete userObj.password;
-  delete userObj.__v;
+  const safeUser = getSafeUserData(user);
 
-  res.json({ message, data: userObj });
+  res.json({ message, data: safeUser });
 };

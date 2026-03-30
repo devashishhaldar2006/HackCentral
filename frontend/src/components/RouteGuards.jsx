@@ -28,7 +28,7 @@ export const AuthLoader = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(BASE_URL + "/auth/me", {
+        const res = await axios.get(BASE_URL + "/users/me", {
           withCredentials: true,
         });
         dispatch(addUser(res.data.data));

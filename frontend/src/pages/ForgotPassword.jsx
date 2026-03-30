@@ -49,6 +49,7 @@ const ForgotPassword = () => {
         { withCredentials: true }
       );
       setMessage(res.data.message || "OTP sent to your email.");
+      setFormData((f) => ({ ...f, otp: "" }));
       setStep(2);
     } catch (err) {
       if (!err?.response && err?.message === "Network Error") {

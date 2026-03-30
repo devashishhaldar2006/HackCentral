@@ -133,11 +133,6 @@ const userSchema = new mongoose.Schema(
       count: { type: Number, default: 0 },
       lastRequest: Date,
     },
-    provider: {
-      type: String,
-      enum: ["local", "google", "github"],
-      default: "local",
-    },
   },
   { timestamps: true },
 );
