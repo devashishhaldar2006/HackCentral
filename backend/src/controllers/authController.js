@@ -1,27 +1,8 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { sendTokenResponse } from "../lib/jwt.js";
 import { validateSignUpData, validateSignInData } from "../lib/validate.js";
 import { ENV } from "../lib/env.js";
-
-const sendTokenResponse = (user, message, res) => {
-  const token = jwt.sign({ _id: user._id, role: user.role }, ENV.JWT_SECRET, {
-    expiresIn: "7d",
-  });
-
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-  });
-
-  const userObj = user.toObject();
-  delete userObj.password;
-  delete userObj.__v;
-
-  res.json({ message, data: userObj });
-};
 
 export const signup = async (req, res) => {
   try {
@@ -95,11 +76,13 @@ export const signout = (req, res) => {
   try {
     res.clearCookie("token", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: ENV.NODE_ENV === "production",
+      sameSite: ENV.NODE_ENV === "production" ? "none" : "lax",
     });
     res.json({ message: "User signed out successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error occurred while signing out." });
   }
 };
+
+

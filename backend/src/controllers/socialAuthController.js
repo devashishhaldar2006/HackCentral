@@ -1,7 +1,6 @@
 import User from "../models/User.js";
-import jwt from "jsonwebtoken";
 import admin from "../lib/firebaseAdmin.js";
-import { ENV } from "../lib/env.js";
+import { sendTokenResponse } from "../lib/jwt.js";
 
 export const socialLogin = async (req, res) => {
   try {
@@ -47,26 +46,7 @@ export const socialLogin = async (req, res) => {
       await user.save();
     }
 
-    const token = jwt.sign({ _id: user._id, role: user.role }, ENV.JWT_SECRET, {
-      expiresIn: "7d",
-    });
-
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    });
-
-    // Strip sensitive fields
-    const userObj = user.toObject();
-    delete userObj.password;
-    delete userObj.__v;
-
-    res.json({
-      message: "Signed in successfully",
-      data: userObj,
-    });
+    sendTokenResponse(user, "Signed in successfully", res);
   } catch (error) {
     console.error("Social login error:", error);
     res.status(401).json({

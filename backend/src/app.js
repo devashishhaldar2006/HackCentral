@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import connectDB from "./lib/db.js";
 import { ENV } from "./lib/env.js";
+
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -14,7 +15,9 @@ app.use(
 );
 
 import authRouter from "./routes/authRoutes.js";
+import userRouter from "./routes/userRoutes.js";
 app.use("/api/auth", authRouter);
+app.use("/api/users", userRouter);
 
 const startServer = async () => {
   try {

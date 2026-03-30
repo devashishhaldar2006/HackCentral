@@ -1,6 +1,6 @@
 import "./index.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Provider, useSelector } from "react-redux";
+import { Provider } from "react-redux";
 import appStore from "./lib/appStore";
 import LoginPage from "./pages/LoginPage";
 import Body from "./components/Body";
@@ -10,32 +10,14 @@ import ProfilePage from "./pages/ProfilePage";
 import TeamFinder from "./pages/TeamFinder";
 import ForgotPassword from "./pages/ForgotPassword";
 import OrganizerDashboard from "./pages/OrganizerDashboard";
-
-/** Route guard — redirects to /signin when not authenticated */
-const ProtectedRoute = ({ children }) => {
-  const user = useSelector((state) => state.user);
-  if (!user) return <Navigate to="/signin" replace />;
-  return children;
-};
-
-/** Redirect logged-in users away from auth pages */
-const GuestRoute = ({ children }) => {
-  const user = useSelector((state) => state.user);
-  if (user)
-    return (
-      <Navigate
-        to={user.role === "organizer" ? "/organizer/dashboard" : "/user/events"}
-        replace
-      />
-    );
-  return children;
-};
+import { ProtectedRoute, OrganizerRoute, AuthLoader, GuestRoute } from "./components/RouteGuards";
 
 function App() {
   return (
     <Provider store={appStore}>
       <BrowserRouter basename="/">
-        <Routes>
+        <AuthLoader>
+          <Routes>
           <Route path="/" element={<Body />}>
             <Route index element={<HomePage />} />
             <Route
@@ -57,9 +39,9 @@ function App() {
             <Route
               path="organizer/dashboard"
               element={
-                <ProtectedRoute>
+                <OrganizerRoute>
                   <OrganizerDashboard />
-                </ProtectedRoute>
+                </OrganizerRoute>
               }
             />
             <Route
@@ -77,6 +59,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>
+        </AuthLoader>
       </BrowserRouter>
     </Provider>
   );
