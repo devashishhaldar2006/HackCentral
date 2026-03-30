@@ -16,15 +16,8 @@ export const sendOTP = async (req, res) => {
     const email = rawEmail.toLowerCase();
     const user = await User.findOne({ email });
 
-    if (!user) {
-      return res.status(400).json({ message: "User not found" });
-    }
-
-    // block social users
-    if (!user.password) {
-      return res.status(400).json({
-        message: `This account uses ${user.authProvider || "social"} sign-in. Password reset is not available.`,
-      });
+    if (!user || !user.password) {
+      return res.status(200).json({ message: "If your email is registered with a password, you will receive an OTP." });
     }
 
     const now = Date.now();
@@ -37,21 +30,15 @@ export const sendOTP = async (req, res) => {
       });
     }
 
-    // 2. Rate limit check
-    if (!user.otpRequests) {
-      user.otpRequests = { count: 0, lastRequest: now };
-    }
-
+    const originalCount = user.otpRequests?.count || 0;
     const isDifferentWindow =
-      !user.otpRequests.lastRequest ||
+      !user.otpRequests?.lastRequest ||
       now - user.otpRequests.lastRequest > RATE_LIMIT_WINDOW;
-    if (isDifferentWindow) {
-      user.otpRequests.count = 0;
-    }
+    const newCount = isDifferentWindow ? 1 : originalCount + 1;
 
-    if (user.otpRequests.count >= MAX_OTP_REQUESTS) {
-      user.otpCooldown = now + RATE_LIMIT_WINDOW;
-      await user.save();
+    if (!isDifferentWindow && originalCount >= MAX_OTP_REQUESTS) {
+      const updatedCooldown = now + RATE_LIMIT_WINDOW;
+      await User.updateOne({ _id: user._id }, { $set: { otpCooldown: updatedCooldown } });
       return res.status(429).json({
         message: "Too many OTP requests. Please try again after an hour.",
       });
@@ -59,25 +46,61 @@ export const sendOTP = async (req, res) => {
 
     const otp = generateOTP();
     const hashedOTP = crypto.createHash("sha256").update(otp).digest("hex");
-    user.otp = hashedOTP;
-    user.otpExpire = now + 5 * 60 * 1000; // 5 min
+    const expireTime = now + 5 * 60 * 1000; // 5 min
+    const cooldownTime = now + COOLDOWN_PERIOD;
 
-    // update rate limits
-    user.otpCooldown = now + COOLDOWN_PERIOD;
-    user.otpRequests.count += 1;
-    user.otpRequests.lastRequest = now;
+    // Atomic update to ensure only one concurrent request gets the slot
+    const updatedUser = await User.findOneAndUpdate(
+      {
+        _id: user._id,
+        $or: [
+          { otpCooldown: { $lt: now } },
+          { otpCooldown: { $exists: false } },
+          { otpCooldown: null }
+        ]
+      },
+      {
+        $set: {
+          otp: hashedOTP,
+          otpExpire: expireTime,
+          otpCooldown: cooldownTime,
+          "otpRequests.count": newCount,
+          "otpRequests.lastRequest": now,
+        }
+      },
+      { new: true }
+    );
 
-    await user.save();
+    if (!updatedUser) {
+       return res.status(429).json({
+         message: "Please wait before requesting a new OTP.",
+       });
+    }
 
     const emailContent = getEmailContent(otp);
 
-    await sendEmail({
-      to: user.email,
-      subject: "HackCentral - Your OTP Code",
-      html: emailContent,
-    });
+    try {
+      await sendEmail({
+        to: user.email,
+        subject: "HackCentral - Your OTP Code",
+        html: emailContent,
+      });
+    } catch (emailError) {
+      // Rollback DB if email fails
+      await User.updateOne(
+        { _id: user._id },
+        {
+          $set: {
+            otpCooldown: user.otpCooldown,
+            "otpRequests.count": originalCount,
+            "otpRequests.lastRequest": user.otpRequests?.lastRequest,
+          }
+        }
+      );
+      throw emailError;
+    }
 
-    res.status(200).json({ message: "OTP sent to your email" });
+    res.status(200).json({ message: "If your email is registered with a password, you will receive an OTP." });
   } catch (error) {
     const errorMsg = error?.message || "";
     const isValidation =
@@ -97,16 +120,12 @@ export const verifyOTPAndReset = async (req, res) => {
 
     const user = await User.findOne({ email });
 
-    if (!user) {
-      return res.status(400).json({ message: "User not found" });
-    }
-
     const hashedOTP = crypto
       .createHash("sha256")
       .update(String(otp))
       .digest("hex");
 
-    if (user.otp !== hashedOTP || user.otpExpire < Date.now()) {
+    if (!user || user.otp !== hashedOTP || user.otpExpire < Date.now()) {
       return res.status(400).json({
         message: "Invalid or expired OTP",
       });
