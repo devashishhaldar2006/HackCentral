@@ -30,12 +30,12 @@ const userSchema = new mongoose.Schema(
       enum: ["local", "google", "github"],
       default: "local",
     },
-    gender:{
+    gender: {
       type: String,
       enum: {
         values: ["male", "female", "other"],
-        message:"{VALUE} is not supported"
-      }
+        message: "{VALUE} is not supported",
+      },
     },
     avatar: {
       type: String,
@@ -126,6 +126,18 @@ const userSchema = new mongoose.Schema(
         ref: "Event",
       },
     ],
+    otp: String,
+    otpExpire: Date,
+    otpCooldown: Date,
+    otpRequests: {
+      count: { type: Number, default: 0 },
+      lastRequest: Date,
+    },
+    provider: {
+      type: String,
+      enum: ["local", "google", "github"],
+      default: "local",
+    },
   },
   { timestamps: true },
 );

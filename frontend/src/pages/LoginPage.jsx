@@ -316,7 +316,7 @@ const LoginPage = () => {
                         value="user"
                         checked={formData.role === "user"}
                         onChange={handleChange}
-                        className="hidden"
+                        className="sr-only"
                       />
                       <span
                         className={`text-sm font-semibold transition-colors ${formData.role === "user" ? "text-slate-900 dark:text-white" : "text-slate-500 dark:text-slate-400"}`}
@@ -338,7 +338,7 @@ const LoginPage = () => {
                         value="organizer"
                         checked={formData.role === "organizer"}
                         onChange={handleChange}
-                        className="hidden"
+                        className="sr-only"
                       />
                       <span
                         className={`text-sm font-semibold transition-colors ${formData.role === "organizer" ? "text-slate-900 dark:text-white" : "text-slate-500 dark:text-slate-400"}`}

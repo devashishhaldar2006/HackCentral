@@ -1,7 +1,11 @@
 import dotenv from 'dotenv';
-dotenv.config();
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-export const ENV={
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });export const ENV={
     MONGO_DB_URI: process.env.MONGO_DB_URI,
     JWT_SECRET: process.env.JWT_SECRET,
     PORT: process.env.PORT,
@@ -10,5 +14,7 @@ export const ENV={
     FIREBASE_PRIVATE_KEY: process.env.FIREBASE_PRIVATE_KEY,
     FIREBASE_CLIENT_EMAIL: process.env.FIREBASE_CLIENT_EMAIL,
     FIREBASE_CLIENT_ID: process.env.FIREBASE_CLIENT_ID,
-    NODE_ENV: process.env.NODE_ENV || 'development'
+    NODE_ENV: process.env.NODE_ENV || 'development',
+    EMAIL_USER: process.env.EMAIL_USER,
+    EMAIL_PASS: process.env.EMAIL_PASS
 }
