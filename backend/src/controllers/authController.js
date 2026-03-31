@@ -7,7 +7,8 @@ import { ENV } from "../lib/env.js";
 export const signup = async (req, res) => {
   try {
     validateSignUpData(req);
-    const { fullName, email, password, role } = req.body;
+    const { fullName, email: rawEmail, password, role } = req.body;
+    const email = rawEmail.toLowerCase();
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res
@@ -39,7 +40,8 @@ export const signup = async (req, res) => {
 export const signin = async (req, res) => {
   try {
     validateSignInData(req);
-    const { email, password, role } = req.body;
+    const { email: rawEmail, password, role } = req.body;
+    const email = rawEmail.toLowerCase();
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password." });
@@ -84,5 +86,3 @@ export const signout = (req, res) => {
     res.status(500).json({ message: "Error occurred while signing out." });
   }
 };
-
-
