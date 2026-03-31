@@ -17,6 +17,7 @@ const ForgotPassword = () => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [otpAttempts, setOtpAttempts] = useState(0);
 
   const navigate = useNavigate();
 
@@ -41,12 +42,13 @@ const ForgotPassword = () => {
     setLoading(true);
     setError("");
     setMessage("");
+    setOtpAttempts(0);
 
     try {
       const res = await axios.post(
         BASE_URL + "/auth/send-otp",
         { email: formData.email.trim() },
-        { withCredentials: true }
+        { withCredentials: true },
       );
       setMessage(res.data.message || "OTP sent to your email.");
       setFormData((f) => ({ ...f, otp: "" }));
@@ -54,12 +56,12 @@ const ForgotPassword = () => {
     } catch (err) {
       if (!err?.response && err?.message === "Network Error") {
         setError(
-          "Unable to reach the server. Please check your connection and try again."
+          "Unable to reach the server. Please check your connection and try again.",
         );
       } else {
         setError(
           err?.response?.data?.message ||
-            "Something went wrong. Please try again."
+            "Something went wrong. Please try again.",
         );
       }
     } finally {
@@ -86,22 +88,40 @@ const ForgotPassword = () => {
           otp: formData.otp.trim(),
           newPassword: formData.newPassword,
         },
-        { withCredentials: true }
+        { withCredentials: true },
       );
-      setMessage(res.data.message || "Password reset successfully. Redirecting...");
+      setMessage(
+        res.data.message || "Password reset successfully. Redirecting...",
+      );
+      setOtpAttempts(0);
       setTimeout(() => {
         navigate("/signin");
       }, 2000);
     } catch (err) {
       if (!err?.response && err?.message === "Network Error") {
         setError(
-          "Unable to reach the server. Please check your connection and try again."
+          "Unable to reach the server. Please check your connection and try again.",
         );
-      } else {
+      } else if (err?.response?.status === 429) {
+        setOtpAttempts(5);
         setError(
           err?.response?.data?.message ||
-            "Failed to reset password. Please try again or request a new OTP."
+            "Too many incorrect attempts. Please request a new OTP.",
         );
+      } else {
+        const newAttempts = otpAttempts + 1;
+        setOtpAttempts(newAttempts);
+        const remainingAttempts = 5 - newAttempts;
+
+        let errorMsg =
+          err?.response?.data?.message ||
+          "Failed to reset password. Please try again or request a new OTP.";
+
+        if (remainingAttempts > 0 && remainingAttempts < 5) {
+          errorMsg += ` (${remainingAttempts} attempts remaining)`;
+        }
+
+        setError(errorMsg);
       }
     } finally {
       setLoading(false);
@@ -185,10 +205,15 @@ const ForgotPassword = () => {
             </div>
 
             {/* ── Form ── */}
-            <form onSubmit={step === 1 ? handleSendOTP : handleResetPassword} className="space-y-4">
-              
+            <form
+              onSubmit={step === 1 ? handleSendOTP : handleResetPassword}
+              className="space-y-4"
+            >
               {step === 1 && (
-                <div className="space-y-1.5" style={{ animation: "slide-up 0.3s ease-out" }}>
+                <div
+                  className="space-y-1.5"
+                  style={{ animation: "slide-up 0.3s ease-out" }}
+                >
                   <label
                     htmlFor="email"
                     className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
@@ -215,7 +240,10 @@ const ForgotPassword = () => {
 
               {step === 2 && (
                 <>
-                  <div className="space-y-1.5" style={{ animation: "slide-up 0.3s ease-out" }}>
+                  <div
+                    className="space-y-1.5"
+                    style={{ animation: "slide-up 0.3s ease-out" }}
+                  >
                     <label
                       htmlFor="otp"
                       className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
@@ -240,7 +268,10 @@ const ForgotPassword = () => {
                   </div>
 
                   {/* Password */}
-                  <div className="space-y-1.5" style={{ animation: "slide-up 0.3s ease-out" }}>
+                  <div
+                    className="space-y-1.5"
+                    style={{ animation: "slide-up 0.3s ease-out" }}
+                  >
                     <div className="flex items-center justify-between">
                       <label
                         htmlFor="newPassword"
@@ -277,7 +308,10 @@ const ForgotPassword = () => {
 
                     {/* Password strength bar */}
                     {formData.newPassword && (
-                      <div className="pt-1.5 space-y-1" style={{ animation: "slide-up 0.2s ease-out" }}>
+                      <div
+                        className="pt-1.5 space-y-1"
+                        style={{ animation: "slide-up 0.2s ease-out" }}
+                      >
                         <div className="flex gap-1 h-1 rounded-full overflow-hidden">
                           {[1, 2, 3, 4].map((i) => (
                             <div
@@ -341,7 +375,7 @@ const ForgotPassword = () => {
               {/* Submit */}
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || otpAttempts >= 5}
                 className="relative w-full h-12 bg-[#0d4af2] text-white font-bold rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer group overflow-hidden hover:shadow-[0_8px_30px_-6px_rgba(13,74,242,0.5)] active:scale-[0.98]"
               >
                 {/* sheen effect */}
@@ -367,7 +401,10 @@ const ForgotPassword = () => {
             </form>
 
             {step === 2 && (
-              <div className="flex justify-between items-center mt-5 px-1" style={{ animation: "slide-up 0.3s ease-out" }}>
+              <div
+                className="flex justify-between items-center mt-5 px-1"
+                style={{ animation: "slide-up 0.3s ease-out" }}
+              >
                 <button
                   type="button"
                   onClick={() => setStep(1)}
@@ -381,7 +418,7 @@ const ForgotPassword = () => {
                   disabled={loading}
                   className="text-[13px] text-[#0d4af2] hover:underline font-medium disabled:opacity-50 disabled:no-underline"
                 >
-                  Resend OTP
+                  {otpAttempts >= 5 ? "Request New OTP" : "Resend OTP"}
                 </button>
               </div>
             )}
@@ -397,7 +434,6 @@ const ForgotPassword = () => {
             </p>
           </div>
         </div>
-
       </div>
     </section>
   );

@@ -129,6 +129,10 @@ const userSchema = new mongoose.Schema(
     otp: String,
     otpExpire: Date,
     otpCooldown: Date,
+    otpAttempts: {
+      type: Number,
+      default: 0,
+    },
     otpRequests: {
       count: { type: Number, default: 0 },
       lastRequest: Date,

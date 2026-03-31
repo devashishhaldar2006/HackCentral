@@ -19,7 +19,7 @@ export const sendOTP = async (req, res) => {
     if (!user || !user.password) {
       return res.status(200).json({ message: "If your email is registered with a password, you will receive an OTP." });
     }
-
+   //sliding window logic 
     const now = Date.now();
 
     // 1. Cooldown check
@@ -64,6 +64,7 @@ export const sendOTP = async (req, res) => {
           otp: hashedOTP,
           otpExpire: expireTime,
           otpCooldown: cooldownTime,
+          otpAttempts: 0,
           "otpRequests.count": newCount,
           "otpRequests.lastRequest": now,
         }
@@ -120,12 +121,22 @@ export const verifyOTPAndReset = async (req, res) => {
 
     const user = await User.findOne({ email });
 
+    if (user && user.otpAttempts >= 5) {
+      return res.status(429).json({
+        message: "Too many incorrect attempts. Try again later.",
+      });
+    }
+
     const hashedOTP = crypto
       .createHash("sha256")
       .update(String(otp))
       .digest("hex");
 
     if (!user || user.otp !== hashedOTP || user.otpExpire < Date.now()) {
+      if (user) {
+        user.otpAttempts = (user.otpAttempts || 0) + 1;
+        await user.save();
+      }
       return res.status(400).json({
         message: "Invalid or expired OTP",
       });
@@ -137,6 +148,7 @@ export const verifyOTPAndReset = async (req, res) => {
     user.otp = undefined;
     user.otpExpire = undefined;
     user.otpCooldown = undefined;
+    user.otpAttempts = 0;
     if (user.otpRequests) {
       user.otpRequests.count = 0;
     }
