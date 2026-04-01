@@ -11,6 +11,7 @@ export const sendTokenResponse = (user, message, res) => {
     httpOnly: true,
     secure: ENV.NODE_ENV === "production",
     sameSite: ENV.NODE_ENV === "production" ? "none" : "lax",
+    path: "/",
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
   });
 

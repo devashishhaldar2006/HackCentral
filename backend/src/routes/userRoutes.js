@@ -1,10 +1,9 @@
 import express from "express";
-import { editProfile, getProfile } from "../controllers/userController.js";
 import { authProtect } from "../middlewares/authMiddleware.js";
+import { getUserEvents } from "../controllers/userController.js";
 
 const userRouter = express.Router();
 
-userRouter.get("/profile", authProtect, getProfile);
-userRouter.patch("/profile/edit", authProtect, editProfile);
+userRouter.get("/events", authProtect, getUserEvents);
 
 export default userRouter;
