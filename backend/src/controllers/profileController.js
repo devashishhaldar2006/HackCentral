@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import User from "../models/User.js";
 import { getSafeUserData } from "../lib/safeUser.js";
-import { validateProfileUpdateData } from "../lib/validate.js";
+import { validateProfileUpdateData, ValidationError } from "../lib/validate.js";
 
 const profileRouter = express.Router();
 
@@ -64,6 +64,12 @@ export const editProfile = async (req, res) => {
     const safeUser = getSafeUserData(user);
     res.json({ message: "Profile updated successfully", data: safeUser });
   } catch (error) {
+    // Client request validation errors → 400
+    if (error instanceof ValidationError || error.isValidationError) {
+      return res.status(400).json({ message: error.message });
+    }
+
+    // Mongoose schema validation errors → 400
     if (
       error.name === "ValidationError" ||
       error instanceof mongoose.Error.ValidationError
@@ -71,6 +77,7 @@ export const editProfile = async (req, res) => {
       return res.status(400).json({ message: error.message });
     }
 
+    // Type/cast errors during DB → 400
     if (
       error.name === "CastError" ||
       error instanceof mongoose.Error.CastError
@@ -78,10 +85,7 @@ export const editProfile = async (req, res) => {
       return res.status(400).json({ message: "Invalid profile data" });
     }
 
-    if (error instanceof Error) {
-      return res.status(400).json({ message: error.message });
-    }
-
+    // All other errors (DB, network, runtime) → 500
     console.error("Profile update error:", error);
     res.status(500).json({ message: "Error updating profile" });
   }
