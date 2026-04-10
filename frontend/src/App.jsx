@@ -3,14 +3,14 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Provider } from "react-redux";
 import appStore from "./lib/appStore";
 import LoginPage from "./pages/LoginPage";
-import Body from "./components/Body";
+import Body from "./components/layout/Body";
 import HomePage from "./pages/HomePage";
 import EventsPage from "./pages/EventsPage";
 import ProfilePage from "./pages/ProfilePage";
 import TeamFinder from "./pages/TeamFinder";
 import ForgotPassword from "./pages/ForgotPassword";
 import OrganizerDashboard from "./pages/OrganizerDashboard";
-import { ProtectedRoute, OrganizerRoute, AuthLoader, GuestRoute } from "./components/RouteGuards";
+import { ProtectedRoute, OrganizerRoute, AuthLoader, GuestRoute } from "./components/auth/RouteGuards";
 
 function App() {
   return (

@@ -17,9 +17,11 @@ app.use(
 import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import profileRouter from "./routes/profileRoutes.js";
+import eventRouter from "./routes/eventRoutes.js";
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/profile", profileRouter);
+app.use("/api/events", eventRouter);
 
 const startServer = async () => {
   try {

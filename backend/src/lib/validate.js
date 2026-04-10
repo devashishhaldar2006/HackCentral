@@ -1,10 +1,5 @@
 import validator from "validator";
 
-/**
- * Custom error for request validation failures.
- * Controllers should catch this to return 400;
- * other Errors indicate server/DB issues and should return 500.
- */
 export class ValidationError extends Error {
   constructor(message) {
     super(message);
@@ -138,7 +133,6 @@ export const validateProfileUpdateData = (req) => {
   const {
     fullName,
     gender,
-    avatar,
     college,
     location,
     skills,
@@ -151,7 +145,6 @@ export const validateProfileUpdateData = (req) => {
   const allowedFields = [
     "fullName",
     "gender",
-    "avatar",
     "college",
     "location",
     "skills",
@@ -175,9 +168,6 @@ export const validateProfileUpdateData = (req) => {
   }
   if (gender !== undefined && !["male", "female", "other"].includes(gender)) {
     throw new ValidationError("Invalid gender");
-  }
-  if (avatar !== undefined && avatar !== "" && !isValidHttpUrl(avatar)) {
-    throw new ValidationError("Invalid avatar URL");
   }
   if (college !== undefined && college !== "") {
     validateOptionalTextField("College name", college, 2, 50);
@@ -211,5 +201,81 @@ export const validateProfileUpdateData = (req) => {
       throw new ValidationError("Invalid website URL");
     }
   }
+  return true;
+};
+
+export const validatePasswordChangeData = (req) => {
+  const { currentPassword, newPassword } = req.body;
+
+  const allowedFields = ["currentPassword", "newPassword"];
+  const invalidFields = Object.keys(req.body).filter(
+    (key) => !allowedFields.includes(key),
+  );
+  if (invalidFields.length > 0) {
+    throw new ValidationError(
+      `Invalid password fields: ${invalidFields.join(", ")}`,
+    );
+  }
+
+  if (!currentPassword || !newPassword) {
+    throw new ValidationError("Current and new passwords are required");
+  }
+
+  if (typeof currentPassword !== "string" || typeof newPassword !== "string") {
+    throw new ValidationError("Current and new passwords must be strings");
+  }
+
+  if (
+    currentPassword.trim() !== currentPassword ||
+    newPassword.trim() !== newPassword
+  ) {
+    throw new ValidationError(
+      "Passwords must not contain leading or trailing spaces",
+    );
+  }
+
+  if (currentPassword === newPassword) {
+    throw new ValidationError(
+      "New password must be different from current password",
+    );
+  }
+
+  validatePassword(newPassword);
+  return true;
+};
+
+const ALLOWED_AVATAR_TYPES = ["image/jpeg", "image/png", "image/webp"];
+const MAX_AVATAR_SIZE = 5 * 1024 * 1024; // 5 MB
+
+export const validateAvatarUpload = (req) => {
+  // Multer error handling (file too large, unexpected field, etc.)
+  if (req.multerError) {
+    if (req.multerError.code === "LIMIT_FILE_SIZE") {
+      throw new ValidationError("Avatar file must be smaller than 5 MB");
+    }
+    if (req.multerError.code === "LIMIT_UNEXPECTED_FILE") {
+      throw new ValidationError(
+        "Only JPG, PNG, and WebP images are allowed for avatars",
+      );
+    }
+    throw new ValidationError("File upload error: " + req.multerError.message);
+  }
+
+  if (!req.file) {
+    throw new ValidationError("Avatar image file is required");
+  }
+
+  // Double-check mime type (defense-in-depth; multer fileFilter already checks)
+  if (!ALLOWED_AVATAR_TYPES.includes(req.file.mimetype)) {
+    throw new ValidationError(
+      "Invalid file type. Only JPG, PNG, and WebP images are allowed",
+    );
+  }
+
+  // Double-check size (defense-in-depth; multer limits already checks)
+  if (req.file.size && req.file.size > MAX_AVATAR_SIZE) {
+    throw new ValidationError("Avatar file must be smaller than 5 MB");
+  }
+
   return true;
 };

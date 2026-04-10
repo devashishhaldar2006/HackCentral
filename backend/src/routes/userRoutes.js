@@ -1,9 +1,9 @@
 import express from "express";
 import { authProtect } from "../middlewares/authMiddleware.js";
-import { getUserEvents } from "../controllers/userController.js";
+import { getUserDashboard } from "../controllers/userController.js";
 
 const userRouter = express.Router();
 
-userRouter.get("/events", authProtect, getUserEvents);
+userRouter.get("/dashboard", authProtect, getUserDashboard);
 
 export default userRouter;

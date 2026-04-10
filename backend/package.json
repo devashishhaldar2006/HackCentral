@@ -4,7 +4,8 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/app.js",
+    "seed:events": "node src/scripts/seedEvents.js"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +13,7 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cloudinary": "^1.41.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
@@ -20,6 +22,8 @@
     "firebase-admin": "^13.7.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.3.0",
+    "multer": "^2.1.1",
+    "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^8.0.4",
     "nodemon": "^3.1.14",
     "validator": "^13.15.26"

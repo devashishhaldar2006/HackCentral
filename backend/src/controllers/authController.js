@@ -2,7 +2,8 @@ import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import { sendTokenResponse } from "../lib/jwt.js";
 import { validateSignUpData, validateSignInData } from "../lib/validate.js";
-import { ENV } from "../lib/env.js";
+import { getCookieOptions } from "../lib/constants.js";
+import { handleError } from "../middlewares/errorHandler.js";
 
 export const signup = async (req, res) => {
   try {
@@ -25,15 +26,7 @@ export const signup = async (req, res) => {
     const savedUser = await user.save();
     sendTokenResponse(savedUser, "User signed up successfully", res);
   } catch (error) {
-    // Distinguish validation errors from server errors
-    const isValidation =
-      error.message.includes("required") ||
-      error.message.includes("Password must") ||
-      error.message.includes("Invalid") ||
-      error.name === "ValidationError";
-
-    const status = isValidation ? 400 : 500;
-    res.status(status).json({ message: error.message });
+    handleError(res, error, "Error signing up");
   }
 };
 
@@ -64,28 +57,18 @@ export const signin = async (req, res) => {
 
     sendTokenResponse(user, "User signed in successfully", res);
   } catch (error) {
-    const isValidation =
-      error.message.includes("required") ||
-      error.message.includes("Invalid") ||
-      error.message.includes("Password must");
-
-    const status = isValidation ? 400 : 500;
-    res.status(status).json({ message: error.message });
+    handleError(res, error, "Error signing in");
   }
 };
 
 export const signout = (req, res) => {
   try {
-    res.clearCookie("token", {
-      httpOnly: true,
-      secure: ENV.NODE_ENV === "production",
-      sameSite: ENV.NODE_ENV === "production" ? "none" : "lax",
-      path: "/",
-    });
+    // Use the same cookie options (minus expires) to ensure the browser clears it
+    const opts = getCookieOptions(0);
+    delete opts.expires;
+    res.clearCookie("token", opts);
     res.json({ message: "User signed out successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error occurred while signing out." });
   }
 };
-
-

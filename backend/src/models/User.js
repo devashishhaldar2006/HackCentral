@@ -47,6 +47,10 @@ const userSchema = new mongoose.Schema(
         }
       },
     },
+    avatarPublicId: {
+      type: String,
+      default: null,
+    },
 
     college: {
       type: String,
