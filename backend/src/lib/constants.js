@@ -1,7 +1,6 @@
 import { ENV } from "./env.js";
 
-export const DEFAULT_AVATAR =
-  "https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3407.jpg?w=1480";
+export const DEFAULT_AVATAR = "/default-avatar.png";
 
 export const COOLDOWN_PERIOD = 60 * 1000; // 60 seconds between OTP requests
 export const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1-hour sliding window

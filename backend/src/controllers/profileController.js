@@ -109,20 +109,22 @@ export const changeAvatar = async (req, res) => {
     // Validate the uploaded file
     validateAvatarUpload(req);
 
-    // Delete old avatar from Cloudinary (if one exists)
-    if (user.avatarPublicId) {
-      try {
-        await cloudinary.uploader.destroy(user.avatarPublicId);
-      } catch (cloudErr) {
-        console.error("Failed to delete old avatar from Cloudinary:", cloudErr);
-        // Non-fatal — continue with the new upload
-      }
-    }
+    const oldAvatarPublicId = user.avatarPublicId;
 
     user.avatar = req.file.path; // Cloudinary URL
     user.avatarPublicId = req.file.filename; // Needed to delete later
 
     await user.save();
+
+    // Delete old avatar from Cloudinary (if one exists)
+    if (oldAvatarPublicId) {
+      try {
+        await cloudinary.uploader.destroy(oldAvatarPublicId);
+      } catch (cloudErr) {
+        console.error("Failed to delete old avatar from Cloudinary:", cloudErr);
+        // Non-fatal — continue with the new upload
+      }
+    }
 
     const safeUser = getSafeUserData(user);
     res.json({
@@ -141,19 +143,21 @@ export const deleteAvatar = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Delete current avatar from Cloudinary if it exists
-    if (user.avatarPublicId) {
-      try {
-        await cloudinary.uploader.destroy(user.avatarPublicId);
-      } catch (cloudErr) {
-        console.error("Failed to delete avatar from Cloudinary:", cloudErr);
-      }
-    }
+    const oldAvatarPublicId = user.avatarPublicId;
 
     // Reset to default avatar
     user.avatar = DEFAULT_AVATAR;
     user.avatarPublicId = null;
     await user.save();
+
+    // Delete current avatar from Cloudinary if it exists
+    if (oldAvatarPublicId) {
+      try {
+        await cloudinary.uploader.destroy(oldAvatarPublicId);
+      } catch (cloudErr) {
+        console.error("Failed to delete avatar from Cloudinary:", cloudErr);
+      }
+    }
 
     const safeUser = getSafeUserData(user);
     res.json({

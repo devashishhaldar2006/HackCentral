@@ -157,6 +157,10 @@ const ProfilePage = () => {
           : [],
       };
 
+      if (user?.role !== "organizer") {
+        delete payload.website;
+      }
+
       const response = await axios.patch(
         `${BASE_URL}/profile/me/edit`,
         payload,
@@ -193,10 +197,8 @@ const ProfilePage = () => {
     }
 
     setAvatarError(null);
-    // Show local preview
-    const reader = new FileReader();
-    reader.onload = () => setAvatarPreview(reader.result);
-    reader.readAsDataURL(file);
+    // Show local preview mapping
+    setAvatarPreview(URL.createObjectURL(file));
 
     // Upload
     uploadAvatar(file);
@@ -358,12 +360,12 @@ const ProfilePage = () => {
               )}
             </div>
 
-            {/* Upload overlay on hover */}
+            {/* Upload overlay on hover and focus */}
             {!avatarLoading && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/0 group-hover:bg-black/40 rounded-2xl transition-all duration-200 cursor-pointer opacity-0 group-hover:opacity-100">
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/0 group-hover:bg-black/40 group-focus-within:bg-black/40 rounded-2xl transition-all duration-200 cursor-pointer opacity-0 group-hover:opacity-100 group-focus-within:opacity-100">
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="flex flex-col items-center gap-1 text-white cursor-pointer"
+                  className="flex flex-col items-center gap-1 text-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-white rounded-lg p-2"
                   title="Upload new avatar"
                 >
                   <span className="material-symbols-outlined text-2xl drop-shadow">

@@ -57,14 +57,12 @@ const EventsPage = () => {
     loadEvents();
   }, [loadEvents]);
 
-  // Reset to page 1 when filters change
-  useEffect(() => {
-    setPage(1);
-  }, [activeSearch, activeCategory, activeMode, activePrice, dateFilter, sortBy]);
+
 
   const handleSearch = (e) => {
     e?.preventDefault();
     setActiveSearch(searchQuery.trim());
+    setPage(1);
   };
 
   const handleKeyDown = (e) => {
@@ -121,6 +119,7 @@ const EventsPage = () => {
                   onClick={() => {
                     setSearchQuery("");
                     setActiveSearch("");
+                    setPage(1);
                   }}
                   className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 cursor-pointer"
                 >
@@ -187,7 +186,7 @@ const EventsPage = () => {
                   {ALL_CATEGORIES.map((cat) => (
                     <div
                       key={cat}
-                      onClick={() => setActiveCategory(cat)}
+                      onClick={() => { setActiveCategory(cat); setPage(1); }}
                       className={`flex items-center gap-3 p-2.5 rounded-lg cursor-pointer transition-colors ${
                         activeCategory === cat
                           ? "bg-[#0d4af2]/10 text-[#0d4af2] border border-[#0d4af2]/20"
@@ -224,7 +223,7 @@ const EventsPage = () => {
                   {ALL_MODES.map((m) => (
                     <div
                       key={m}
-                      onClick={() => setActiveMode(m)}
+                      onClick={() => { setActiveMode(m); setPage(1); }}
                       className={`flex items-center gap-3 p-2.5 rounded-lg cursor-pointer transition-colors text-sm ${
                         activeMode === m
                           ? "bg-[#0d4af2]/10 text-[#0d4af2] font-semibold border border-[#0d4af2]/20"
@@ -253,7 +252,7 @@ const EventsPage = () => {
                   {ALL_PRICES.map((p) => (
                     <button
                       key={p}
-                      onClick={() => setActivePrice(p)}
+                      onClick={() => { setActivePrice(p); setPage(1); }}
                       className={`flex-1 py-2 rounded-lg text-sm font-bold cursor-pointer transition-all ${
                         activePrice === p
                           ? "bg-[#0d4af2] text-white shadow-lg shadow-[#0d4af2]/20"
@@ -276,7 +275,7 @@ const EventsPage = () => {
                   className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm p-2.5 focus:ring-[#0d4af2] focus:border-[#0d4af2] text-slate-900 dark:text-white"
                   type="date"
                   value={dateFilter}
-                  onChange={(e) => setDateFilter(e.target.value)}
+                  onChange={(e) => { setDateFilter(e.target.value); setPage(1); }}
                 />
               </div>
             </div>
@@ -315,6 +314,7 @@ const EventsPage = () => {
                       onClick={() => {
                         setSortBy(opt.value);
                         setShowSortDropdown(false);
+                        setPage(1);
                       }}
                       className={`w-full text-left px-4 py-2.5 text-sm cursor-pointer transition-colors ${
                         sortBy === opt.value
@@ -336,7 +336,7 @@ const EventsPage = () => {
               {activeSearch && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 bg-[#0d4af2]/10 text-[#0d4af2] rounded-full text-xs font-bold">
                   Search: "{activeSearch}"
-                  <button onClick={() => { setSearchQuery(""); setActiveSearch(""); }} className="hover:text-[#0d4af2]/70 cursor-pointer">
+                  <button onClick={() => { setSearchQuery(""); setActiveSearch(""); setPage(1); }} className="hover:text-[#0d4af2]/70 cursor-pointer">
                     <span className="material-symbols-outlined text-sm">close</span>
                   </button>
                 </span>
@@ -344,7 +344,7 @@ const EventsPage = () => {
               {activeCategory !== "All" && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 bg-[#0d4af2]/10 text-[#0d4af2] rounded-full text-xs font-bold">
                   {activeCategory}
-                  <button onClick={() => setActiveCategory("All")} className="hover:text-[#0d4af2]/70 cursor-pointer">
+                  <button onClick={() => { setActiveCategory("All"); setPage(1); }} className="hover:text-[#0d4af2]/70 cursor-pointer">
                     <span className="material-symbols-outlined text-sm">close</span>
                   </button>
                 </span>
@@ -352,7 +352,7 @@ const EventsPage = () => {
               {activeMode !== "All Modes" && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 bg-[#0d4af2]/10 text-[#0d4af2] rounded-full text-xs font-bold">
                   {activeMode}
-                  <button onClick={() => setActiveMode("All Modes")} className="hover:text-[#0d4af2]/70 cursor-pointer">
+                  <button onClick={() => { setActiveMode("All Modes"); setPage(1); }} className="hover:text-[#0d4af2]/70 cursor-pointer">
                     <span className="material-symbols-outlined text-sm">close</span>
                   </button>
                 </span>
@@ -360,7 +360,7 @@ const EventsPage = () => {
               {activePrice !== "All" && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 bg-[#0d4af2]/10 text-[#0d4af2] rounded-full text-xs font-bold">
                   {activePrice}
-                  <button onClick={() => setActivePrice("All")} className="hover:text-[#0d4af2]/70 cursor-pointer">
+                  <button onClick={() => { setActivePrice("All"); setPage(1); }} className="hover:text-[#0d4af2]/70 cursor-pointer">
                     <span className="material-symbols-outlined text-sm">close</span>
                   </button>
                 </span>
@@ -368,7 +368,7 @@ const EventsPage = () => {
               {dateFilter && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 bg-[#0d4af2]/10 text-[#0d4af2] rounded-full text-xs font-bold">
                   From: {dateFilter}
-                  <button onClick={() => setDateFilter("")} className="hover:text-[#0d4af2]/70 cursor-pointer">
+                  <button onClick={() => { setDateFilter(""); setPage(1); }} className="hover:text-[#0d4af2]/70 cursor-pointer">
                     <span className="material-symbols-outlined text-sm">close</span>
                   </button>
                 </span>
