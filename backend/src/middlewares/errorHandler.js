@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 import { ValidationError } from "../lib/validate.js";
 
 export const handleError = (res, error, fallbackMessage = "Internal server error") => {
+  if (!error || typeof error !== 'object') {
+    return res.status(500).json({ message: fallbackMessage, error: String(error) });
+  }
+
   // Custom validation errors thrown by our validate.js
   if (error instanceof ValidationError || error.isValidationError) {
     return res.status(400).json({ message: error.message });

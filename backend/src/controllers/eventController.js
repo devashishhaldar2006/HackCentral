@@ -38,14 +38,22 @@ export const getEvents = async (req, res) => {
 
     // Tag filter (case-insensitive)
     if (tag) {
-      filter.tags = { $regex: new RegExp(`^${tag}$`, "i") };
+      filter.tags = { $regex: new RegExp(`^${tag.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, "i") };
     }
 
     // Date range filter
     if (startDate || endDate) {
       filter.startDate = {};
-      if (startDate) filter.startDate.$gte = new Date(startDate);
-      if (endDate) filter.startDate.$lte = new Date(endDate);
+      if (startDate) {
+        const parsedStartDate = new Date(startDate);
+        if (isNaN(parsedStartDate.getTime())) return res.status(400).json({ message: "Invalid startDate format" });
+        filter.startDate.$gte = parsedStartDate;
+      }
+      if (endDate) {
+        const parsedEndDate = new Date(endDate);
+        if (isNaN(parsedEndDate.getTime())) return res.status(400).json({ message: "Invalid endDate format" });
+        filter.startDate.$lte = parsedEndDate;
+      }
     }
 
     // Sorting
@@ -94,6 +102,9 @@ export const getEvents = async (req, res) => {
 
 export const getEventById = async (req, res) => {
   try {
+    if (!req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({ message: "Invalid event ID format" });
+    }
     const event = await Event.findById(req.params.id);
     if (!event) {
       return res.status(404).json({ message: "Event not found" });

@@ -17,6 +17,13 @@ const eventSchema = new mongoose.Schema(
     },
     endDate: {
       type: Date,
+      validate: {
+        validator: function (value) {
+          if (this.startDate && value) return value >= this.startDate;
+          return true;
+        },
+        message: "End date must be greater than or equal to start date",
+      },
     },
     location: {
       type: String,
@@ -29,6 +36,7 @@ const eventSchema = new mongoose.Schema(
     },
     image: {
       type: String,
+      match: [/^https?:\/\/.+/i, "Please enter a valid URL"],
     },
     category: {
       type: String,
@@ -47,6 +55,7 @@ const eventSchema = new mongoose.Schema(
     },
     registrationLink: {
       type: String,
+      match: [/^https?:\/\/.+/i, "Please enter a valid URL"],
     },
     organizer: {
       type: String,
