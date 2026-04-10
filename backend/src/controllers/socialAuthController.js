@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import admin from "../lib/firebaseAdmin.js";
 import { sendTokenResponse } from "../lib/jwt.js";
+import { DEFAULT_AVATAR } from "../lib/constants.js";
 
 export const socialLogin = async (req, res) => {
   try {
@@ -28,8 +29,8 @@ export const socialLogin = async (req, res) => {
       if (user.authProvider === "local" && authProvider !== "local") {
         user.authProvider = authProvider;
       }
-      // Update avatar if user has the default freepik one and a social avatar is available
-      if (picture && user.avatar?.includes("freepik")) {
+      // Update avatar if user has the default one and a social avatar is available
+      if (picture && user.avatar === DEFAULT_AVATAR) {
         user.avatar = picture;
       }
       await user.save();
@@ -37,9 +38,7 @@ export const socialLogin = async (req, res) => {
       user = new User({
         fullName: name || email.split("@")[0],
         email,
-        avatar:
-          picture ||
-          "https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3407.jpg?w=1480",
+        avatar: picture || DEFAULT_AVATAR,
         authProvider,
         role: role || "user",
       });

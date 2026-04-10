@@ -5,7 +5,9 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });export const ENV={
+dotenv.config({ path: path.resolve(__dirname, '../../.env') },{quiet: true});
+
+export const ENV={
     MONGO_DB_URI: process.env.MONGO_DB_URI,
     JWT_SECRET: process.env.JWT_SECRET,
     PORT: process.env.PORT,
@@ -16,5 +18,8 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') });export const ENV=
     FIREBASE_CLIENT_ID: process.env.FIREBASE_CLIENT_ID,
     NODE_ENV: process.env.NODE_ENV || 'development',
     EMAIL_USER: process.env.EMAIL_USER,
-    EMAIL_PASS: process.env.EMAIL_PASS
+    EMAIL_PASS: process.env.EMAIL_PASS,
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET
 }

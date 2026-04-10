@@ -6,11 +6,11 @@ import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider, githubProvider } from "../lib/firebase";
 import { addUser } from "../lib/userSlice";
 import { BASE_URL } from "../lib/constants";
-import Logo from "../assets/Logo.jsx";
-import GoogleIcon from "../assets/GoogleIcon.jsx";
-import GitHubIcon from "../assets/GitHubIcon.jsx";
-import { Spinner } from "../components/Spinner.jsx";
-import { getPasswordStrength } from "../components/PasswordStrength.jsx";
+import Logo from "../components/icons/Logo.jsx";
+import GoogleIcon from "../components/icons/GoogleIcon.jsx";
+import GitHubIcon from "../components/icons/GitHubIcon.jsx";
+import { Spinner } from "../components/ui/Spinner.jsx";
+import { getPasswordStrength } from "../lib/passwordStrength";
 
 const LoginPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();

@@ -2,9 +2,9 @@ import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../lib/constants";
-import Logo from "../assets/Logo.jsx";
-import { Spinner } from "../components/Spinner.jsx";
-import { getPasswordStrength } from "../components/PasswordStrength.jsx";
+import Logo from "../components/icons/Logo.jsx";
+import { Spinner } from "../components/ui/Spinner.jsx";
+import { getPasswordStrength } from "../lib/passwordStrength";
 
 const ForgotPassword = () => {
   const [step, setStep] = useState(1); // 1 = Request OTP, 2 = Verify OTP & Reset

@@ -1,14 +1,12 @@
-import { generateOTP } from "../lib/otp.js";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
+import { generateOTP } from "../lib/otp.js";
 import { validateSendOTPData, validateVerifyOTPData } from "../lib/validate.js";
 import { sendEmail, getEmailContent } from "../lib/email.js";
-import {
-  COOLDOWN_PERIOD,
-  RATE_LIMIT_WINDOW,
-  MAX_OTP_REQUESTS,
-} from "../lib/constants.js";
+import { COOLDOWN_PERIOD, RATE_LIMIT_WINDOW, MAX_OTP_REQUESTS } from "../lib/constants.js";
+import { handleError } from "../middlewares/errorHandler.js";
+
 export const sendOTP = async (req, res) => {
   try {
     validateSendOTPData(req);
@@ -19,7 +17,7 @@ export const sendOTP = async (req, res) => {
     if (!user || !user.password) {
       return res.status(200).json({ message: "If your email is registered with a password, you will receive an OTP." });
     }
-   //sliding window logic 
+    //sliding window logic 
     const now = Date.now();
 
     // 1. Cooldown check
@@ -103,12 +101,7 @@ export const sendOTP = async (req, res) => {
 
     res.status(200).json({ message: "If your email is registered with a password, you will receive an OTP." });
   } catch (error) {
-    const errorMsg = error?.message || "";
-    const isValidation =
-      errorMsg.includes("required") || errorMsg.includes("Invalid");
-    if (isValidation) return res.status(400).json({ message: errorMsg });
-
-    res.status(500).json({ message: "Error sending OTP", error: errorMsg });
+    handleError(res, error, "Error sending OTP");
   }
 };
 
@@ -157,13 +150,6 @@ export const verifyOTPAndReset = async (req, res) => {
 
     res.json({ message: "Password reset successful" });
   } catch (error) {
-    const errorMsg = error?.message || "";
-    const isValidation =
-      errorMsg.includes("required") ||
-      errorMsg.includes("Invalid") ||
-      errorMsg.includes("Password must");
-    if (isValidation) return res.status(400).json({ message: errorMsg });
-
-    res.status(500).json({ message: errorMsg });
+    handleError(res, error, "Error resetting password");
   }
 };

@@ -1,14 +1,34 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { EVENTS } from "../api/data";
+import { fetchEvents } from "../api/events";
 import heroImage from "../assets/hero-bg.png";
 import { STATS, STEPS, TESTIMONIALS } from "../api/homeData";
 
+import EventCard from "../components/ui/EventCard";
+
 const HomePage = () => {
   const [visible, setVisible] = useState(false);
+  const [featuredEvents, setFeaturedEvents] = useState([]);
+  const [eventsLoading, setEventsLoading] = useState(true);
+
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 100);
     return () => clearTimeout(t);
+  }, []);
+
+  // Fetch featured events from API
+  useEffect(() => {
+    const loadFeatured = async () => {
+      try {
+        const res = await fetchEvents({ sort: "newest", limit: 6 });
+        setFeaturedEvents(res.data);
+      } catch {
+        setFeaturedEvents([]);
+      } finally {
+        setEventsLoading(false);
+      }
+    };
+    loadFeatured();
   }, []);
 
   return (
@@ -129,70 +149,23 @@ const HomePage = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {EVENTS.slice(0, 6).map((event) => (
-              <div
-                key={event.id}
-                className="group bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-[#0d4af2]/50 transition-all duration-300 flex flex-col shadow-sm hover:shadow-xl hover:shadow-[#0d4af2]/5 hover:-translate-y-1"
-              >
-                {/* Card header gradient */}
-                <div
-                  className={`relative h-44 w-full bg-gradient-to-br ${event.bgGradient} overflow-hidden`}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                  {/* decorative circles */}
-                  <div className="absolute inset-0 opacity-20">
-                    <div className="absolute top-4 right-4 w-24 h-24 border-2 border-white/30 rounded-full"></div>
-                    <div className="absolute bottom-6 right-8 w-16 h-16 border-2 border-white/20 rounded-full"></div>
-                    <div className="absolute top-8 left-1/2 w-12 h-12 border border-white/20 rounded-lg rotate-45"></div>
+            {eventsLoading
+              ? [...Array(6)].map((_, i) => (
+                  <div key={i} className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden animate-pulse">
+                    <div className="h-44 bg-slate-200 dark:bg-slate-800"></div>
+                    <div className="p-5 space-y-4">
+                      <div className="h-5 bg-slate-200 dark:bg-slate-800 rounded w-3/4"></div>
+                      <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/2"></div>
+                      <div className="flex gap-2">
+                        <div className="h-6 w-16 bg-slate-200 dark:bg-slate-800 rounded"></div>
+                        <div className="h-6 w-16 bg-slate-200 dark:bg-slate-800 rounded"></div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="absolute top-3 left-3 flex gap-2">
-                    <span
-                      className={`${event.typeColor} text-white text-[10px] uppercase font-black px-2.5 py-1 rounded-md`}
-                    >
-                      {event.type}
-                    </span>
-                    <span
-                      className={`${event.modeColor} text-white text-[10px] uppercase font-black px-2.5 py-1 rounded-md`}
-                    >
-                      {event.mode}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Card body */}
-                <div className="p-5 flex-1 flex flex-col gap-4">
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#0d4af2] transition-colors leading-tight">
-                      {event.title}
-                    </h3>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-sm">
-                        calendar_today
-                      </span>
-                      {event.date}
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {event.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[10px] font-bold py-1 px-2.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-400">
-                      {event.registered} Registered
-                    </span>
-                    <button className="bg-[#0d4af2]/10 text-[#0d4af2] hover:bg-[#0d4af2] hover:text-white px-4 py-2 rounded-lg text-sm font-bold transition-all cursor-pointer">
-                      Register
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
+                ))
+              : featuredEvents.slice(0, 6).map((event, idx) => (
+                  <EventCard key={event._id} event={event} idx={idx} />
+                ))}
           </div>
         </div>
       </section>

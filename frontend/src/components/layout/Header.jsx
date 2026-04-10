@@ -1,10 +1,10 @@
 import { useState } from "react";
-import Logo from "../assets/Logo.jsx";
+import Logo from "../icons/Logo.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { removeUser } from "../lib/userSlice";
-import { BASE_URL } from "../lib/constants";
+import { removeUser } from "../../lib/userSlice";
+import { BASE_URL } from "../../lib/constants";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

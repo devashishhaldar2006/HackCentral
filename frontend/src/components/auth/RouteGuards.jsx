@@ -2,9 +2,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { useState, useEffect, createContext, useContext } from "react";
 import axios from "axios";
-import { addUser } from "../lib/userSlice";
-import { BASE_URL } from "../lib/constants";
-import { Spinner } from "./Spinner";
+import { addUser } from "../../lib/userSlice";
+import { BASE_URL } from "../../lib/constants";
+import { Spinner } from "../ui/Spinner";
 
 /** Context to share auth-loading state with route guards */
 const AuthContext = createContext({ isAuthLoaded: false });

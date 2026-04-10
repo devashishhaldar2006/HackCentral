@@ -1,19 +1,14 @@
 import jwt from "jsonwebtoken";
 import { ENV } from "./env.js";
 import { getSafeUserData } from "./safeUser.js";
+import { getCookieOptions, JWT_EXPIRY } from "./constants.js";
 
 export const sendTokenResponse = (user, message, res) => {
   const token = jwt.sign({ _id: user._id, role: user.role }, ENV.JWT_SECRET, {
-    expiresIn: "7d",
+    expiresIn: JWT_EXPIRY,
   });
 
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: ENV.NODE_ENV === "production",
-    sameSite: ENV.NODE_ENV === "production" ? "none" : "lax",
-    path: "/",
-    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-  });
+  res.cookie("token", token, getCookieOptions());
 
   const safeUser = getSafeUserData(user);
 
