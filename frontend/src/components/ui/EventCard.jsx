@@ -10,18 +10,27 @@ const EventCard = ({ event, idx }) => {
     <div
       className="group bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-[#0d4af2]/50 transition-all duration-300 flex flex-col shadow-sm hover:shadow-xl hover:shadow-[#0d4af2]/5 hover:-translate-y-1"
     >
-      {/* Card header gradient */}
+      {/* Card header image or gradient */}
       <div
         className={`relative h-44 w-full bg-gradient-to-br ${GRADIENTS[idx % GRADIENTS.length]} overflow-hidden`}
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-        {/* decorative circles */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-4 right-4 w-24 h-24 border-2 border-white/30 rounded-full"></div>
-          <div className="absolute bottom-6 right-8 w-16 h-16 border-2 border-white/20 rounded-full"></div>
-          <div className="absolute top-8 left-1/2 w-12 h-12 border border-white/20 rounded-lg rotate-45"></div>
-        </div>
-        <div className="absolute top-3 left-3 flex gap-2">
+        {event.image && (
+          <img
+            src={event.image}
+            alt={event.title}
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+        {/* decorative circles (only show if there is no image) */}
+        {!event.image && (
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-4 right-4 w-24 h-24 border-2 border-white/30 rounded-full"></div>
+            <div className="absolute bottom-6 right-8 w-16 h-16 border-2 border-white/20 rounded-full"></div>
+            <div className="absolute top-8 left-1/2 w-12 h-12 border border-white/20 rounded-lg rotate-45"></div>
+          </div>
+        )}
+        <div className="absolute top-3 left-3 flex gap-2 z-10">
           <span
             className={`${CATEGORY_COLORS[event.category] || "bg-slate-600"} text-white text-[10px] uppercase font-black px-2.5 py-1 rounded-md`}
           >
@@ -34,7 +43,7 @@ const EventCard = ({ event, idx }) => {
           </span>
         </div>
         {event.price && (
-          <div className="absolute top-3 right-3">
+          <div className="absolute top-3 right-3 z-10">
              <span
                className={`text-[10px] uppercase font-black px-2.5 py-1 rounded-md ${
                  event.price === "Free"

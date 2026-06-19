@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage";
 import EventsPage from "./pages/EventsPage";
 import ProfilePage from "./pages/ProfilePage";
 import TeamFinder from "./pages/TeamFinder";
+import AboutUsPage from "./pages/AboutUsPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import OrganizerDashboard from "./pages/OrganizerDashboard";
 import { ProtectedRoute, OrganizerRoute, AuthLoader, GuestRoute } from "./components/auth/RouteGuards";
@@ -53,6 +54,7 @@ function App() {
               }
             />
             <Route path="teamfinder" element={<TeamFinder />} />
+            <Route path="aboutus" element={<AboutUsPage />} />
             <Route path="events" element={<EventsPage />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
             {/* Catch-all → 404 redirect to home */}
