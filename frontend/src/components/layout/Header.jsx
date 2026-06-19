@@ -56,7 +56,7 @@ const Header = () => {
             Team Finder
           </Link>
           <Link
-            to="/about"
+            to="/aboutus"
             className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] dark:hover:text-[#0d4af2] transition-colors text-sm font-semibold"
           >
             About Us
@@ -215,7 +215,7 @@ const Header = () => {
               Team Finder
             </Link>
             <Link
-              to="/about"
+              to="/aboutus"
               className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-sm font-semibold py-2.5 px-3 rounded-lg"
               onClick={closeMobile}
             >

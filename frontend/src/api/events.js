@@ -1,48 +1,55 @@
+import axios from "axios";
 import { BASE_URL } from "../lib/constants";
 
 export const fetchEvents = async (params = {}) => {
   const query = new URLSearchParams();
 
   Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== "" && value !== "All" && value !== "All Modes") {
+    if (
+      value !== undefined &&
+      value !== null &&
+      value !== "" &&
+      value !== "All" &&
+      value !== "All Modes"
+    ) {
       query.append(key, value);
     }
   });
 
-  const res = await fetch(`${BASE_URL}/events?${query.toString()}`, {
-    credentials: "include",
-  });
+  try {
+    const res = await axios.get(`${BASE_URL}/events`, {
+      params: Object.fromEntries(query.entries()),
+      withCredentials: true,
+    });
 
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || "Failed to fetch events");
+    return res.data;
+  } catch (error) {
+    throw new Error(error?.response?.data?.message || "Failed to fetch events");
   }
-
-  return res.json();
 };
 
 export const fetchEventById = async (id) => {
-  const res = await fetch(`${BASE_URL}/events/${id}`, {
-    credentials: "include",
-  });
+  try {
+    const res = await axios.get(`${BASE_URL}/events/${id}`, {
+      withCredentials: true,
+    });
 
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || "Failed to fetch event");
+    return res.data;
+  } catch (error) {
+    throw new Error(error?.response?.data?.message || "Failed to fetch event");
   }
-
-  return res.json();
 };
 
 export const fetchEventCategories = async () => {
-  const res = await fetch(`${BASE_URL}/events/categories`, {
-    credentials: "include",
-  });
+  try {
+    const res = await axios.get(`${BASE_URL}/events/categories`, {
+      withCredentials: true,
+    });
 
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || "Failed to fetch categories");
+    return res.data;
+  } catch (error) {
+    throw new Error(
+      error?.response?.data?.message || "Failed to fetch categories",
+    );
   }
-
-  return res.json();
 };
