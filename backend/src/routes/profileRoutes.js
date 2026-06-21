@@ -12,8 +12,7 @@ import { upload } from "../middlewares/uploadMiddleware.js";
 
 const profileRouter = express.Router();
 
-// Wrap the multer upload so that errors (file too large, wrong type)
-// are captured on req.multerError instead of crashing the request.
+// Wrap the multer upload so that errors (file too large, wrong type) are captured on req.multerError instead of crashing the request.
 const handleUpload = (req, res, next) => {
   upload.single("avatar")(req, res, (err) => {
     if (err instanceof multer.MulterError || err) {

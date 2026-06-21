@@ -63,7 +63,7 @@ export const signin = async (req, res) => {
 
 export const signout = (req, res) => {
   try {
-    // Use the same cookie options (minus expires) to ensure the browser clears it
+    // Using the same cookie options (minus expires) to ensure the browser clears it
     const opts = getCookieOptions(0);
     delete opts.expires;
     res.clearCookie("token", opts);
