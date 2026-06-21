@@ -1,4 +1,6 @@
+import mongoose from 'mongoose';
 import User from '../models/User.js';
+import Event from '../models/Event.js';
 
 // Add an event to user's bookmarked events
 export const saveEvent = async (req, res) => {
@@ -8,6 +10,16 @@ export const saveEvent = async (req, res) => {
     if (!eventId) {
       return res.status(400).json({ message: 'Event ID is required' });
     }
+    if (!mongoose.Types.ObjectId.isValid(eventId)) {
+      return res.status(400).json({ message: 'Invalid Event ID' });
+    }
+
+    // Verify the event exists before creating a dangling reference
+    const eventExists = await Event.exists({ _id: eventId });
+    if (!eventExists) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
@@ -37,6 +49,10 @@ export const unsaveEvent = async (req, res) => {
     if (!eventId) {
       return res.status(400).json({ message: 'Event ID is required' });
     }
+    if (!mongoose.Types.ObjectId.isValid(eventId)) {
+      return res.status(400).json({ message: 'Invalid Event ID' });
+    }
+
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
