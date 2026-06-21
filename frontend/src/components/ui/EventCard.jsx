@@ -25,11 +25,8 @@ const EventCard = ({ event, idx }) => {
     setLoading(true);
     try {
       const url = isBookmarked ? "/api/saved/unsave" : "/api/saved/save";
-      await axios.post(url, { eventId: event._id }, { withCredentials: true });
-      const newList = isBookmarked
-        ? bookmarkedIds.filter((id) => id?.toString() !== event._id?.toString())
-        : [...bookmarkedIds, event._id];
-      dispatch({ type: "user/setBookmarkedEvents", payload: newList });
+      const { data } = await axios.post(url, { eventId: event._id }, { withCredentials: true });
+      dispatch({ type: "user/setBookmarkedEvents", payload: data.bookmarkedEvents });
     } catch (error) {
       console.error("Failed to toggle bookmark:", error);
     } finally {
