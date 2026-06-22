@@ -11,8 +11,9 @@ import TeamFinder from "./pages/TeamFinder";
 import AboutUsPage from "./pages/AboutUsPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import OrganizerDashboard from "./pages/OrganizerDashboard";
+import UserDashboard from "./pages/UserDashboard";
 import SavedEventsPage from "./pages/SavedEventsPage";
-import { ProtectedRoute, OrganizerRoute, AuthLoader, GuestRoute } from "./components/auth/RouteGuards";
+import { ProtectedRoute, OrganizerRoute, UserRoute, AuthLoader, GuestRoute } from "./components/auth/RouteGuards";
 
 function App() {
   return (
@@ -36,6 +37,14 @@ function App() {
                 <ProtectedRoute>
                   <EventsPage />
                 </ProtectedRoute>
+              }
+            />
+            <Route
+              path="dashboard"
+              element={
+                <UserRoute>
+                  <UserDashboard />
+                </UserRoute>
               }
             />
             <Route

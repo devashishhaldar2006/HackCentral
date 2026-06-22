@@ -83,7 +83,25 @@ export const OrganizerRoute = ({ children }) => {
   }
 
   if (!user) return <Navigate to="/signin" replace />;
-  if (user.role !== "organizer") return <Navigate to="/user/events" replace />;
+  if (user.role !== "organizer") return <Navigate to="/dashboard" replace />;
+  return children;
+};
+
+/** Route guard — specifically for regular users (non-organizers) */
+export const UserRoute = ({ children }) => {
+  const user = useSelector((state) => state.user);
+  const { isAuthLoaded } = useContext(AuthContext);
+
+  if (!isAuthLoaded) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center bg-[#f5f6f8] dark:bg-[#080c18]">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (!user) return <Navigate to="/signin" replace />;
+  if (user.role === "organizer") return <Navigate to="/organizer/dashboard" replace />;
   return children;
 };
 
@@ -93,7 +111,7 @@ export const GuestRoute = ({ children }) => {
   if (user)
     return (
       <Navigate
-        to={user.role === "organizer" ? "/organizer/dashboard" : "/user/events"}
+        to={user.role === "organizer" ? "/organizer/dashboard" : "/dashboard"}
         replace
       />
     );

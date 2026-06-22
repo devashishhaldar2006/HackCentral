@@ -5,6 +5,7 @@ import { getSafeUserData } from "../lib/safeUser.js";
 import { DEFAULT_AVATAR } from "../lib/constants.js";
 import { normalizeStringArray } from "../lib/utils.js";
 import { handleError } from "../middlewares/errorHandler.js";
+import { logActivity } from "../lib/utils.js";
 import {
   validateAvatarUpload,
   validatePasswordChangeData,
@@ -62,6 +63,8 @@ export const editProfile = async (req, res) => {
 
     await user.save();
     const safeUser = getSafeUserData(user);
+    // Log profile update activity
+    logActivity(user._id, 'profile_update', null, 1);
     res.json({ message: "Profile updated successfully", data: safeUser });
   } catch (error) {
     handleError(res, error, "Error updating profile");
