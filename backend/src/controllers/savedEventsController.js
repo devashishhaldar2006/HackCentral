@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import User from '../models/User.js';
 import Event from '../models/Event.js';
+import { logActivity } from '../lib/utils.js';
 
 // Add an event to user's bookmarked events
 export const saveEvent = async (req, res) => {
@@ -30,6 +31,8 @@ export const saveEvent = async (req, res) => {
     if (!alreadySaved) {
       user.bookmarkedEvents.push(eventId);
       await user.save();
+      // Log activity + award XP for bookmarking
+      logActivity(userId, 'bookmark', eventId, 2);
     }
     return res.status(200).json({
       message: 'Event saved',
@@ -60,6 +63,8 @@ export const unsaveEvent = async (req, res) => {
       (id) => id.toString() !== eventId.toString()
     );
     await user.save();
+    // Log unbookmark activity (no XP)
+    logActivity(userId, 'unbookmark', eventId, 0);
     return res.status(200).json({
       message: 'Event removed from saved',
       bookmarkedEvents: user.bookmarkedEvents,

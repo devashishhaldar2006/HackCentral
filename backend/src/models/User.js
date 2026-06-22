@@ -141,6 +141,30 @@ const userSchema = new mongoose.Schema(
       count: { type: Number, default: 0 },
       lastRequest: Date,
     },
+
+    // Dashboard fields
+    xp: {
+      type: Number,
+      default: 0,
+    },
+    achievements: [
+      {
+        badge: String,
+        earnedAt: { type: Date, default: Date.now },
+      },
+    ],
+    currentStreak: {
+      type: Number,
+      default: 0,
+    },
+    bestStreak: {
+      type: Number,
+      default: 0,
+    },
+    lastActiveMonth: {
+      type: String, // "YYYY-MM" format
+      default: null,
+    },
   },
   { timestamps: true },
 );

@@ -83,7 +83,7 @@ export const OrganizerRoute = ({ children }) => {
   }
 
   if (!user) return <Navigate to="/signin" replace />;
-  if (user.role !== "organizer") return <Navigate to="/user/events" replace />;
+  if (user.role !== "organizer") return <Navigate to="/dashboard" replace />;
   return children;
 };
 
@@ -93,7 +93,7 @@ export const GuestRoute = ({ children }) => {
   if (user)
     return (
       <Navigate
-        to={user.role === "organizer" ? "/organizer/dashboard" : "/user/events"}
+        to={user.role === "organizer" ? "/organizer/dashboard" : "/events"}
         replace
       />
     );

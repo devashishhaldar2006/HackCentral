@@ -149,3 +149,92 @@ html.dark .login-grid-bg {
 html.dark .social-btn:hover {
   box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.4);
 }
+
+/* ===== Dashboard — Activity Heatmap ===== */
+.react-calendar-heatmap .color-empty {
+  fill: #e2e8f0;
+}
+
+html.dark .react-calendar-heatmap .color-empty {
+  fill: #1e293b;
+}
+
+.react-calendar-heatmap .color-scale-1 {
+  fill: #93c5fd;
+}
+
+.react-calendar-heatmap .color-scale-2 {
+  fill: #3b82f6;
+}
+
+.react-calendar-heatmap .color-scale-3 {
+  fill: #1d4ed8;
+}
+
+.react-calendar-heatmap .color-scale-4 {
+  fill: #0d4af2;
+}
+
+html.dark .react-calendar-heatmap .color-scale-1 {
+  fill: #1e3a5f;
+}
+
+html.dark .react-calendar-heatmap .color-scale-2 {
+  fill: #1d4ed8;
+}
+
+html.dark .react-calendar-heatmap .color-scale-3 {
+  fill: #2563eb;
+}
+
+html.dark .react-calendar-heatmap .color-scale-4 {
+  fill: #3b82f6;
+}
+
+.react-calendar-heatmap text {
+  font-size: 8px;
+  fill: #94a3b8;
+}
+
+html.dark .react-calendar-heatmap text {
+  fill: #64748b;
+}
+
+.react-calendar-heatmap rect:hover {
+  stroke: #0d4af2;
+  stroke-width: 1;
+}
+
+/* ===== Dashboard — XP Progress Bar ===== */
+@keyframes progress-fill {
+  from { width: 0; }
+}
+
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes badge-pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes streak-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+.dashboard-stat-enter {
+  animation: count-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.badge-enter {
+  animation: badge-pop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.streak-fire {
+  animation: streak-pulse 2s ease-in-out infinite;
+}
+
