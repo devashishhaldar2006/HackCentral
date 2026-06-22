@@ -16,8 +16,8 @@ export const getUserDashboard = async (req, res) => {
     }
     const now = new Date();
     // 1. Overview Stats
-    const registeredEvents = user.registeredEvents || [];
-    const bookmarkedEvents = user.bookmarkedEvents || [];
+    const registeredEvents = (user.registeredEvents || []).filter(Boolean);
+    const bookmarkedEvents = (user.bookmarkedEvents || []).filter(Boolean);
     const upcomingEvents = registeredEvents.filter(
       (e) => e.startDate && new Date(e.startDate) > now
     );
@@ -318,7 +318,7 @@ export const getOrganizerDashboard = async (req, res) => {
       return res.status(403).json({ message: "Access denied — organizer only" });
     }
 
-    const submittedEvents = user.submittedEvents || [];
+    const submittedEvents = (user.submittedEvents || []).filter(Boolean);
     const eventIds = submittedEvents.map((e) => e._id);
 
     // Count total registrations across all users for these events

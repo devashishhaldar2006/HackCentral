@@ -14,7 +14,8 @@ export const ProfileHeader = ({
   fileInputRef,
   isCustomAvatar,
   setShowDeleteAvatarConfirm,
-  openPasswordModal
+  openPasswordModal,
+  handleCancelEdit
 }) => {
   return (
     <div className="bg-white dark:bg-[#161d2f] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
@@ -37,10 +38,10 @@ export const ProfileHeader = ({
 
             {/* Upload overlay */}
             {!avatarLoading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/40 rounded-full transition-all duration-200 cursor-pointer opacity-0 group-hover:opacity-100">
+              <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/40 focus-within:bg-black/40 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100 focus-within:opacity-100">
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="flex flex-col items-center gap-0.5 text-white cursor-pointer focus:outline-none"
+                  className="flex flex-col items-center gap-0.5 text-white cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-lg p-1"
                   title="Upload new avatar"
                 >
                   <span className="material-symbols-outlined text-2xl drop-shadow">
@@ -66,7 +67,7 @@ export const ProfileHeader = ({
             {isCustomAvatar && !avatarLoading && (
               <button
                 onClick={() => setShowDeleteAvatarConfirm(true)}
-                className="absolute -top-1 -right-1 z-10 w-7 h-7 bg-white dark:bg-slate-700 hover:bg-red-50 dark:hover:bg-red-900/40 text-slate-400 hover:text-red-500 rounded-full flex items-center justify-center shadow-md transition-all duration-200 scale-0 group-hover:scale-100 cursor-pointer border border-slate-200 dark:border-slate-600"
+                className="absolute -top-1 -right-1 z-10 w-7 h-7 bg-white dark:bg-slate-700 hover:bg-red-50 dark:hover:bg-red-900/40 text-slate-400 hover:text-red-500 rounded-full flex items-center justify-center shadow-md transition-all duration-200 scale-0 group-hover:scale-100 focus:scale-100 cursor-pointer border border-slate-200 dark:border-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
                 title="Remove avatar"
               >
                 <span className="material-symbols-outlined text-[16px]">close</span>
@@ -114,7 +115,7 @@ export const ProfileHeader = ({
             ) : (
               <div className="flex gap-2">
                 <button
-                  onClick={() => {
+                  onClick={handleCancelEdit ? handleCancelEdit : () => {
                     setIsEditing(false);
                     setError(null);
                     setSuccessMsg(null);

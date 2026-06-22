@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 export const PasswordModal = ({
   showPasswordModal,
   setShowPasswordModal,
@@ -15,10 +17,20 @@ export const PasswordModal = ({
   strengthColors,
   strengthTextColors,
 }) => {
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && showPasswordModal && !passwordLoading) {
+        setShowPasswordModal(false);
+      }
+    };
+    if (showPasswordModal) window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [showPasswordModal, passwordLoading, setShowPasswordModal]);
+
   if (!showPasswordModal) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="password-modal-title">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/40 dark:bg-black/60 transition-opacity"
@@ -39,7 +51,7 @@ export const PasswordModal = ({
           <span className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
             <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-xl">lock_reset</span>
           </span>
-          <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+          <h3 id="password-modal-title" className="text-xl font-bold text-slate-900 dark:text-white">
             Change Password
           </h3>
         </div>
@@ -194,10 +206,20 @@ export const DeleteAvatarModal = ({
   setShowDeleteAvatarConfirm,
   handleDeleteAvatar,
 }) => {
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && showDeleteAvatarConfirm) {
+        setShowDeleteAvatarConfirm(false);
+      }
+    };
+    if (showDeleteAvatarConfirm) window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [showDeleteAvatarConfirm, setShowDeleteAvatarConfirm]);
+
   if (!showDeleteAvatarConfirm) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="delete-avatar-modal-title">
       <div
         className="absolute inset-0 bg-black/40 dark:bg-black/60 transition-opacity"
         onClick={() => setShowDeleteAvatarConfirm(false)}
@@ -210,7 +232,7 @@ export const DeleteAvatarModal = ({
             </span>
           </span>
           <div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+            <h3 id="delete-avatar-modal-title" className="text-lg font-bold text-slate-900 dark:text-white">
               Remove Avatar
             </h3>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">

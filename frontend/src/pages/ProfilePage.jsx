@@ -114,6 +114,31 @@ import { PasswordModal, DeleteAvatarModal } from "../components/profile/ProfileM
     }));
   };
 
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setError(null);
+    setSuccessMsg(null);
+    if (user) {
+      setFormData({
+        fullName: user.fullName || "",
+        gender: user.gender || "",
+        college: user.college || "",
+        location: user.location || "",
+        skills:
+          user.skills && Array.isArray(user.skills)
+            ? user.skills.join(", ")
+            : "",
+        interests:
+          user.interests && Array.isArray(user.interests)
+            ? user.interests.join(", ")
+            : "",
+        github: user.github || "",
+        linkedin: user.linkedin || "",
+        website: user.website || "",
+      });
+    }
+  };
+
   // ── Profile Edit Save ──
   const handleSave = async () => {
     setLoading(true);
@@ -381,6 +406,7 @@ import { PasswordModal, DeleteAvatarModal } from "../components/profile/ProfileM
           user={user}
           isEditing={isEditing}
           setIsEditing={setIsEditing}
+          handleCancelEdit={handleCancelEdit}
           loading={loading}
           handleSave={handleSave}
           setError={setError}

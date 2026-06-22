@@ -29,21 +29,30 @@ const UserDashboard = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const controller = new AbortController();
     const fetchDashboard = async () => {
       try {
         setLoading(true);
         const { data: res } = await axios.get(`${BASE_URL}/dashboard/user`, {
           withCredentials: true,
+          signal: controller.signal,
+          timeout: 10000,
         });
         setData(res);
+        setError(null);
       } catch (err) {
-        console.error("Dashboard fetch error:", err);
-        setError("Failed to load dashboard data.");
+        if (!axios.isCancel(err)) {
+          console.error("Dashboard fetch error:", err);
+          setError("Failed to load dashboard data.");
+        }
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     };
     fetchDashboard();
+    return () => controller.abort();
   }, []);
 
   // ── Loading state ──
@@ -637,8 +646,8 @@ const UserDashboard = () => {
             <Section title="Event Journey" icon="timeline" delay={13}>
               <div className="relative pl-6 border-l-2 border-slate-200 dark:border-slate-700 space-y-6">
                 {timeline.map((group) => (
-                  <div key={group.month}>
-                    <div className="absolute -left-[9px] w-4 h-4 rounded-full bg-[#0d4af2] border-2 border-white dark:border-[#161d2f]" />
+                  <div key={group.month} className="relative">
+                    <div className="absolute -left-[33px] w-4 h-4 rounded-full bg-[#0d4af2] border-2 border-white dark:border-[#161d2f]" />
                     <p className="text-sm font-bold text-slate-800 dark:text-white mb-2">
                       {group.month}
                     </p>

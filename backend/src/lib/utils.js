@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import ActivityLog from "../models/ActivityLog.js";
+import mongoose from "mongoose";
 
 export const normalizeStringArray = (arr = []) =>
   arr.map((item) => item.trim()).filter(Boolean);
@@ -162,38 +163,43 @@ export async function checkAchievements(user, stats) {
 
 // ── Helper: log activity and award XP ──
 export async function logActivity(userId, action, targetEventId = null, xpAmount = 0) {
+  const session = await mongoose.startSession();
   try {
-    await ActivityLog.create({
-      user: userId,
-      action,
-      targetEvent: targetEventId,
-    });
+    await session.withTransaction(async () => {
+      await ActivityLog.create([{
+        user: userId,
+        action,
+        targetEvent: targetEventId,
+      }], { session });
 
-    if (xpAmount > 0) {
-      const user = await User.findById(userId);
-      if (user) {
-        user.xp = (user.xp || 0) + xpAmount;
-        await updateStreak(user);
+      if (xpAmount > 0) {
+        const user = await User.findById(userId).session(session);
+        if (user) {
+          user.xp = (user.xp || 0) + xpAmount;
+          await updateStreak(user);
 
-        // Build quick stats for achievement checks
-        const stats = {
-          registered: user.registeredEvents?.length || 0,
-          bookmarked: user.bookmarkedEvents?.length || 0,
-          attended: 0,
-          bestStreak: user.bestStreak || 0,
-          hackathonCount: 0,
-          categoryCount: 0,
-          accountAgeDays: Math.floor(
-            (Date.now() - new Date(user.createdAt).getTime()) / (1000 * 60 * 60 * 24)
-          ),
-        };
+          // Build quick stats for achievement checks
+          const stats = {
+            registered: user.registeredEvents?.length || 0,
+            bookmarked: user.bookmarkedEvents?.length || 0,
+            attended: 0,
+            bestStreak: user.bestStreak || 0,
+            hackathonCount: 0,
+            categoryCount: 0,
+            accountAgeDays: Math.floor(
+              (Date.now() - new Date(user.createdAt).getTime()) / (1000 * 60 * 60 * 24)
+            ),
+          };
 
-        await checkAchievements(user, stats);
-        await user.save();
+          await checkAchievements(user, stats);
+          await user.save({ session });
+        }
       }
-    }
+    });
   } catch (err) {
     console.error("logActivity error:", err);
     // Non-fatal — don't break the main operation
+  } finally {
+    session.endSession();
   }
 }

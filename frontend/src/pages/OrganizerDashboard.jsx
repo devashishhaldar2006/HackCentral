@@ -25,22 +25,33 @@ const OrganizerDashboard = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const controller = new AbortController();
     const fetchDashboard = async () => {
       try {
         setLoading(true);
         const { data: res } = await axios.get(
           `${BASE_URL}/dashboard/organizer`,
-          { withCredentials: true }
+          { 
+            withCredentials: true,
+            signal: controller.signal,
+            timeout: 10000
+          }
         );
         setData(res);
+        setError(null);
       } catch (err) {
-        console.error("Organizer dashboard error:", err);
-        setError("Failed to load organizer dashboard.");
+        if (!axios.isCancel(err)) {
+          console.error("Organizer dashboard error:", err);
+          setError("Failed to load organizer dashboard.");
+        }
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     };
     fetchDashboard();
+    return () => controller.abort();
   }, []);
 
   if (loading) {
