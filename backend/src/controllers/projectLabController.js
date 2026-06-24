@@ -25,12 +25,21 @@ export const evaluateProject = async (req, res) => {
 
     let text = response.text;
 
+    if (!text) {
+      throw new Error("AI returned an empty response.");
+    }
+
     text = text
       .replace(/```json/g, "")
       .replace(/```/g, "")
       .trim();
 
-    const result = JSON.parse(text);
+    let result;
+    try {
+      result = JSON.parse(text);
+    } catch (parseError) {
+      throw new Error("Failed to parse AI response. " + parseError.message);
+    }
 
     return res.status(200).json({
       success: true,
@@ -39,7 +48,9 @@ export const evaluateProject = async (req, res) => {
   } catch (error) {
     console.error(error);
 
-    return res.status(500).json({
+    return res.status(
+      error.isValidationError ? 400 : 500,
+    ).json({
       success: false,
       message: error.message,
     });
@@ -72,12 +83,21 @@ export const generatePitchDeck = async (req, res) => {
 
     let text = response.text;
 
+    if (!text) {
+      throw new Error("AI returned an empty response.");
+    }
+
     text = text
       .replace(/```json/g, "")
       .replace(/```/g, "")
       .trim();
 
-    const result = JSON.parse(text);
+    let result;
+    try {
+      result = JSON.parse(text);
+    } catch (parseError) {
+      throw new Error("Failed to parse AI response. " + parseError.message);
+    }
 
     return res.status(200).json({
       success: true,
