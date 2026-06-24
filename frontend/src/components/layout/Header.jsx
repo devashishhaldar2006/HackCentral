@@ -50,10 +50,16 @@ const Header = () => {
             Find Hackathons
           </Link>
           <Link
-            to="/teamfinder"
+            to="/projectlab"
             className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] dark:hover:text-[#0d4af2] transition-colors text-sm font-semibold"
           >
-            Team Finder
+            Project Lab
+          </Link>
+          <Link
+            to="/resources"
+            className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] dark:hover:text-[#0d4af2] transition-colors text-sm font-semibold"
+          >
+            Resource Hub
           </Link>
           <Link
             to="/aboutus"
@@ -66,7 +72,7 @@ const Header = () => {
         {/* Right Actions */}
         <div className="flex items-center gap-3">
           {user ? (
-            /* ───── Logged-in State ───── */
+            /* Logged-in State */
             <>
               {/* Notifications bell */}
               <button className="hidden sm:flex items-center justify-center w-10 h-10 rounded-xl hover:bg-slate-200/70 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors">
@@ -208,11 +214,11 @@ const Header = () => {
               Find Hackathons
             </Link>
             <Link
-              to="/teamfinder"
+              to="/projectlab"
               className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-sm font-semibold py-2.5 px-3 rounded-lg"
               onClick={closeMobile}
             >
-              Team Finder
+              Project Lab
             </Link>
             <Link
               to="/aboutus"
@@ -220,6 +226,13 @@ const Header = () => {
               onClick={closeMobile}
             >
               About Us
+            </Link>
+            <Link
+              to="/resources"
+              className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-sm font-semibold py-2.5 px-3 rounded-lg"
+              onClick={closeMobile}
+            >
+              Resource Hub
             </Link>
 
             {user ? (
