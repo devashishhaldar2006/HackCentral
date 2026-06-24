@@ -203,3 +203,79 @@ export async function logActivity(userId, action, targetEventId = null, xpAmount
     session.endSession();
   }
 }
+
+// ai utils
+
+export const projectEvaluationPrompt = (title, description, techStack) => `
+You are an expert hackathon judge.
+
+Evaluate the following project.
+
+Project Title:
+${title}
+
+Description:
+${description}
+
+Tech Stack:
+${techStack || "Not Provided"}
+
+Return ONLY valid JSON.
+
+{
+  "innovationScore": 0,
+  "technicalComplexity": 0,
+  "marketPotential": 0,
+  "presentationReadiness": 0,
+  "strengths": [],
+  "weaknesses": [],
+  "improvements": [],
+  "overallFeedback": ""
+}
+
+Rules:
+- Scores must be between 1 and 10
+- Return only JSON
+- Do not use markdown
+`;
+
+export const pitchDeckPrompt = (title, problem, solution, targetAudience, techStack) => `
+You are an experienced startup mentor and hackathon judge.
+
+Generate a professional hackathon pitch deck.
+
+Project Title:
+${title}
+
+Problem:
+${problem}
+
+Solution:
+${solution}
+
+Target Audience:
+${targetAudience || "Not Provided"}
+
+Tech Stack:
+${techStack || "Not Provided"}
+
+Return ONLY valid JSON.
+
+{
+  "problemStatement": "",
+  "solutionOverview": "",
+  "marketOpportunity": "",
+  "targetAudience": "",
+  "businessModel": "",
+  "technicalArchitecture": "",
+  "competitiveAdvantage": "",
+  "futureScope": "",
+  "elevatorPitch": ""
+}
+
+Rules:
+- Return only JSON.
+- No markdown.
+- No explanation outside JSON.
+- Make responses concise but professional.
+`;

@@ -27,12 +27,15 @@ import profileRouter from "./routes/profileRoutes.js";
 import eventRouter from "./routes/eventRoutes.js";
 import savedEventsRouter from "./routes/savedEventsRoutes.js";
 import resourceRouter from "./routes/resourceRoutes.js";
+import projectLabRouter from "./routes/projectLabRoutes.js";
+
 app.use("/api/auth", authRouter);
 app.use("/api/dashboard", dashboardRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/events", eventRouter);
 app.use("/api/saved", savedEventsRouter);
 app.use("/api/resources", resourceRouter);
+app.use("/api/project-lab/", projectLabRouter);
 
 
 const startServer = async () => {

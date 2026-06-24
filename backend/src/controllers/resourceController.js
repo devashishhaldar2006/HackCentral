@@ -1,4 +1,5 @@
 import Resource from "../models/Resource.js";
+import mongoose from "mongoose";
 
 export const getResources = async (req, res) => {
   try {
@@ -38,7 +39,16 @@ export const getResources = async (req, res) => {
 
 export const getResourceById = async (req, res) => {
   try {
-    const resource = await Resource.findById(req.params.id);
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid resource ID format",
+      });
+    }
+
+    const resource = await Resource.findById(id);
 
     if (!resource) {
       return res.status(404).json({
@@ -47,13 +57,13 @@ export const getResourceById = async (req, res) => {
       });
     }
 
-    resource.clicks += 1;
-    await resource.save();
-
     const relatedResources = await Resource.find({
       domain: resource.domain,
       _id: { $ne: resource._id },
     }).limit(3);
+
+    resource.clicks += 1;
+    await resource.save();
 
     return res.status(200).json({
       success: true,
