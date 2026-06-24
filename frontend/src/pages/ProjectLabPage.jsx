@@ -124,6 +124,7 @@ const Evaluator = () => {
         setResult(res.data.result);
       }
     } catch (err) {
+      setResult(null);
       setError(err.response?.data?.message || "Failed to evaluate project.");
     } finally {
       setLoading(false);
@@ -211,12 +212,12 @@ const Evaluator = () => {
             {/* Scores Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
               <div>
-                <ScoreBar label="Innovation" score={result.innovationScore} colorClass="text-[#0d4af2]" bgClass="bg-[#0d4af2]" />
-                <ScoreBar label="Technical Complexity" score={result.technicalComplexity} colorClass="text-violet-500" bgClass="bg-violet-500" />
+                <ScoreBar label="Innovation" score={Number(result.innovationScore) || 0} colorClass="text-[#0d4af2]" bgClass="bg-[#0d4af2]" />
+                <ScoreBar label="Technical Complexity" score={Number(result.technicalComplexity) || 0} colorClass="text-violet-500" bgClass="bg-violet-500" />
               </div>
               <div>
-                <ScoreBar label="Market Potential" score={result.marketPotential} colorClass="text-emerald-500" bgClass="bg-emerald-500" />
-                <ScoreBar label="Presentation Readiness" score={result.presentationReadiness} colorClass="text-amber-500" bgClass="bg-amber-500" />
+                <ScoreBar label="Market Potential" score={Number(result.marketPotential) || 0} colorClass="text-emerald-500" bgClass="bg-emerald-500" />
+                <ScoreBar label="Presentation Readiness" score={Number(result.presentationReadiness) || 0} colorClass="text-amber-500" bgClass="bg-amber-500" />
               </div>
             </div>
 
@@ -237,7 +238,7 @@ const Evaluator = () => {
                   Strengths
                 </h3>
                 <ul className="space-y-2">
-                  {result.strengths?.map((s, i) => (
+                  {(Array.isArray(result.strengths) ? result.strengths : []).map((s, i) => (
                     <li key={i} className="text-sm text-slate-700 dark:text-slate-300 flex items-start gap-2">
                       <span className="material-symbols-outlined text-emerald-500 text-[16px] mt-0.5 shrink-0">check</span> 
                       <span>{s}</span>
@@ -251,7 +252,7 @@ const Evaluator = () => {
                   Weaknesses
                 </h3>
                 <ul className="space-y-2">
-                  {result.weaknesses?.map((w, i) => (
+                  {(Array.isArray(result.weaknesses) ? result.weaknesses : []).map((w, i) => (
                     <li key={i} className="text-sm text-slate-700 dark:text-slate-300 flex items-start gap-2">
                       <span className="material-symbols-outlined text-red-500 text-[16px] mt-0.5 shrink-0">close</span> 
                       <span>{w}</span>
@@ -268,7 +269,7 @@ const Evaluator = () => {
                 Suggested Improvements
               </h3>
               <ul className="space-y-3">
-                {result.improvements?.map((imp, i) => (
+                {(Array.isArray(result.improvements) ? result.improvements : []).map((imp, i) => (
                   <li key={i} className="text-sm text-slate-700 dark:text-slate-300 flex items-start gap-2 font-medium">
                     <span className="material-symbols-outlined text-amber-500 text-[16px] mt-0.5 shrink-0">arrow_right</span> 
                     <span>{imp}</span>
@@ -309,6 +310,7 @@ const PitchDeck = () => {
         setResult(res.data.result);
       }
     } catch (err) {
+      setResult(null);
       setError(err.response?.data?.message || "Failed to generate pitch deck.");
     } finally {
       setLoading(false);
