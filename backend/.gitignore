@@ -1,3 +1,4 @@
 node_modules
 .env
 src/scripts/seedEvents.js
+src/scripts/seedResources.js

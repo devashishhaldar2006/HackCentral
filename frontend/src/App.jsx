@@ -7,12 +7,14 @@ import Body from "./components/layout/Body";
 import HomePage from "./pages/HomePage";
 import EventsPage from "./pages/EventsPage";
 import ProfilePage from "./pages/ProfilePage";
-import TeamFinder from "./pages/TeamFinder";
+import ProjectLabPage from "./pages/ProjectLabPage"
 import AboutUsPage from "./pages/AboutUsPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import OrganizerDashboard from "./pages/OrganizerDashboard";
 import UserDashboard from "./pages/UserDashboard";
 import SavedEventsPage from "./pages/SavedEventsPage";
+import ResourceHub from "./pages/ResourceHub";
+import ResourceDetails from "./pages/ResourceDetails";
 import { ProtectedRoute, OrganizerRoute, UserRoute, AuthLoader, GuestRoute } from "./components/auth/RouteGuards";
 
 function App() {
@@ -63,7 +65,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="teamfinder" element={<TeamFinder />} />
+            <Route path="projectlab" element={<ProjectLabPage />} />
             <Route path="aboutus" element={<AboutUsPage />} />
             <Route path="events" element={<EventsPage />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
@@ -75,6 +77,8 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="resources" element={<ResourceHub />} />
+            <Route path="resources/:id" element={<ResourceDetails />} />
             {/* Catch-all → 404 redirect to home */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
