@@ -279,3 +279,160 @@ export const validateAvatarUpload = (req) => {
 
   return true;
 };
+
+// ai validators
+export const validateProjectEvaluationData = (req) => {
+  const { title, description, techStack } = req.body;
+
+  const allowedFields = [
+    "title",
+    "description",
+    "techStack",
+  ];
+
+  const invalidFields = Object.keys(req.body).filter(
+    (key) => !allowedFields.includes(key),
+  );
+
+  if (invalidFields.length > 0) {
+    throw new ValidationError(
+      `Invalid fields: ${invalidFields.join(", ")}`,
+    );
+  }
+
+  if (!title || !description) {
+    throw new ValidationError(
+      "Project title and description are required",
+    );
+  }
+
+  if (typeof title !== "string") {
+    throw new ValidationError(
+      "Project title must be a string",
+    );
+  }
+
+  if (typeof description !== "string") {
+    throw new ValidationError(
+      "Project description must be a string",
+    );
+  }
+
+  const trimmedTitle = title.trim();
+  const trimmedDescription = description.trim();
+
+  if (
+    trimmedTitle.length < 3 ||
+    trimmedTitle.length > 100
+  ) {
+    throw new ValidationError(
+      "Project title must be between 3 and 100 characters",
+    );
+  }
+
+  if (
+    trimmedDescription.length < 20 ||
+    trimmedDescription.length > 5000
+  ) {
+    throw new ValidationError(
+      "Project description must be between 20 and 5000 characters",
+    );
+  }
+
+  if (techStack !== undefined) {
+    if (typeof techStack !== "string") {
+      throw new ValidationError(
+        "Tech stack must be a string",
+      );
+    }
+
+    if (techStack.trim().length > 500) {
+      throw new ValidationError(
+        "Tech stack cannot exceed 500 characters",
+      );
+    }
+  }
+
+  return true;
+};
+
+export const validatePitchDeckData = (req) => {
+  const {
+    title,
+    problem,
+    solution,
+    targetAudience,
+    techStack,
+  } = req.body;
+
+  const allowedFields = [
+    "title",
+    "problem",
+    "solution",
+    "targetAudience",
+    "techStack",
+  ];
+
+  const invalidFields = Object.keys(req.body).filter(
+    (key) => !allowedFields.includes(key),
+  );
+
+  if (invalidFields.length > 0) {
+    throw new ValidationError(
+      `Invalid fields: ${invalidFields.join(", ")}`,
+    );
+  }
+
+  if (!title || !problem || !solution) {
+    throw new ValidationError(
+      "Title, problem and solution are required",
+    );
+  }
+
+  validateOptionalTextField(
+    "Project title",
+    title,
+    3,
+    100,
+  );
+
+  validateOptionalTextField(
+    "Problem statement",
+    problem,
+    20,
+    3000,
+  );
+
+  validateOptionalTextField(
+    "Solution",
+    solution,
+    20,
+    3000,
+  );
+
+  if (
+    targetAudience !== undefined &&
+    targetAudience !== ""
+  ) {
+    validateOptionalTextField(
+      "Target audience",
+      targetAudience,
+      2,
+      500,
+    );
+  }
+
+  if (
+    techStack !== undefined &&
+    techStack !== ""
+  ) {
+    validateOptionalTextField(
+      "Tech stack",
+      techStack,
+      2,
+      500,
+    );
+  }
+
+  return true;
+};
