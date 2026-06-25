@@ -43,24 +43,28 @@ const Header = () => {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
-          <Link
-            to="/events"
-            className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] dark:hover:text-[#0d4af2] transition-colors text-sm font-semibold"
-          >
-            Find Hackathons
-          </Link>
-          <Link
-            to="/projectlab"
-            className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] dark:hover:text-[#0d4af2] transition-colors text-sm font-semibold"
-          >
-            Project Lab
-          </Link>
-          <Link
-            to="/resources"
-            className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] dark:hover:text-[#0d4af2] transition-colors text-sm font-semibold"
-          >
-            Resource Hub
-          </Link>
+          {(!user || user.role === "user") && (
+            <>
+              <Link
+                to="/events"
+                className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] dark:hover:text-[#0d4af2] transition-colors text-sm font-semibold"
+              >
+                Find Hackathons
+              </Link>
+              <Link
+                to="/projectlab"
+                className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] dark:hover:text-[#0d4af2] transition-colors text-sm font-semibold"
+              >
+                Project Lab
+              </Link>
+              <Link
+                to="/resources"
+                className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] dark:hover:text-[#0d4af2] transition-colors text-sm font-semibold"
+              >
+                Resource Hub
+              </Link>
+            </>
+          )}
           <Link
             to="/aboutus"
             className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] dark:hover:text-[#0d4af2] transition-colors text-sm font-semibold"
@@ -206,33 +210,37 @@ const Header = () => {
       {mobileMenuOpen && (
         <div className="md:hidden mt-3 pb-4 border-t border-slate-200 dark:border-slate-800 pt-4">
           <nav className="flex flex-col gap-1 px-2">
-            <Link
-              to="/events"
-              className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-sm font-semibold py-2.5 px-3 rounded-lg"
-              onClick={closeMobile}
-            >
-              Find Hackathons
-            </Link>
-            <Link
-              to="/projectlab"
-              className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-sm font-semibold py-2.5 px-3 rounded-lg"
-              onClick={closeMobile}
-            >
-              Project Lab
-            </Link>
+            {(!user || user.role === "user") && (
+              <>
+                <Link
+                  to="/events"
+                  className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-sm font-semibold py-2.5 px-3 rounded-lg"
+                  onClick={closeMobile}
+                >
+                  Find Hackathons
+                </Link>
+                <Link
+                  to="/projectlab"
+                  className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-sm font-semibold py-2.5 px-3 rounded-lg"
+                  onClick={closeMobile}
+                >
+                  Project Lab
+                </Link>
+                <Link
+                  to="/resources"
+                  className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-sm font-semibold py-2.5 px-3 rounded-lg"
+                  onClick={closeMobile}
+                >
+                  Resource Hub
+                </Link>
+              </>
+            )}
             <Link
               to="/aboutus"
               className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-sm font-semibold py-2.5 px-3 rounded-lg"
               onClick={closeMobile}
             >
               About Us
-            </Link>
-            <Link
-              to="/resources"
-              className="text-slate-600 dark:text-slate-300 hover:text-[#0d4af2] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-sm font-semibold py-2.5 px-3 rounded-lg"
-              onClick={closeMobile}
-            >
-              Resource Hub
             </Link>
 
             {user ? (

@@ -73,9 +73,7 @@ const ProjectLabPage = () => {
   );
 };
 
-// ----------------------------------------------------
 // Sub-components
-// ----------------------------------------------------
 const ScoreBar = ({ label, score, colorClass, bgClass }) => (
   <div className="mb-4">
     <div className="flex justify-between text-sm mb-1.5 font-bold text-slate-700 dark:text-slate-300">
@@ -102,10 +100,7 @@ const SectionCard = ({ icon, title, content, colorClass }) => (
     <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed font-medium">{content}</p>
   </div>
 );
-
-// ----------------------------------------------------
 // Evaluator Component
-// ----------------------------------------------------
 const Evaluator = () => {
   const [formData, setFormData] = useState({ title: "", description: "", techStack: "" });
   const [loading, setLoading] = useState(false);
@@ -289,7 +284,6 @@ const Evaluator = () => {
     </motion.div>
   );
 };
-
 
 // Pitch Deck Component
 const PitchDeck = () => {

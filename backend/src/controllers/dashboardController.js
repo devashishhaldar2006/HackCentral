@@ -358,9 +358,16 @@ export const getOrganizerDashboard = async (req, res) => {
     let totalBookmarks = 0;
 
     const eventPerformance = submittedEvents.map((e) => {
-      const regs = regMap[e._id.toString()] || 0;
+      // Use event.participants if available for internal registrations
+      let regs = 0;
+      if (e.registrationLink) {
+        regs = "N/A";
+      } else {
+        regs = e.participants ? e.participants.length : (regMap[e._id.toString()] || 0);
+        totalRegistrations += regs;
+      }
+
       const books = bookMap[e._id.toString()] || 0;
-      totalRegistrations += regs;
       totalBookmarks += books;
       return {
         _id: e._id,
@@ -369,6 +376,7 @@ export const getOrganizerDashboard = async (req, res) => {
         startDate: e.startDate,
         registrations: regs,
         bookmarks: books,
+        hasRegistrationLink: !!e.registrationLink
       };
     });
 

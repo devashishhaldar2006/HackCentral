@@ -7,6 +7,7 @@ import {
   MODE_COLORS,
   formatDateRange,
 } from "../../lib/eventUtils";
+import { RSVPModal } from "./RSVPModal";
 
 const EventCard = ({ event, idx }) => {
   const dispatch = useDispatch();
@@ -17,7 +18,37 @@ const EventCard = ({ event, idx }) => {
   const isBookmarked = bookmarkedIds.some(
     (id) => id?.toString() === event._id?.toString()
   );
+  
+  const registeredIds = useSelector(
+    (state) => state.user?.registeredEvents || []
+  );
+  const isRegistered = registeredIds.some(
+    (id) => id?.toString() === event._id?.toString()
+  );
+
   const [loading, setLoading] = useState(false);
+  const [rsvpLoading, setRsvpLoading] = useState(false);
+  const [isRSVPModalOpen, setIsRSVPModalOpen] = useState(false);
+
+  const handleRSVPClick = (e) => {
+    e.stopPropagation();
+    if (!user) return; // must be logged in
+    setIsRSVPModalOpen(true);
+  };
+
+  const handleConfirmRSVP = async (teamName) => {
+    setRsvpLoading(true);
+    try {
+      const { data } = await axios.post(`/api/events/${event._id}/register`, { teamName }, { withCredentials: true });
+      dispatch({ type: "user/setRegisteredEvents", payload: data.registeredEvents });
+      setIsRSVPModalOpen(false);
+    } catch (error) {
+      console.error("Failed to RSVP:", error);
+      alert(error.response?.data?.message || "Failed to register for the event");
+    } finally {
+      setRsvpLoading(false);
+    }
+  };
 
   const toggleBookmark = async (e) => {
     e.stopPropagation();
@@ -154,21 +185,58 @@ const EventCard = ({ event, idx }) => {
             <span className="material-symbols-outlined text-sm">business</span>
             {event.organizer}
           </span>
-          {event.registrationLink && (
-            <a
-              href={event.registrationLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#0d4af2]/10 text-[#0d4af2] hover:bg-[#0d4af2] hover:text-white px-4 py-2 rounded-lg text-sm font-bold transition-all cursor-pointer inline-flex items-center gap-1"
-            >
-              Register
-              <span className="material-symbols-outlined text-sm">
-                open_in_new
-              </span>
-            </a>
-          )}
+          <div className="flex gap-2">
+            {event.registrationLink ? (
+              <a
+                href={event.registrationLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="bg-[#0d4af2]/10 text-[#0d4af2] hover:bg-[#0d4af2] hover:text-white px-4 py-2 rounded-lg text-sm font-bold transition-all cursor-pointer inline-flex items-center gap-1"
+              >
+                Link
+                <span className="material-symbols-outlined text-sm">
+                  open_in_new
+                </span>
+              </a>
+            ) : user ? (
+              <button
+                onClick={handleRSVPClick}
+                disabled={rsvpLoading || isRegistered}
+                className={`px-4 py-2 rounded-lg text-sm font-bold transition-all inline-flex items-center gap-1 cursor-pointer ${
+                  isRegistered
+                    ? "bg-emerald-500/10 text-emerald-600 cursor-default"
+                    : "bg-[#0d4af2] text-white hover:bg-[#0d4af2]/90 shadow-lg shadow-[#0d4af2]/20"
+                } ${rsvpLoading ? "opacity-60 cursor-wait" : ""}`}
+              >
+                {isRegistered ? (
+                  <>
+                    <span className="material-symbols-outlined text-sm">check_circle</span>
+                    RSVP'd
+                  </>
+                ) : (
+                  <>
+                    RSVP
+                    {event.participants && event.participants.length > 0 && (
+                      <span className="ml-1 px-1.5 py-0.5 bg-white/20 rounded text-[10px]">
+                        {event.participants.length}
+                      </span>
+                    )}
+                  </>
+                )}
+              </button>
+            ) : null}
+          </div>
         </div>
       </div>
+
+      <RSVPModal
+        isOpen={isRSVPModalOpen}
+        onClose={() => setIsRSVPModalOpen(false)}
+        onConfirm={handleConfirmRSVP}
+        loading={rsvpLoading}
+        eventTitle={event.title}
+      />
     </div>
   );
 };

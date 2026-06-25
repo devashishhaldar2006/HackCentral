@@ -17,42 +17,72 @@ import { BASE_URL } from "../lib/constants";
 import { formatDate } from "../lib/eventUtils";
 import { PIE_COLORS, fadeUp, staggerContainerOrganizerDashboard as staggerContainer } from "../lib/dashboardUtils";
 import { EmptyState } from "../components/dashboard/DashboardComponents";
+import { EventSubmissionModal } from "../components/dashboard/EventSubmissionModal";
+import { ParticipantsModal } from "../components/dashboard/ParticipantsModal";
 
 const OrganizerDashboard = () => {
   const user = useSelector((state) => state.user);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isParticipantsModalOpen, setIsParticipantsModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [editingEvent, setEditingEvent] = useState(null);
+
+  const fetchDashboard = async (controller = new AbortController()) => {
+    try {
+      setLoading(true);
+      const { data: res } = await axios.get(
+        `${BASE_URL}/dashboard/organizer`,
+        { 
+          withCredentials: true,
+          signal: controller.signal,
+          timeout: 10000
+        }
+      );
+      setData(res);
+      setError(null);
+    } catch (err) {
+      if (!axios.isCancel(err)) {
+        console.error("Organizer dashboard error:", err);
+        setError("Failed to load organizer dashboard.");
+      }
+    } finally {
+      if (!controller.signal.aborted) {
+        setLoading(false);
+      }
+    }
+  };
 
   useEffect(() => {
     const controller = new AbortController();
-    const fetchDashboard = async () => {
-      try {
-        setLoading(true);
-        const { data: res } = await axios.get(
-          `${BASE_URL}/dashboard/organizer`,
-          { 
-            withCredentials: true,
-            signal: controller.signal,
-            timeout: 10000
-          }
-        );
-        setData(res);
-        setError(null);
-      } catch (err) {
-        if (!axios.isCancel(err)) {
-          console.error("Organizer dashboard error:", err);
-          setError("Failed to load organizer dashboard.");
-        }
-      } finally {
-        if (!controller.signal.aborted) {
-          setLoading(false);
-        }
-      }
-    };
-    fetchDashboard();
+    fetchDashboard(controller);
     return () => controller.abort();
   }, []);
+
+  const handleEdit = (event) => {
+    setEditingEvent(event);
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = async (eventId) => {
+    if (!window.confirm("Are you sure you want to delete this event? This action cannot be undone.")) return;
+    try {
+      await axios.delete(`${BASE_URL}/events/${eventId}`, {
+        withCredentials: true,
+      });
+      fetchDashboard();
+    } catch (err) {
+      console.error("Failed to delete event:", err);
+      alert("Failed to delete event");
+    }
+  };
+
+  const handleViewParticipants = (event) => {
+    setSelectedEvent(event);
+    setIsParticipantsModalOpen(true);
+  };
 
   if (loading) {
     return (
@@ -92,10 +122,10 @@ const OrganizerDashboard = () => {
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          className="mb-8"
+          className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         >
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0d4af2] to-violet-600 flex items-center justify-center shadow-lg shadow-[#0d4af2]/20">
+          <div className="flex items-center gap-3 mb-2 sm:mb-0">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0d4af2] to-violet-600 flex items-center justify-center shadow-lg shadow-[#0d4af2]/20 shrink-0">
               <span className="material-symbols-outlined text-xl text-white">
                 analytics
               </span>
@@ -112,6 +142,16 @@ const OrganizerDashboard = () => {
               </p>
             </div>
           </div>
+          <button
+            onClick={() => {
+              setEditingEvent(null);
+              setIsModalOpen(true);
+            }}
+            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#0d4af2] hover:bg-[#0d4af2]/90 text-white font-bold rounded-xl shadow-lg shadow-[#0d4af2]/20 transition-all active:scale-[0.98] cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-xl">add</span>
+            Create Event
+          </button>
         </motion.div>
 
         {/* STATS OVERVIEW */}
@@ -335,6 +375,9 @@ const OrganizerDashboard = () => {
                     <th className="text-right text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider py-3 px-3">
                       Bookmarks
                     </th>
+                    <th className="text-right text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider py-3 px-3">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -370,6 +413,31 @@ const OrganizerDashboard = () => {
                           {event.bookmarks}
                         </span>
                       </td>
+                      <td className="py-3.5 px-3 text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <button
+                            onClick={() => handleViewParticipants(event)}
+                            className="p-1.5 text-slate-400 hover:text-[#0d4af2] hover:bg-[#0d4af2]/10 rounded-lg transition-colors cursor-pointer"
+                            title="View Participants"
+                          >
+                            <span className="material-symbols-outlined text-sm">group</span>
+                          </button>
+                          <button
+                            onClick={() => handleEdit(event)}
+                            className="p-1.5 text-slate-400 hover:text-emerald-500 hover:bg-emerald-500/10 rounded-lg transition-colors cursor-pointer"
+                            title="Edit Event"
+                          >
+                            <span className="material-symbols-outlined text-sm">edit</span>
+                          </button>
+                          <button
+                            onClick={() => handleDelete(event._id)}
+                            className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer"
+                            title="Delete Event"
+                          >
+                            <span className="material-symbols-outlined text-sm">delete</span>
+                          </button>
+                        </div>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -380,6 +448,22 @@ const OrganizerDashboard = () => {
           )}
         </motion.div>
       </div>
+
+      <EventSubmissionModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setEditingEvent(null);
+        }}
+        onSuccess={() => fetchDashboard()}
+        initialData={editingEvent}
+      />
+
+      <ParticipantsModal
+        isOpen={isParticipantsModalOpen}
+        onClose={() => setIsParticipantsModalOpen(false)}
+        event={selectedEvent}
+      />
     </div>
   );
 };
