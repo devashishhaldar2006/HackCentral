@@ -3,15 +3,18 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import connectDB from "./lib/db.js";
 import { ENV } from "./lib/env.js";
+import http from "http";
+import { initializeSocket } from "./lib/socket.js";
 
 const app = express();
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
     origin: (origin, callback) => {
       // Allow any localhost origin (5173, 5174, etc.) and no-origin (Postman/server)
-      if (!origin || /^http:\/\/localhost:\d+$/.test(origin)) {
+      if (!origin || /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
@@ -28,6 +31,7 @@ import eventRouter from "./routes/eventRoutes.js";
 import savedEventsRouter from "./routes/savedEventsRoutes.js";
 import resourceRouter from "./routes/resourceRoutes.js";
 import projectLabRouter from "./routes/projectLabRoutes.js";
+import notificationRouter from "./routes/notificationRoutes.js";
 
 app.use("/api/auth", authRouter);
 app.use("/api/dashboard", dashboardRouter);
@@ -36,12 +40,15 @@ app.use("/api/events", eventRouter);
 app.use("/api/saved", savedEventsRouter);
 app.use("/api/resources", resourceRouter);
 app.use("/api/project-lab/", projectLabRouter);
+app.use("/api/notifications", notificationRouter);
 
 
 const startServer = async () => {
   try {
     await connectDB();
-    app.listen(ENV.PORT || 3000, () => {
+    const server = http.createServer(app);
+    initializeSocket(server);
+    server.listen(ENV.PORT || 3000, () => {
       console.log(`Server is running on port ${ENV.PORT || 3000}`);
     });
   } catch (error) {

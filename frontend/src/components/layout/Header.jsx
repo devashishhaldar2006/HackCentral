@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { removeUser } from "../../lib/userSlice";
 import { BASE_URL } from "../../lib/constants";
+import NotificationBell from "./NotificationBell";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -79,11 +80,9 @@ const Header = () => {
             /* Logged-in State */
             <>
               {/* Notifications bell */}
-              <button className="hidden sm:flex items-center justify-center w-10 h-10 rounded-xl hover:bg-slate-200/70 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors">
-                <span className="material-symbols-outlined text-xl">
-                  notifications
-                </span>
-              </button>
+              <div className="hidden sm:block">
+                <NotificationBell />
+              </div>
 
               {/* Profile dropdown */}
               <div className="relative">

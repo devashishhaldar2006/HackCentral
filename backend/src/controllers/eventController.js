@@ -1,7 +1,9 @@
 import Event from "../models/Event.js";
 import User from "../models/User.js";
+import Notification from "../models/Notification.js";
 import { validateEventSubmissionData } from "../lib/validate.js";
 import { getSafeUserData } from "../lib/safeUser.js";
+import { getIO, getSocketIdForUser } from "../lib/socket.js";
 
 export const getEvents = async (req, res) => {
   try {
@@ -22,7 +24,8 @@ export const getEvents = async (req, res) => {
 
     // Regex search for partial matching (much better user experience than strict $text)
     if (search && search.trim()) {
-      const searchRegex = new RegExp(search.trim(), "i");
+      const safeSearch = search.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const searchRegex = new RegExp(safeSearch, "i");
       filter.$or = [
         { title: searchRegex },
         { description: searchRegex },
@@ -173,6 +176,24 @@ export const submitEvent = async (req, res) => {
       },
     });
 
+    try {
+      await Notification.create({
+        recipient: null,
+        type: "new_event",
+        title: "New Event Posted!",
+        message: `${event.title} was just posted by ${event.organizer}.`,
+        relatedId: event._id
+      });
+
+      getIO().emit("new_event", {
+        _id: event._id,
+        title: event.title,
+        organizer: event.organizer,
+      });
+    } catch (err) {
+      console.log("Socket/Notification emit failed (new_event)", err);
+    }
+
     res.status(201).json({
       message: "Event submitted successfully",
       data: event,
@@ -291,7 +312,7 @@ export const registerForEvent = async (req, res) => {
 
     const user = await User.findById(req.user._id);
 
-    if (user.registeredEvents.includes(req.params.id)) {
+    if (user.registeredEvents.some(id => id.toString() === req.params.id)) {
       return res.status(400).json({ message: "You are already registered for this event" });
     }
 
@@ -306,6 +327,34 @@ export const registerForEvent = async (req, res) => {
     });
     await event.save();
 
+    try {
+      await Notification.create({
+        recipient: event.submittedBy,
+        type: "registration",
+        title: "New Registration",
+        message: `${req.user.fullName} registered for ${event.title}`,
+        relatedId: event._id
+      });
+
+      const io = getIO();
+      // Notify the organizer
+      const organizerSocketId = getSocketIdForUser(event.submittedBy);
+      if (organizerSocketId) {
+        io.to(organizerSocketId).emit("new_registration", {
+          eventId: event._id,
+          eventTitle: event.title,
+          participantName: req.user.fullName,
+        });
+      }
+      // Notify all users in the event page
+      io.to(`event_${event._id}`).emit("participant_count_update", {
+        eventId: event._id,
+        count: event.participants.length,
+      });
+    } catch (err) {
+      console.log("Socket/Notification emit failed", err);
+    }
+
     res.json({
       message: "Successfully registered for the event",
       registeredEvents: user.registeredEvents,
@@ -315,5 +364,43 @@ export const registerForEvent = async (req, res) => {
       message: "Error registering for event",
       error: error.message,
     });
+  }
+};
+
+export const postAnnouncement = async (req, res) => {
+  try {
+    const { message } = req.body;
+    if (!message || message.trim() === "") {
+      return res.status(400).json({ message: "Announcement message is required." });
+    }
+
+    const event = await Event.findById(req.params.id);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    if (event.submittedBy.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "You are not authorized to post announcements for this event." });
+    }
+
+    const announcement = { message, postedAt: new Date() };
+    event.announcements.push(announcement);
+    await event.save();
+
+    try {
+      getIO().to(`event_${event._id}`).emit("new_announcement", {
+        eventId: event._id,
+        eventTitle: event.title,
+        message,
+        postedAt: announcement.postedAt
+      });
+    } catch (err) {
+      console.log("Socket emit failed (new_announcement)", err);
+    }
+
+    res.json({ message: "Announcement posted successfully", announcement });
+  } catch (error) {
+    console.error("postAnnouncement error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };

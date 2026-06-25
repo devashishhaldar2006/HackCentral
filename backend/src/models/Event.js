@@ -86,6 +86,12 @@ const eventSchema = new mongoose.Schema(
         registeredAt: { type: Date, default: Date.now },
       }
     ],
+    announcements: [
+      {
+        message: { type: String, required: true },
+        postedAt: { type: Date, default: Date.now }
+      }
+    ],
     status: {
       type: String,
       enum: ["pending", "approved", "rejected"],
