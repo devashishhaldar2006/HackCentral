@@ -436,3 +436,133 @@ export const validatePitchDeckData = (req) => {
 
   return true;
 };
+
+//organizer areas
+
+export const validateEventSubmissionData = (req) => {
+  const {
+    title,
+    description,
+    startDate,
+    endDate,
+    category,
+    mode,
+    price,
+    location,
+    venue,
+    registrationLink,
+    image,
+    organizer,
+    tags,
+  } = req.body;
+
+  const allowedFields = [
+    "title",
+    "description",
+    "startDate",
+    "endDate",
+    "location",
+    "venue",
+    "image",
+    "category",
+    "mode",
+    "price",
+    "registrationLink",
+    "organizer",
+    "tags",
+  ];
+
+  const invalidFields = Object.keys(req.body).filter(
+    (key) => !allowedFields.includes(key)
+  );
+
+  if (invalidFields.length) {
+    throw new ValidationError(
+      `Invalid fields: ${invalidFields.join(", ")}`
+    );
+  }
+
+  // 1. Required Fields Check
+  if (!title || !startDate || !category || !mode) {
+    throw new ValidationError(
+      "Title, start date, category and mode are required"
+    );
+  }
+
+  // 2. Title & Description
+  validateOptionalTextField("Event title", title, 3, 100);
+  if (description) {
+    validateOptionalTextField("Event description", description, 10, 5000);
+    req.body.description = description.trim();
+  }
+  req.body.title = title.trim();
+
+  // 3. Dates
+  const parsedStart = new Date(startDate);
+  if (isNaN(parsedStart.getTime())) {
+    throw new ValidationError("Invalid start date format");
+  }
+  req.body.startDate = parsedStart;
+
+  if (endDate) {
+    const parsedEnd = new Date(endDate);
+    if (isNaN(parsedEnd.getTime())) {
+      throw new ValidationError("Invalid end date format");
+    }
+    if (parsedEnd < parsedStart) {
+      throw new ValidationError("End date must be greater than or equal to start date");
+    }
+    req.body.endDate = parsedEnd;
+  }
+
+  // 4. Enums
+  const allowedCategories = ["Conference", "Hackathon", "Workshop", "Expo", "Meetup", "Entertainment"];
+  if (!allowedCategories.includes(category)) {
+    throw new ValidationError(`Invalid category. Allowed: ${allowedCategories.join(", ")}`);
+  }
+
+  const allowedModes = ["Online", "Offline", "Hybrid"];
+  if (!allowedModes.includes(mode)) {
+    throw new ValidationError(`Invalid mode. Allowed: ${allowedModes.join(", ")}`);
+  }
+
+  if (price && !["Free", "Paid"].includes(price)) {
+    throw new ValidationError("Price must be either Free or Paid");
+  }
+
+  // 5. URLs
+  if (registrationLink) {
+    if (!isValidHttpUrl(registrationLink)) {
+      throw new ValidationError("Invalid registration link URL");
+    }
+  }
+
+  if (image) {
+    if (!isValidHttpUrl(image)) {
+      throw new ValidationError("Invalid promotional image URL");
+    }
+  }
+
+  // 6. Text Fields
+  if (location) {
+    validateOptionalTextField("Location", location, 2, 200);
+    req.body.location = location.trim();
+  }
+  if (venue) {
+    validateOptionalTextField("Venue", venue, 2, 200);
+    req.body.venue = venue.trim();
+  }
+  if (organizer) {
+    validateOptionalTextField("Organizer", organizer, 2, 100);
+    req.body.organizer = organizer.trim();
+  }
+
+  // 7. Tags
+  if (tags) {
+    validateOptionalStringArray("Tags", tags, 10);
+    req.body.tags = tags.map(tag => tag.trim());
+  }
+
+  return true;
+};
+

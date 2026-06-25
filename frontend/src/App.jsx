@@ -65,20 +65,48 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="projectlab" element={<ProjectLabPage />} />
+            <Route
+              path="projectlab"
+              element={
+                <UserRoute>
+                  <ProjectLabPage />
+                </UserRoute>
+              }
+            />
             <Route path="aboutus" element={<AboutUsPage />} />
-            <Route path="events" element={<EventsPage />} />
+            <Route
+              path="events"
+              element={
+                <UserRoute>
+                  <EventsPage />
+                </UserRoute>
+              }
+            />
             <Route path="forgot-password" element={<ForgotPassword />} />
             <Route
               path="saved"
               element={
-                <ProtectedRoute>
+                <UserRoute>
                   <SavedEventsPage />
-                </ProtectedRoute>
+                </UserRoute>
               }
             />
-            <Route path="resources" element={<ResourceHub />} />
-            <Route path="resources/:id" element={<ResourceDetails />} />
+            <Route
+              path="resources"
+              element={
+                <UserRoute>
+                  <ResourceHub />
+                </UserRoute>
+              }
+            />
+            <Route
+              path="resources/:id"
+              element={
+                <UserRoute>
+                  <ResourceDetails />
+                </UserRoute>
+              }
+            />
             {/* Catch-all → 404 redirect to home */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>

@@ -40,7 +40,14 @@ const eventSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["Conference", "Hackathon", "Workshop", "Expo", "Meetup", "Entertainment"],
+      enum: [
+        "Conference",
+        "Hackathon",
+        "Workshop",
+        "Expo",
+        "Meetup",
+        "Entertainment",
+      ],
       required: true,
     },
     mode: {
@@ -68,11 +75,33 @@ const eventSchema = new mongoose.Schema(
     source: {
       type: String,
     },
+    submittedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    participants: [
+      {
+        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        teamName: { type: String, default: "" },
+        registeredAt: { type: Date, default: Date.now },
+      }
+    ],
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending",
+    },
   },
   { timestamps: true },
 );
 
 // Text index for search
-eventSchema.index({ title: "text", description: "text", tags: "text", location: "text", organizer: "text" });
+eventSchema.index({
+  title: "text",
+  description: "text",
+  tags: "text",
+  location: "text",
+  organizer: "text",
+});
 
 export default mongoose.model("Event", eventSchema);

@@ -40,7 +40,7 @@ export const socialLogin = async (req, res) => {
         email,
         avatar: picture || DEFAULT_AVATAR,
         authProvider,
-        role: "user",
+        role: (role === "organizer") ? "organizer" : "user",
       });
       await user.save();
     }
