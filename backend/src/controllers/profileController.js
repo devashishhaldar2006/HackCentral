@@ -16,10 +16,10 @@ export const getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
     const safeUser = getSafeUserData(user);
-    res.json({ message: "User fetched successfully", data: safeUser });
+    res.json({ success: true, message: "User fetched successfully", data: safeUser });
   } catch (error) {
     handleError(res, error, "Error fetching user data");
   }
@@ -29,7 +29,7 @@ export const editProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
     validateProfileUpdateData(req);
     const {
@@ -65,7 +65,7 @@ export const editProfile = async (req, res) => {
     const safeUser = getSafeUserData(user);
     // Log profile update activity
     logActivity(user._id, 'profile_update', null, 1);
-    res.json({ message: "Profile updated successfully", data: safeUser });
+    res.json({ success: true, message: "Profile updated successfully", data: safeUser });
   } catch (error) {
     handleError(res, error, "Error updating profile");
   }
@@ -75,12 +75,11 @@ export const changePassword = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
 
     if (!user.password || user.authProvider !== "local") {
-      return res.status(400).json({
-        message: `Password change is not available for ${user.authProvider} sign-in accounts`,
+      return res.status(400).json({ success: false, message: `Password change is not available for ${user.authProvider} sign-in accounts`,
       });
     }
 
@@ -89,14 +88,14 @@ export const changePassword = async (req, res) => {
   
     const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Current password is incorrect" });
+      return res.status(400).json({ success: false, message: "Current password is incorrect" });
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedPassword;
     await user.save();
 
-    res.json({ message: "Password changed successfully" });
+    res.json({ success: true, message: "Password changed successfully" });
   } catch (error) {
     handleError(res, error, "Error changing password");
   }
@@ -106,7 +105,7 @@ export const changeAvatar = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
 
     // Validate the uploaded file
@@ -130,8 +129,7 @@ export const changeAvatar = async (req, res) => {
     }
 
     const safeUser = getSafeUserData(user);
-    res.json({
-      message: "Avatar uploaded successfully",
+    res.json({ success: true, message: "Avatar uploaded successfully",
       data: safeUser,
     });
   } catch (error) {
@@ -143,7 +141,7 @@ export const deleteAvatar = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
 
     const oldAvatarPublicId = user.avatarPublicId;
@@ -163,8 +161,7 @@ export const deleteAvatar = async (req, res) => {
     }
 
     const safeUser = getSafeUserData(user);
-    res.json({
-      message: "Avatar removed successfully",
+    res.json({ success: true, message: "Avatar removed successfully",
       data: safeUser,
     });
   } catch (error) {

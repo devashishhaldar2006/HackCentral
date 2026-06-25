@@ -12,5 +12,5 @@ export const sendTokenResponse = (user, message, res) => {
 
   const safeUser = getSafeUserData(user);
 
-  res.json({ message, data: safeUser });
+  res.json({ success: true, message, data: safeUser });
 };

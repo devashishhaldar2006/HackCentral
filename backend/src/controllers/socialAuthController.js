@@ -7,14 +7,14 @@ export const socialLogin = async (req, res) => {
   try {
     const { idToken, role } = req.body;
     if (!idToken) {
-      return res.status(400).json({ message: "Firebase ID token is required." });
+      return res.status(400).json({ success: false, message: "Firebase ID token is required." });
     }
 
     const decodedToken = await admin.auth().verifyIdToken(idToken);
     const { email, name, picture, firebase } = decodedToken;
 
     if (!email) {
-      return res.status(400).json({ message: "Email is required for authentication." });
+      return res.status(400).json({ success: false, message: "Email is required for authentication." });
     }
 
     const providerData = firebase?.sign_in_provider || "unknown";
@@ -24,8 +24,8 @@ export const socialLogin = async (req, res) => {
 
     let user = await User.findOne({ email });
 
-    if (role && !["user", "organizer"].includes(role)) {
-      return res.status(400).json({ message: "Invalid role value." });
+    if (role !== undefined && !["user", "organizer"].includes(role)) {
+      return res.status(400).json({ success: false, message: "Invalid role value." });
     }
 
     if (user) {
@@ -44,7 +44,7 @@ export const socialLogin = async (req, res) => {
         email,
         avatar: picture || DEFAULT_AVATAR,
         authProvider,
-        role: role || "user",
+        role: role ?? "user",
       });
       await user.save();
     }
@@ -52,8 +52,7 @@ export const socialLogin = async (req, res) => {
     sendTokenResponse(user, "Signed in successfully", res);
   } catch (error) {
     console.error("Social login error:", error);
-    res.status(401).json({
-      message: "Authentication failed. Please try again.",
+    res.status(401).json({ success: false, message: "Authentication failed. Please try again.",
     });
   }
 };

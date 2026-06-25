@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import EventCard from "../components/ui/EventCard";
-
+import { EventCardSkeleton } from "../components/ui/Skeleton";
 const SavedEventsPage = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -53,13 +53,10 @@ const SavedEventsPage = () => {
 
         {/* Loading */}
         {loading && (
-          <div className="flex items-center justify-center py-24">
-            <div className="flex flex-col items-center gap-4">
-              <div className="w-10 h-10 border-4 border-[#0d4af2]/30 border-t-[#0d4af2] rounded-full animate-spin"></div>
-              <p className="text-slate-500 dark:text-slate-400 text-sm">
-                Loading your saved events…
-              </p>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(6)].map((_, i) => (
+              <EventCardSkeleton key={i} />
+            ))}
           </div>
         )}
 

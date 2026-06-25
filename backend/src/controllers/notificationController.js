@@ -18,15 +18,22 @@ export const getNotifications = async (req, res) => {
       data: notifications,
     });
   } catch (error) {
-    res.status(500).json({ message: "Failed to fetch notifications", error: error.message });
+    res.status(500).json({ success: false, message: "Failed to fetch notifications", error: error.message });
   }
 };
 
 export const markAsRead = async (req, res) => {
   try {
-    const notification = await Notification.findById(req.params.id);
+    const filter = {
+      _id: req.params.id,
+      $or: [{ recipient: req.user._id }]
+    };
+    if (req.user.role === "user") {
+      filter.$or.push({ recipient: null });
+    }
+    const notification = await Notification.findOne(filter);
     if (!notification) {
-      return res.status(404).json({ message: "Notification not found" });
+      return res.status(404).json({ success: false, message: "Notification not found" });
     }
 
     // Add user to readBy array if not already there
@@ -37,6 +44,6 @@ export const markAsRead = async (req, res) => {
 
     res.json({ success: true, message: "Marked as read" });
   } catch (error) {
-    res.status(500).json({ message: "Failed to mark as read", error: error.message });
+    res.status(500).json({ success: false, message: "Failed to mark as read", error: error.message });
   }
 };

@@ -14,7 +14,7 @@ export const signup = async (req, res) => {
     if (existingUser) {
       return res
         .status(409)
-        .json({ message: "An account with this email already exists." });
+        .json({ success: false, message: "An account with this email already exists." });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({
@@ -37,22 +37,21 @@ export const signin = async (req, res) => {
     const email = rawEmail.toLowerCase();
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ message: "Invalid email or password." });
+      return res.status(401).json({ success: false, message: "Invalid email or password." });
     }
     // Guard: social-login users don't have a password
     if (!user.password) {
-      return res.status(400).json({
-        message: `This account uses ${user.authProvider} sign-in. Please use the ${user.authProvider} button to log in.`,
+      return res.status(400).json({ success: false, message: `This account uses ${user.authProvider} sign-in. Please use the ${user.authProvider} button to log in.`,
       });
     }
 
     if (role && user.role !== role) {
-      return res.status(403).json({ message: "Invalid role for this user." });
+      return res.status(403).json({ success: false, message: "Invalid role for this user." });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid email or password." });
+      return res.status(401).json({ success: false, message: "Invalid email or password." });
     }
 
     sendTokenResponse(user, "User signed in successfully", res);
@@ -67,8 +66,8 @@ export const signout = (req, res) => {
     const opts = getCookieOptions(0);
     delete opts.expires;
     res.clearCookie("token", opts);
-    res.json({ message: "User signed out successfully" });
+    res.json({ success: true, message: "User signed out successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Error occurred while signing out." });
+    res.status(500).json({ success: false, message: "Error occurred while signing out." });
   }
 };

@@ -9,20 +9,20 @@ export const saveEvent = async (req, res) => {
     const userId = req.user._id;
     const { eventId } = req.body;
     if (!eventId) {
-      return res.status(400).json({ message: 'Event ID is required' });
+      return res.status(400).json({ success: false, message: 'Event ID is required' });
     }
     if (!mongoose.Types.ObjectId.isValid(eventId)) {
-      return res.status(400).json({ message: 'Invalid Event ID' });
+      return res.status(400).json({ success: false, message: 'Invalid Event ID' });
     }
 
     // Verify the event exists before creating a dangling reference
     const eventExists = await Event.exists({ _id: eventId });
     if (!eventExists) {
-      return res.status(404).json({ message: 'Event not found' });
+      return res.status(404).json({ success: false, message: 'Event not found' });
     }
 
     const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
 
     // Prevent duplicates
     const alreadySaved = user.bookmarkedEvents.some(
@@ -34,13 +34,12 @@ export const saveEvent = async (req, res) => {
       // Log activity + award XP for bookmarking
       logActivity(userId, 'bookmark', eventId, 2);
     }
-    return res.status(200).json({
-      message: 'Event saved',
+    return res.status(200).json({ success: true, message: 'Event saved',
       bookmarkedEvents: user.bookmarkedEvents,
     });
   } catch (err) {
     console.error('saveEvent error:', err);
-    return res.status(500).json({ message: 'Server error' });
+    return res.status(500).json({ success: false, message: 'Server error' });
   }
 };
 
@@ -50,14 +49,14 @@ export const unsaveEvent = async (req, res) => {
     const userId = req.user._id;
     const { eventId } = req.body;
     if (!eventId) {
-      return res.status(400).json({ message: 'Event ID is required' });
+      return res.status(400).json({ success: false, message: 'Event ID is required' });
     }
     if (!mongoose.Types.ObjectId.isValid(eventId)) {
-      return res.status(400).json({ message: 'Invalid Event ID' });
+      return res.status(400).json({ success: false, message: 'Invalid Event ID' });
     }
 
     const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
 
     user.bookmarkedEvents = user.bookmarkedEvents.filter(
       (id) => id.toString() !== eventId.toString()
@@ -65,13 +64,12 @@ export const unsaveEvent = async (req, res) => {
     await user.save();
     // Log unbookmark activity (no XP)
     logActivity(userId, 'unbookmark', eventId, 0);
-    return res.status(200).json({
-      message: 'Event removed from saved',
+    return res.status(200).json({ success: true, message: 'Event removed from saved',
       bookmarkedEvents: user.bookmarkedEvents,
     });
   } catch (err) {
     console.error('unsaveEvent error:', err);
-    return res.status(500).json({ message: 'Server error' });
+    return res.status(500).json({ success: false, message: 'Server error' });
   }
 };
 
@@ -80,10 +78,10 @@ export const getSavedEvents = async (req, res) => {
   try {
     const userId = req.user._id;
     const user = await User.findById(userId).populate('bookmarkedEvents');
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
     return res.status(200).json({ savedEvents: user.bookmarkedEvents });
   } catch (err) {
     console.error('getSavedEvents error:', err);
-    return res.status(500).json({ message: 'Server error' });
+    return res.status(500).json({ success: false, message: 'Server error' });
   }
 };
