@@ -3,12 +3,12 @@ import { ValidationError } from "../lib/validate.js";
 
 export const handleError = (res, error, fallbackMessage = "Internal server error") => {
   if (!error || typeof error !== 'object') {
-    return res.status(500).json({ message: fallbackMessage, error: String(error) });
+    return res.status(500).json({ success: false, message: fallbackMessage, error: String(error) });
   }
 
   // Custom validation errors thrown by our validate.js
   if (error instanceof ValidationError || error.isValidationError) {
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ success: false, message: error.message });
   }
 
   // Mongoose schema validation errors
@@ -16,7 +16,7 @@ export const handleError = (res, error, fallbackMessage = "Internal server error
     error.name === "ValidationError" ||
     error instanceof mongoose.Error.ValidationError
   ) {
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ success: false, message: error.message });
   }
 
   // Mongoose cast errors (invalid ObjectId, etc.)
@@ -24,7 +24,7 @@ export const handleError = (res, error, fallbackMessage = "Internal server error
     error.name === "CastError" ||
     error instanceof mongoose.Error.CastError
   ) {
-    return res.status(400).json({ message: "Invalid data format" });
+    return res.status(400).json({ success: false, message: "Invalid data format" });
   }
 
   // String-based validation detection (for controllers that throw plain Errors)
@@ -35,10 +35,10 @@ export const handleError = (res, error, fallbackMessage = "Internal server error
     msg.includes("Invalid");
 
   if (isValidation) {
-    return res.status(400).json({ message: msg });
+    return res.status(400).json({ success: false, message: msg });
   }
 
   // Everything else → 500
   console.error(`[${fallbackMessage}]:`, error);
-  res.status(500).json({ message: fallbackMessage });
+  res.status(500).json({ success: false, message: fallbackMessage });
 };

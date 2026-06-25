@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
@@ -8,6 +8,12 @@ import { toast } from "react-hot-toast";
 export const AnnouncementModal = ({ isOpen, onClose, event }) => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setMessage("");
+    }
+  }, [isOpen, event?._id]);
 
   if (!isOpen || !event) return null;
 

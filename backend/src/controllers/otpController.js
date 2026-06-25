@@ -15,7 +15,7 @@ export const sendOTP = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user || !user.password) {
-      return res.status(200).json({ message: "If your email is registered with a password, you will receive an OTP." });
+      return res.status(200).json({ success: true, message: "If your email is registered with a password, you will receive an OTP." });
     }
     //sliding window logic 
     const now = Date.now();
@@ -23,8 +23,7 @@ export const sendOTP = async (req, res) => {
     // 1. Cooldown check
     if (user.otpCooldown && user.otpCooldown > now) {
       const remainingSeconds = Math.ceil((user.otpCooldown - now) / 1000);
-      return res.status(429).json({
-        message: `Please wait ${remainingSeconds} seconds before requesting a new OTP.`,
+      return res.status(429).json({ success: false, message: `Please wait ${remainingSeconds} seconds before requesting a new OTP.`,
       });
     }
 
@@ -37,8 +36,7 @@ export const sendOTP = async (req, res) => {
     if (!isDifferentWindow && originalCount >= MAX_OTP_REQUESTS) {
       const updatedCooldown = now + RATE_LIMIT_WINDOW;
       await User.updateOne({ _id: user._id }, { $set: { otpCooldown: updatedCooldown } });
-      return res.status(429).json({
-        message: "Too many OTP requests. Please try again after an hour.",
+      return res.status(429).json({ success: false, message: "Too many OTP requests. Please try again after an hour.",
       });
     }
 
@@ -71,8 +69,7 @@ export const sendOTP = async (req, res) => {
     );
 
     if (!updatedUser) {
-       return res.status(429).json({
-         message: "Please wait before requesting a new OTP.",
+       return res.status(429).json({ success: false, message: "Please wait before requesting a new OTP.",
        });
     }
 
@@ -99,7 +96,7 @@ export const sendOTP = async (req, res) => {
       throw emailError;
     }
 
-    res.status(200).json({ message: "If your email is registered with a password, you will receive an OTP." });
+    res.status(200).json({ success: true, message: "If your email is registered with a password, you will receive an OTP." });
   } catch (error) {
     handleError(res, error, "Error sending OTP");
   }
@@ -115,8 +112,7 @@ export const verifyOTPAndReset = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && user.otpAttempts >= 5) {
-      return res.status(429).json({
-        message: "Too many incorrect attempts. Try again later.",
+      return res.status(429).json({ success: false, message: "Too many incorrect attempts. Try again later.",
       });
     }
 
@@ -130,8 +126,7 @@ export const verifyOTPAndReset = async (req, res) => {
         user.otpAttempts = (user.otpAttempts || 0) + 1;
         await user.save();
       }
-      return res.status(400).json({
-        message: "Invalid or expired OTP",
+      return res.status(400).json({ success: false, message: "Invalid or expired OTP",
       });
     }
 
@@ -148,7 +143,7 @@ export const verifyOTPAndReset = async (req, res) => {
 
     await user.save();
 
-    res.json({ message: "Password reset successful" });
+    res.json({ success: true, message: "Password reset successful" });
   } catch (error) {
     handleError(res, error, "Error resetting password");
   }

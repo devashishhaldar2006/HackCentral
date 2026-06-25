@@ -32,7 +32,7 @@ const Body = () => {
     } else {
       disconnectSocket();
     }
-  }, [user]);
+  }, [user?._id, user?.role]);
 
   return (
     <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">

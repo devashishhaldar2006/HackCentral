@@ -12,7 +12,7 @@ export const getUserDashboard = async (req, res) => {
       .populate("bookmarkedEvents");
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
     const now = new Date();
     // 1. Overview Stats
@@ -301,7 +301,7 @@ export const getUserDashboard = async (req, res) => {
     });
   } catch (err) {
     console.error("getUserDashboard error:", err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
@@ -311,11 +311,11 @@ export const getOrganizerDashboard = async (req, res) => {
     const user = await User.findById(userId).populate("submittedEvents");
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
 
     if (user.role !== "organizer") {
-      return res.status(403).json({ message: "Access denied — organizer only" });
+      return res.status(403).json({ success: false, message: "Access denied — organizer only" });
     }
 
     const submittedEvents = (user.submittedEvents || []).filter(Boolean);
@@ -427,6 +427,6 @@ export const getOrganizerDashboard = async (req, res) => {
     });
   } catch (err) {
     console.error("getOrganizerDashboard error:", err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };

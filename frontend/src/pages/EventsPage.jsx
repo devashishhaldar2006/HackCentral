@@ -9,6 +9,8 @@ import {
   SORT_OPTIONS,
 } from "../lib/eventUtils";
 import EventCard from "../components/ui/EventCard";
+import { EventCardSkeleton } from "../components/ui/Skeleton";
+import { motion, AnimatePresence } from "framer-motion";
 
 const EventsPage = () => {
   const [events, setEvents] = useState([]);
@@ -380,17 +382,7 @@ const EventsPage = () => {
           {loading && (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden animate-pulse">
-                  <div className="h-44 bg-slate-200 dark:bg-slate-800"></div>
-                  <div className="p-5 space-y-4">
-                    <div className="h-5 bg-slate-200 dark:bg-slate-800 rounded w-3/4"></div>
-                    <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/2"></div>
-                    <div className="flex gap-2">
-                      <div className="h-6 w-16 bg-slate-200 dark:bg-slate-800 rounded"></div>
-                      <div className="h-6 w-16 bg-slate-200 dark:bg-slate-800 rounded"></div>
-                    </div>
-                  </div>
-                </div>
+                <EventCardSkeleton key={i} />
               ))}
             </div>
           )}

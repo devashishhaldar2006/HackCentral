@@ -287,9 +287,19 @@ export const parseCookies = (cookieStr) => {
   if (!cookieStr) return {};
   return cookieStr
     .split(";")
-    .map((v) => v.split("="))
-    .reduce((acc, v) => {
-      acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1] ? v[1].trim() : "");
+    .reduce((acc, pair) => {
+      const index = pair.indexOf("=");
+      if (index === -1) return acc; // ignore invalid cookies
+      
+      const key = pair.substring(0, index).trim();
+      const val = pair.substring(index + 1).trim();
+      
+      try {
+        acc[decodeURIComponent(key)] = decodeURIComponent(val);
+      } catch (e) {
+        // Fallback if decodeURIComponent fails
+        acc[key] = val;
+      }
       return acc;
     }, {});
 };

@@ -4,7 +4,7 @@ import { ENV } from "./env.js";
 import { parseCookies } from "./utils.js";
 
 let io;
-const userSocketMap = new Map(); // userId -> socketId
+const userSocketMap = new Map(); // userId -> Set of socketIds
 
 // Helper to parse cookies from string
 
@@ -43,26 +43,28 @@ export const initializeSocket = (server) => {
   });
 
   io.on("connection", (socket) => {
-    console.log(`Socket connected: ${socket.id} (User: ${socket.userId})`);
-    
     // Track user socket
-    userSocketMap.set(socket.userId, socket.id);
+    if (!userSocketMap.has(socket.userId)) {
+      userSocketMap.set(socket.userId, new Set());
+    }
+    userSocketMap.get(socket.userId).add(socket.id);
 
     // Join a specific event room
     socket.on("join_event_room", (eventId) => {
       socket.join(`event_${eventId}`);
-      console.log(`User ${socket.userId} joined room event_${eventId}`);
     });
-
     // Leave a specific event room
     socket.on("leave_event_room", (eventId) => {
       socket.leave(`event_${eventId}`);
-      console.log(`User ${socket.userId} left room event_${eventId}`);
     });
-
     socket.on("disconnect", () => {
-      console.log(`Socket disconnected: ${socket.id} (User: ${socket.userId})`);
-      userSocketMap.delete(socket.userId);
+      const userSockets = userSocketMap.get(socket.userId);
+      if (userSockets) {
+        userSockets.delete(socket.id);
+        if (userSockets.size === 0) {
+          userSocketMap.delete(socket.userId);
+        }
+      }
     });
   });
 
@@ -78,5 +80,6 @@ export const getIO = () => {
 };
 
 export const getSocketIdForUser = (userId) => {
-  return userSocketMap.get(userId.toString());
+  const sockets = userSocketMap.get(userId.toString());
+  return sockets ? Array.from(sockets) : [];
 };

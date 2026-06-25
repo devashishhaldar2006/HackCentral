@@ -80,7 +80,7 @@ const Header = () => {
             /* Logged-in State */
             <>
               {/* Notifications bell */}
-              <div className="hidden sm:block">
+              <div className="block">
                 <NotificationBell />
               </div>
 

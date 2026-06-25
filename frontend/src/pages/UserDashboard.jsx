@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Skeleton } from "../components/ui/Skeleton";
 import axios from "axios";
 import { motion } from "framer-motion";
 import CalendarHeatmap from "react-calendar-heatmap";
@@ -58,12 +59,31 @@ const UserDashboard = () => {
   // ── Loading state ──
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-[#0a0f1e] flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-[#0d4af2]/30 border-t-[#0d4af2] rounded-full animate-spin" />
-          <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">
-            Loading your dashboard…
-          </p>
+      <div className="min-h-screen bg-slate-50 dark:bg-[#0a0f1e] pt-6 pb-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto space-y-6">
+          <div className="flex justify-between items-center mb-8">
+            <div className="space-y-2">
+              <Skeleton className="h-10 w-48" />
+              <Skeleton className="h-4 w-64" />
+            </div>
+            <Skeleton className="h-10 w-32" />
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Skeleton className="h-28 w-full" />
+            <Skeleton className="h-28 w-full" />
+            <Skeleton className="h-28 w-full" />
+            <Skeleton className="h-28 w-full" />
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+            <div className="lg:col-span-2 space-y-6">
+              <Skeleton className="h-80 w-full" />
+              <Skeleton className="h-64 w-full" />
+            </div>
+            <div className="space-y-6">
+              <Skeleton className="h-64 w-full" />
+              <Skeleton className="h-64 w-full" />
+            </div>
+          </div>
         </div>
       </div>
     );

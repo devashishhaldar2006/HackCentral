@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { Skeleton } from "../components/ui/Skeleton";
 import axios from "axios";
 import { BASE_URL } from "../lib/constants";
 import { DOMAINS, containerVariants, cardVariants } from "../lib/resourceUtils";
@@ -105,9 +106,21 @@ const ResourceHub = () => {
 
         {/* Content */}
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-20 gap-4">
-            <div className="w-12 h-12 border-4 border-[#0d4af2]/30 border-t-[#0d4af2] rounded-full animate-spin" />
-            <p className="text-slate-500 dark:text-slate-400 font-medium">Loading resources...</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="flex flex-col bg-white dark:bg-[#161d2f] rounded-2xl border border-slate-200 dark:border-slate-800 p-5 gap-4">
+                <div className="flex justify-between items-start">
+                  <Skeleton className="w-12 h-12 rounded-xl" />
+                  <Skeleton className="w-16 h-6 rounded-full" />
+                </div>
+                <Skeleton className="w-3/4 h-6" />
+                <Skeleton className="w-full h-12" />
+                <div className="mt-auto pt-4 flex gap-2">
+                  <Skeleton className="w-16 h-6 rounded-full" />
+                  <Skeleton className="w-16 h-6 rounded-full" />
+                </div>
+              </div>
+            ))}
           </div>
         ) : error ? (
           <div className="text-center py-20">
