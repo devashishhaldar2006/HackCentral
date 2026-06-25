@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import {
@@ -8,6 +8,8 @@ import {
   formatDateRange,
 } from "../../lib/eventUtils";
 import { RSVPModal } from "./RSVPModal";
+import { socket } from "../../lib/socket";
+import { toast } from "react-hot-toast";
 
 const EventCard = ({ event, idx }) => {
   const dispatch = useDispatch();
@@ -29,6 +31,61 @@ const EventCard = ({ event, idx }) => {
   const [loading, setLoading] = useState(false);
   const [rsvpLoading, setRsvpLoading] = useState(false);
   const [isRSVPModalOpen, setIsRSVPModalOpen] = useState(false);
+  const [participantCount, setParticipantCount] = useState(
+    event.participants ? event.participants.length : 0
+  );
+
+  useEffect(() => {
+    // Join the event room to receive real-time updates
+    socket.emit("join_event_room", event._id);
+
+    const handleCountUpdate = (data) => {
+      if (data.eventId === event._id) {
+        setParticipantCount(data.count);
+      }
+    };
+
+    const handleNewAnnouncement = (data) => {
+      if (data.eventId === event._id) {
+        toast.custom((t) => (
+          <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white dark:bg-[#1e293b] shadow-lg rounded-xl pointer-events-auto flex ring-1 ring-black/5`}>
+            <div className="flex-1 w-0 p-4">
+              <div className="flex items-start">
+                <div className="flex-shrink-0 pt-0.5">
+                  <span className="material-symbols-outlined text-[#0d4af2]">campaign</span>
+                </div>
+                <div className="ml-3 flex-1">
+                  <p className="text-sm font-bold text-gray-900 dark:text-white">
+                    Announcement: {data.eventTitle}
+                  </p>
+                  <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
+                    {data.message}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex border-l border-gray-200 dark:border-slate-700">
+              <button
+                onClick={() => toast.dismiss(t.id)}
+                className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-[#0d4af2] hover:text-[#0d4af2]/80 focus:outline-none focus:ring-2 focus:ring-[#0d4af2]"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        ), { duration: 8000 });
+      }
+    };
+
+    socket.on("participant_count_update", handleCountUpdate);
+    socket.on("new_announcement", handleNewAnnouncement);
+
+    return () => {
+      socket.emit("leave_event_room", event._id);
+      socket.off("participant_count_update", handleCountUpdate);
+      socket.off("new_announcement", handleNewAnnouncement);
+    };
+  }, [event._id]);
 
   const handleRSVPClick = (e) => {
     e.stopPropagation();
@@ -217,9 +274,9 @@ const EventCard = ({ event, idx }) => {
                 ) : (
                   <>
                     RSVP
-                    {event.participants && event.participants.length > 0 && (
+                    {participantCount > 0 && (
                       <span className="ml-1 px-1.5 py-0.5 bg-white/20 rounded text-[10px]">
-                        {event.participants.length}
+                        {participantCount}
                       </span>
                     )}
                   </>

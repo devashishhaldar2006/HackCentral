@@ -24,6 +24,10 @@ export const socialLogin = async (req, res) => {
 
     let user = await User.findOne({ email });
 
+    if (role && !["user", "organizer"].includes(role)) {
+      return res.status(400).json({ message: "Invalid role value." });
+    }
+
     if (user) {
       // Upgrade local account to social, and update avatar if user still has default
       if (user.authProvider === "local" && authProvider !== "local") {
@@ -40,7 +44,7 @@ export const socialLogin = async (req, res) => {
         email,
         avatar: picture || DEFAULT_AVATAR,
         authProvider,
-        role: (role === "organizer") ? "organizer" : "user",
+        role: role || "user",
       });
       await user.save();
     }

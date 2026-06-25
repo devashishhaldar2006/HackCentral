@@ -30,7 +30,9 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
         // Edit mode: format dates to YYYY-MM-DDThh:mm
         const formatDateForInput = (isoString) => {
           if (!isoString) return "";
-          return new Date(isoString).toISOString().slice(0, 16);
+          const d = new Date(isoString);
+          const tzOffset = d.getTimezoneOffset() * 60000;
+          return new Date(d.getTime() - tzOffset).toISOString().slice(0, 16);
         };
         
         setFormData({

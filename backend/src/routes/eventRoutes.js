@@ -1,5 +1,5 @@
 import express from "express";
-import { getEvents, getEventById, getEventCategories, submitEvent, editEvent, deleteEvent, getEventParticipants, registerForEvent } from "../controllers/eventController.js";
+import { getEvents, getEventById, getEventCategories, submitEvent, editEvent, deleteEvent, getEventParticipants, registerForEvent, postAnnouncement } from "../controllers/eventController.js";
 import { authProtect } from "../middlewares/authMiddleware.js";
 
 const eventRouter = express.Router();
@@ -15,5 +15,6 @@ eventRouter.put("/:id", authProtect, editEvent);
 eventRouter.delete("/:id", authProtect, deleteEvent);
 eventRouter.get("/:id/participants", authProtect, getEventParticipants);
 eventRouter.post("/:id/register", authProtect, registerForEvent);
+eventRouter.post("/:id/announcements", authProtect, postAnnouncement);
 
 export default eventRouter;

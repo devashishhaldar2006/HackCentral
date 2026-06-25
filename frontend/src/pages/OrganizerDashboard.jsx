@@ -19,6 +19,9 @@ import { PIE_COLORS, fadeUp, staggerContainerOrganizerDashboard as staggerContai
 import { EmptyState } from "../components/dashboard/DashboardComponents";
 import { EventSubmissionModal } from "../components/dashboard/EventSubmissionModal";
 import { ParticipantsModal } from "../components/dashboard/ParticipantsModal";
+import { AnnouncementModal } from "../components/dashboard/AnnouncementModal";
+import { socket } from "../lib/socket";
+import { toast } from "react-hot-toast";
 
 const OrganizerDashboard = () => {
   const user = useSelector((state) => state.user);
@@ -27,6 +30,7 @@ const OrganizerDashboard = () => {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isParticipantsModalOpen, setIsParticipantsModalOpen] = useState(false);
+  const [isAnnouncementModalOpen, setIsAnnouncementModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [editingEvent, setEditingEvent] = useState(null);
 
@@ -61,9 +65,56 @@ const OrganizerDashboard = () => {
     return () => controller.abort();
   }, []);
 
-  const handleEdit = (event) => {
-    setEditingEvent(event);
-    setIsModalOpen(true);
+  useEffect(() => {
+    const handleNewRegistration = (payload) => {
+      // payload: { eventId, eventTitle, participantName }
+      toast.success(`${payload.participantName} just registered for ${payload.eventTitle}!`, {
+        icon: '👤',
+      });
+      
+      // Update local state without full refetch
+      setData(prev => {
+        if (!prev || !prev.eventPerformance) return prev;
+        
+        const newPerformance = prev.eventPerformance.map(ev => {
+          if (ev._id === payload.eventId && ev.registrations !== "N/A") {
+            return { ...ev, registrations: ev.registrations + 1 };
+          }
+          return ev;
+        });
+
+        // Update total registrations in stats
+        let newTotal = prev.stats.totalRegistrations;
+        if (newPerformance.find(e => e._id === payload.eventId && e.registrations !== "N/A")) {
+          newTotal += 1;
+        }
+
+        return {
+          ...prev,
+          stats: {
+            ...prev.stats,
+            totalRegistrations: newTotal,
+          },
+          eventPerformance: newPerformance,
+        };
+      });
+    };
+
+    socket.on("new_registration", handleNewRegistration);
+    return () => {
+      socket.off("new_registration", handleNewRegistration);
+    };
+  }, []);
+
+  const handleEdit = async (event) => {
+    try {
+      const { data } = await axios.get(`${BASE_URL}/events/${event._id}`);
+      setEditingEvent(data.data);
+      setIsModalOpen(true);
+    } catch (err) {
+      console.error("Failed to fetch event details:", err);
+      alert("Failed to load event details for editing.");
+    }
   };
 
   const handleDelete = async (eventId) => {
@@ -82,6 +133,11 @@ const OrganizerDashboard = () => {
   const handleViewParticipants = (event) => {
     setSelectedEvent(event);
     setIsParticipantsModalOpen(true);
+  };
+
+  const handleAnnounce = (event) => {
+    setSelectedEvent(event);
+    setIsAnnouncementModalOpen(true);
   };
 
   if (loading) {
@@ -413,26 +469,33 @@ const OrganizerDashboard = () => {
                           {event.bookmarks}
                         </span>
                       </td>
-                      <td className="py-3.5 px-3 text-right">
-                        <div className="flex items-center justify-end gap-2">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
                           <button
                             onClick={() => handleViewParticipants(event)}
-                            className="p-1.5 text-slate-400 hover:text-[#0d4af2] hover:bg-[#0d4af2]/10 rounded-lg transition-colors cursor-pointer"
                             title="View Participants"
+                            className="p-2 text-slate-400 hover:text-[#0d4af2] hover:bg-[#0d4af2]/10 rounded-lg transition-colors cursor-pointer"
                           >
                             <span className="material-symbols-outlined text-sm">group</span>
                           </button>
                           <button
+                            onClick={() => handleAnnounce(event)}
+                            title="Post Announcement"
+                            className="p-2 text-slate-400 hover:text-[#0d4af2] hover:bg-[#0d4af2]/10 rounded-lg transition-colors cursor-pointer"
+                          >
+                            <span className="material-symbols-outlined text-sm">campaign</span>
+                          </button>
+                          <button
                             onClick={() => handleEdit(event)}
-                            className="p-1.5 text-slate-400 hover:text-emerald-500 hover:bg-emerald-500/10 rounded-lg transition-colors cursor-pointer"
                             title="Edit Event"
+                            className="p-2 text-slate-400 hover:text-emerald-500 hover:bg-emerald-500/10 rounded-lg transition-colors cursor-pointer"
                           >
                             <span className="material-symbols-outlined text-sm">edit</span>
                           </button>
                           <button
                             onClick={() => handleDelete(event._id)}
-                            className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer"
                             title="Delete Event"
+                            className="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-500/10 rounded-lg transition-colors cursor-pointer"
                           >
                             <span className="material-symbols-outlined text-sm">delete</span>
                           </button>
@@ -461,7 +524,19 @@ const OrganizerDashboard = () => {
 
       <ParticipantsModal
         isOpen={isParticipantsModalOpen}
-        onClose={() => setIsParticipantsModalOpen(false)}
+        onClose={() => {
+          setIsParticipantsModalOpen(false);
+          setSelectedEvent(null);
+        }}
+        event={selectedEvent}
+      />
+
+      <AnnouncementModal
+        isOpen={isAnnouncementModalOpen}
+        onClose={() => {
+          setIsAnnouncementModalOpen(false);
+          setSelectedEvent(null);
+        }}
         event={selectedEvent}
       />
     </div>
