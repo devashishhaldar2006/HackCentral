@@ -145,16 +145,18 @@ const Header = () => {
                         </span>
                         My Profile
                       </Link>
-                      <Link
-                        to="/saved"
-                        onClick={() => setProfileDropdownOpen(false)}
-                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
-                      >
-                        <span className="material-symbols-outlined text-lg">
-                          bookmark
-                        </span>
-                        Saved Events
-                      </Link>
+                      {(!user || user.role !== "organizer") && (
+                        <Link
+                          to="/saved"
+                          onClick={() => setProfileDropdownOpen(false)}
+                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                        >
+                          <span className="material-symbols-outlined text-lg">
+                            bookmark
+                          </span>
+                          Saved Events
+                        </Link>
+                      )}
 
                       <div className="border-t border-slate-100 dark:border-slate-700/50 mt-1 pt-1">
                         <button

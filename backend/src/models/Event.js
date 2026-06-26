@@ -47,6 +47,7 @@ const eventSchema = new mongoose.Schema(
         "Expo",
         "Meetup",
         "Entertainment",
+        "Competition",
       ],
       required: true,
     },

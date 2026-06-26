@@ -75,9 +75,7 @@ const HomePage = () => {
           </h1>
 
           <p className="mt-6 text-slate-400 text-lg md:text-xl max-w-2xl leading-relaxed">
-            Discover hackathons, find dream teammates, and build projects that
-            launch careers — all on one platform designed for the next
-            generation of developers.
+            Discover hackathons, level up with our Resource Hub, and refine your ideas in the Project Lab — all on one platform designed for the next generation of developers.
           </p>
 
           {/* CTA buttons */}
@@ -279,8 +277,8 @@ const HomePage = () => {
               <span className="text-cyan-200">Extraordinary?</span>
             </h2>
             <p className="mt-4 text-blue-100/80 text-lg max-w-xl mx-auto">
-              Join 50,000+ developers already winning hackathons, finding
-              teammates, and launching careers on HackCentral.
+              Join 50,000+ developers already winning hackathons, refining their
+              ideas, and launching careers on HackCentral.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
               <Link

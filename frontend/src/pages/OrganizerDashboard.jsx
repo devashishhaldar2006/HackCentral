@@ -484,8 +484,8 @@ const OrganizerDashboard = () => {
                           {event.bookmarks}
                         </span>
                       </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-2">
+                      <td className="py-3.5 px-3">
+                        <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => handleViewParticipants(event)}
                             title="View Participants"

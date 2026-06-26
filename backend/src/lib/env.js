@@ -11,6 +11,7 @@ export const ENV={
     MONGO_DB_URI: process.env.MONGO_DB_URI,
     JWT_SECRET: process.env.JWT_SECRET,
     PORT: process.env.PORT,
+    FRONTEND_URL: process.env.FRONTEND_URL,
     FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
     FIREBASE_PRIVATE_KEY_ID: process.env.FIREBASE_PRIVATE_KEY_ID,
     FIREBASE_PRIVATE_KEY: process.env.FIREBASE_PRIVATE_KEY,
