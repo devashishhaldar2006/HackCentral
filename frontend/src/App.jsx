@@ -15,6 +15,8 @@ import UserDashboard from "./pages/UserDashboard";
 import SavedEventsPage from "./pages/SavedEventsPage";
 import ResourceHub from "./pages/ResourceHub";
 import ResourceDetails from "./pages/ResourceDetails";
+import ErrorPage from "./pages/ErrorPage";
+import ErrorBoundary from "./components/layout/ErrorBoundary";
 import { ProtectedRoute, OrganizerRoute, UserRoute, AuthLoader, GuestRoute } from "./components/auth/RouteGuards";
 
 function App() {
@@ -22,7 +24,8 @@ function App() {
     <Provider store={appStore}>
       <BrowserRouter basename="/">
         <AuthLoader>
-          <Routes>
+          <ErrorBoundary>
+            <Routes>
           <Route path="/" element={<Body />}>
             <Route index element={<HomePage />} />
             <Route
@@ -107,10 +110,11 @@ function App() {
                 </UserRoute>
               }
             />
-            {/* Catch-all → 404 redirect to home */}
-            <Route path="*" element={<Navigate to="/" replace />} />
+            {/* Catch-all */}
+            <Route path="*" element={<ErrorPage type="404" />} />
           </Route>
         </Routes>
+        </ErrorBoundary>
         </AuthLoader>
       </BrowserRouter>
     </Provider>

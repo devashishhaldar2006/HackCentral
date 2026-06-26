@@ -516,7 +516,7 @@ export const validateEventSubmissionData = (req) => {
   }
 
   // 4. Enums
-  const allowedCategories = ["Conference", "Hackathon", "Workshop", "Expo", "Meetup", "Entertainment"];
+  const allowedCategories = ["Conference", "Hackathon", "Workshop", "Expo", "Meetup", "Entertainment", "Competition"];
   if (!allowedCategories.includes(category)) {
     throw new ValidationError(`Invalid category. Allowed: ${allowedCategories.join(", ")}`);
   }

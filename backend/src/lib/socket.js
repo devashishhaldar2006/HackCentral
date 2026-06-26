@@ -12,7 +12,11 @@ export const initializeSocket = (server) => {
   io = new Server(server, {
     cors: {
       origin: (origin, callback) => {
-        if (!origin || /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) {
+        if (
+          !origin ||
+          /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin) ||
+          (ENV.FRONTEND_URL && origin === ENV.FRONTEND_URL)
+        ) {
           callback(null, true);
         } else {
           callback(new Error("Not allowed by CORS"));

@@ -211,6 +211,7 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
                       <option value="Expo">Expo</option>
                       <option value="Meetup">Meetup</option>
                       <option value="Entertainment">Entertainment</option>
+                      <option value="Competition">Competition</option>
                     </select>
                   </div>
 

@@ -12,43 +12,43 @@ const TESTIMONIALS = [
     name: "Anika Sharma",
     role: "Full-Stack Developer",
     avatar: "https://api.dicebear.com/9.x/avataaars/svg?seed=Anika",
-    text: "HackCentral helped me find my first hackathon team. We ended up winning and getting internship offers. This platform is genuinely life-changing!",
+    text: "HackCentral's Resource Hub gave me the exact templates I needed to jumpstart my project. We ended up winning!",
   },
   {
     name: "David Chen",
     role: "ML Engineer",
     avatar: "https://api.dicebear.com/9.x/avataaars/svg?seed=David",
-    text: "The team-finder feature matched me with devs who complemented my skill-set perfectly. We shipped a production app in 36 hours.",
+    text: "The Project Lab's AI Evaluator helped us refine our idea before writing a single line of code. Incredible tool.",
   },
   {
     name: "Priya Verma",
     role: "UI/UX Designer",
     avatar: "https://api.dicebear.com/9.x/avataaars/svg?seed=Priya",
-    text: "As a designer, I always felt out of place at hackathons. HackCentral's community showed me how much design matters in dev events.",
+    text: "Being able to generate a pitch deck instantly allowed us to focus more on design and development. Highly recommended!",
   },
 ];
 
 /* ─── how it works steps ─── */
 const STEPS = [
   {
-    icon: "person_search",
-    title: "Create Your Profile",
-    desc: "Showcase your skills, tech stack, and interests so teams can find you.",
-  },
-  {
     icon: "explore",
     title: "Discover Events",
     desc: "Browse curated hackathons, workshops, and coding contests worldwide.",
   },
   {
-    icon: "groups",
-    title: "Find Your Team",
-    desc: "Our smart matcher connects you with complementary teammates instantly.",
+    icon: "library_books",
+    title: "Learn & Prepare",
+    desc: "Access our Resource Hub to find tutorials, templates, and guides for your next project.",
+  },
+  {
+    icon: "science",
+    title: "Project Lab",
+    desc: "Use AI to evaluate your ideas and generate professional pitch decks before submitting.",
   },
   {
     icon: "rocket_launch",
     title: "Build & Win",
-    desc: "Collaborate in real-time, submit your project, and compete for prizes.",
+    desc: "Submit your project and compete for prizes in top events.",
   },
 ];
 

@@ -7,6 +7,7 @@ export const CATEGORY_ICONS = {
   Expo: "storefront",
   Meetup: "handshake",
   Entertainment: "celebration",
+  Competition: "emoji_events",
 };
 
 /* ── gradient palettes for cards ── */
@@ -29,6 +30,7 @@ export const CATEGORY_COLORS = {
   Expo: "bg-emerald-600",
   Meetup: "bg-sky-500",
   Entertainment: "bg-rose-500",
+  Competition: "bg-fuchsia-600",
 };
 
 export const MODE_COLORS = {
@@ -54,7 +56,7 @@ export const formatDateRange = (start, end) => {
   return `${s} – ${e}`;
 };
 
-export const ALL_CATEGORIES = ["All", "Conference", "Hackathon", "Workshop", "Expo", "Meetup", "Entertainment"];
+export const ALL_CATEGORIES = ["All", "Conference", "Hackathon", "Workshop", "Expo", "Meetup", "Entertainment", "Competition"];
 export const ALL_MODES = ["All Modes", "Online", "Offline", "Hybrid"];
 export const ALL_PRICES = ["All", "Free", "Paid"];
 export const SORT_OPTIONS = [

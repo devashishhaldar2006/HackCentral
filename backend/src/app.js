@@ -13,11 +13,15 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow any localhost origin (5173, 5174, etc.) and no-origin (Postman/server)
-      if (!origin || /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) {
+      // Allow any localhost origin (5173, 5174, etc.), no-origin (Postman/server), or configured FRONTEND_URL
+      if (
+        !origin ||
+        /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin) ||
+        (ENV.FRONTEND_URL && origin === ENV.FRONTEND_URL)
+      ) {
         callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS'));
+        callback(new Error("Not allowed by CORS"));
       }
     },
     credentials: true,
