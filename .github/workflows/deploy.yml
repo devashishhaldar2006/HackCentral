@@ -19,6 +19,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script_stop: true
           script: |
             cd /home/ubuntu/HackCentral
             git fetch origin main
