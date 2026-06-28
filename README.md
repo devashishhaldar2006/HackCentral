@@ -31,7 +31,6 @@
 
 ## 📸 Screenshots
 
-_(Replace these with actual image links once you take screenshots)_
 ![Landing Page](<https://i.postimg.cc/pr00Spmk/Screenshot-(1590).png>)
 ![Dashboard](<https://i.postimg.cc/CKyc9yKS/Screenshot-(1592).png>)
 ![Events](<https://i.postimg.cc/9FMg7tSm/Screenshot-(1591).png>)
