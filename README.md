@@ -25,7 +25,7 @@
 - **Live Website:** [https://hackcentral.me](https://hackcentral.me)
 - **API Docs:** [API Documentation](API_DOCS.md)
 
-[![HackCentral Demo Video](https://img.youtube.com/vi/SghLIZvvfb0/0.jpg)](https://www.youtube.com/watch?v=SghLIZvvfb0)
+[![HackCentral Demo Video](https://img.youtube.com/vi/SghLIZvvfb0/0.jpg?t=1)](https://www.youtube.com/watch?v=SghLIZvvfb0)
 
 ---
 
