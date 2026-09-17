@@ -37,6 +37,11 @@ import resourceRouter from "./routes/resourceRoutes.js";
 import projectLabRouter from "./routes/projectLabRoutes.js";
 import notificationRouter from "./routes/notificationRoutes.js";
 
+// Lightweight health check endpoint for Render health check & cron-job keep-alive pings
+app.get(["/healthz", "/api/health"], (req, res) => {
+  res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
 app.use("/api/auth", authRouter);
 app.use("/api/dashboard", dashboardRouter);
 app.use("/api/profile", profileRouter);
