@@ -12,8 +12,9 @@
 [![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](#)
 [![Express](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)](#)
 [![Socket.IO](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101)](#)
+[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](#)
+[![Render](https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=white)](#)
 [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](#)
-[![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)](#)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](#)
 
 </div>
@@ -22,7 +23,8 @@
 
 ## 🌍 Live Demo
 
-- **Live Website:** [https://hackcentral.me](https://hackcentral.me)
+- **Live Website:** [https://hackcentral.me](https://hackcentral.me) *(Mirror: [hack-central.vercel.app](https://hack-central.vercel.app))*
+- **Backend API:** [https://hackcentral-backend.onrender.com](https://hackcentral-backend.onrender.com)
 - **API Docs:** [API Documentation](API_DOCS.md)
 
 [![HackCentral Demo Video](https://img.youtube.com/vi/SghLIZvvfb0/0.jpg?t=1)](https://www.youtube.com/watch?v=SghLIZvvfb0)
@@ -258,13 +260,14 @@ graph LR
 ---
 
 ## 🚢 Deployment
+ 
+HackCentral is built for high availability and low latency with zero hosting costs:
 
-HackCentral is built for production scalability:
-
-- **Containerization:** Docker
-- **Hosting:** AWS EC2
-- **Database:** MongoDB Atlas
-- **CI/CD:** Automated deployments via GitHub Actions
+- **Frontend:** Hosted on **Vercel** (Global Edge CDN, auto-SSL, instant preview deployments)
+- **Backend:** Hosted on **Render** (Node.js runtime with WebSockets & 24/7 keep-alive)
+- **Database:** **MongoDB Atlas** (Managed Cloud Database)
+- **Domain & DNS:** Custom domain via Namecheap (`hackcentral.me`)
+- **Containerization (Optional):** Docker & Docker Compose for unified local development
 
 ---
 
