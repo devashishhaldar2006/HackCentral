@@ -14,6 +14,7 @@
 [![Socket.IO](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101)](#)
 [![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](#)
 [![Render](https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=white)](#)
+[![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)](#)
 [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](#)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](#)
 
@@ -261,13 +262,14 @@ graph LR
 
 ## 🚢 Deployment
  
-HackCentral is built for high availability and low latency with zero hosting costs:
+HackCentral is built for high availability and low latency with flexible deployment options:
 
 - **Frontend:** Hosted on **Vercel** (Global Edge CDN, auto-SSL, instant preview deployments)
 - **Backend:** Hosted on **Render** (Node.js runtime with WebSockets & 24/7 keep-alive)
+- **Cloud Infrastructure:** Multi-cloud ready with support for **AWS (EC2, VPC, Route 53)**
 - **Database:** **MongoDB Atlas** (Managed Cloud Database)
 - **Domain & DNS:** Custom domain via Namecheap (`hackcentral.me`)
-- **Containerization (Optional):** Docker & Docker Compose for unified local development
+- **Containerization:** Docker & Docker Compose for production and local development
 
 ---
 
