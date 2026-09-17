@@ -12,15 +12,22 @@ export const initializeSocket = (server) => {
   io = new Server(server, {
     cors: {
       origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        if (/^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) return callback(null, true);
+
+        const allowedOrigins = [
+          ENV.FRONTEND_URL,
+          "https://hackcentral.me",
+          "https://www.hackcentral.me",
+        ].filter(Boolean);
+
         if (
-          !origin ||
-          /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin) ||
-          (ENV.FRONTEND_URL && origin === ENV.FRONTEND_URL)
+          allowedOrigins.includes(origin) ||
+          /\.vercel\.app$/.test(new URL(origin).hostname)
         ) {
-          callback(null, true);
-        } else {
-          callback(new Error("Not allowed by CORS"));
+          return callback(null, true);
         }
+        callback(new Error(`Not allowed by CORS: ${origin}`));
       },
       methods: ["GET", "POST", "PUT", "DELETE"],
       credentials: true,

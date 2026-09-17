@@ -13,16 +13,31 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow any localhost origin (5173, 5174, etc.), no-origin (Postman/server), or configured FRONTEND_URL
-      if (
-        !origin ||
-        /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin) ||
-        (ENV.FRONTEND_URL && origin === ENV.FRONTEND_URL)
-      ) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
+      // 1. Allow no-origin (mobile apps, curl, Postman, health check)
+      if (!origin) return callback(null, true);
+
+      // 2. Allow any localhost / 127.0.0.1
+      if (/^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) {
+        return callback(null, true);
       }
+
+      // 3. Build allowed list from ENV.FRONTEND_URL plus common variants
+      const allowedOrigins = [
+        ENV.FRONTEND_URL,
+        "https://hackcentral.me",
+        "https://www.hackcentral.me",
+      ].filter(Boolean);
+
+      // 4. Also allow any Vercel deployment preview domain (*.vercel.app)
+      if (
+        allowedOrigins.includes(origin) ||
+        /\.vercel\.app$/.test(new URL(origin).hostname)
+      ) {
+        return callback(null, true);
+      }
+
+      console.warn(`[CORS Blocked] Origin: ${origin}`);
+      callback(new Error(`Not allowed by CORS: ${origin}`));
     },
     credentials: true,
   }),
