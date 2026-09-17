@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 
-// Use empty string to connect to the same origin (handled by Vite proxy)
-const SOCKET_URL = "";
+// In production (Vercel + Render), point to Render backend URL; in dev, defaults to empty string (Vite proxy)
+const SOCKET_URL = import.meta.env.VITE_BACKEND_URL || "";
 
 export const socket = io(SOCKET_URL, {
   withCredentials: true,

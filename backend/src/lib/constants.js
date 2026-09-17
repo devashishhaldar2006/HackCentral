@@ -7,11 +7,11 @@ export const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1-hour sliding window
 export const MAX_OTP_REQUESTS = 3; // max OTPs per window
 
 export const getCookieOptions = (maxAgeMs = 7 * 24 * 60 * 60 * 1000) => {
-  const isHttps = ENV.FRONTEND_URL?.startsWith("https://") || false;
+  const isHttps = ENV.FRONTEND_URL?.startsWith("https://") || process.env.NODE_ENV === "production";
   return {
     httpOnly: true,
-    secure: isHttps, // Only require HTTPS if the frontend URL is HTTPS
-    sameSite: "lax", // We use lax because Nginx puts frontend and backend on the same origin
+    secure: isHttps, // Must be true when sameSite is 'none'
+    sameSite: isHttps ? "none" : "lax", // 'none' required for cross-domain auth (e.g. Vercel frontend + Render backend)
     path: "/",
     expires: new Date(Date.now() + maxAgeMs),
   };
