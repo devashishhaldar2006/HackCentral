@@ -22,6 +22,13 @@ export const getEvents = async (req, res) => {
 
     const filter = {};
 
+    // Default to approved events for public visibility; allow organizers/admins to filter explicitly
+    if (req.query.status) {
+      filter.status = req.query.status;
+    } else {
+      filter.status = "approved";
+    }
+
     // Regex search for partial matching (much better user experience than strict $text)
     if (search && search.trim()) {
       const safeSearch = search.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -386,5 +393,37 @@ export const postAnnouncement = async (req, res) => {
   } catch (error) {
     console.error("postAnnouncement error:", error);
     res.status(500).json({ success: false, message: "Server error", error: error.message });
+  }
+};
+
+export const moderateEvent = async (req, res) => {
+  try {
+    if (req.user.role !== "admin") {
+      return res.status(403).json({ success: false, message: "Forbidden: Admin role required for event moderation" });
+    }
+
+    const { status } = req.body;
+    if (!["approved", "rejected", "pending"].includes(status)) {
+      return res.status(400).json({ success: false, message: "Invalid moderation status. Must be approved, rejected, or pending" });
+    }
+
+    const event = await Event.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+
+    if (!event) {
+      return res.status(404).json({ success: false, message: "Event not found" });
+    }
+
+    res.json({
+      success: true,
+      message: `Event status updated to ${status}`,
+      data: event,
+    });
+  } catch (error) {
+    console.error("moderateEvent error:", error);
+    res.status(500).json({ success: false, message: "Server error during moderation", error: error.message });
   }
 };

@@ -1,4 +1,6 @@
 import { Server } from "socket.io";
+import { createAdapter } from "@socket.io/redis-adapter";
+import { createClient } from "redis";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { ENV } from "./env.js";
@@ -19,6 +21,25 @@ export const initializeSocket = (server) => {
       credentials: true,
     },
   });
+
+  // Enable Redis adapter for horizontal scaling if REDIS_URL is configured
+  if (ENV.REDIS_URL) {
+    try {
+      const pubClient = createClient({ url: ENV.REDIS_URL });
+      const subClient = pubClient.duplicate();
+
+      Promise.all([pubClient.connect(), subClient.connect()])
+        .then(() => {
+          io.adapter(createAdapter(pubClient, subClient));
+          console.log("✅ Socket.IO Redis Adapter connected for horizontal scaling");
+        })
+        .catch((err) => {
+          console.error("❌ Failed to connect Socket.IO Redis Adapter:", err.message);
+        });
+    } catch (adapterErr) {
+      console.error("Redis adapter configuration error:", adapterErr.message);
+    }
+  }
 
   // Authentication Middleware
   io.use((socket, next) => {

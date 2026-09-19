@@ -20,4 +20,4 @@ export const getCookieOptions = (maxAgeMs = 7 * 24 * 60 * 60 * 1000) => {
 export const JWT_EXPIRY = "7d";
 export const JWT_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000;
 
-export const ROLES = ["user", "organizer"];
+export const ROLES = ["user", "organizer", "admin"];

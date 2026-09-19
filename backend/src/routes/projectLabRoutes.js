@@ -5,12 +5,13 @@ import { authProtect } from "../middlewares/authMiddleware.js";
 
 const projectLabRouter = express.Router();
 
-// Strict rate-limiting for expensive AI endpoints (10 requests per 15 min per user/IP)
+// Strict rate-limiting for expensive AI endpoints (15 requests per 15 min per user/IP)
 const aiRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 15,
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { keyGeneratorIpFallback: false },
   keyGenerator: (req) => req.user?._id?.toString() || req.ip,
   message: {
     success: false,

@@ -24,5 +24,6 @@ export const ENV={
     CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
     CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
     GEMINI_API_KEY: process.env.GEMINI_API_KEY,
-    ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS || ""
+    ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS || "",
+    REDIS_URL: process.env.REDIS_URL || ""
 }

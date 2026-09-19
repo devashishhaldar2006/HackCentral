@@ -47,6 +47,8 @@ app.use("/api/notifications", notificationRouter);
 app.use(globalErrorHandler);
 
 
+export { app };
+
 const startServer = async () => {
   try {
     await connectDB();
@@ -60,4 +62,10 @@ const startServer = async () => {
     process.exit(1);
   }
 };
-startServer();
+
+// Only automatically start listening if run directly (node src/app.js)
+if (process.env.NODE_ENV !== "test") {
+  startServer();
+}
+
+export default app;
