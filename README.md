@@ -92,12 +92,38 @@ Students often rely on multiple platforms to discover hackathons, coding contest
 | **Backend**        | Node.js, Express.js                      |
 | **Database**       | MongoDB Atlas, Mongoose                  |
 | **Authentication** | JWT, OAuth (Google/Firebase)             |
-| **AI**             | Gemini API                               |
-| **Real-Time**      | Socket.IO                                |
-| **Deployment**     | Docker, AWS EC2, Nginx, Let's Encrypt    |
+| **AI**             | Google Gemini API (`gemini-2.5-flash` with Zod schema validation) |
+| **Real-Time**      | Socket.IO (In-memory pub/sub; horizontal scaling via Redis adapter) |
+| **Deployment**     | Docker, Nginx, Let's Encrypt, Vercel (Frontend), Render (Backend) |
 | **Storage**        | Cloudinary                               |
+| **Testing**        | Vitest, Supertest                        |
 
 ---
+
+## 🧪 Automated Testing
+
+The backend includes automated unit and integration tests powered by **Vitest**:
+
+```bash
+cd backend
+npm test
+```
+
+Test coverage includes:
+- **CORS Security**: Verification of origin whitelisting, dev mode localhost scoping, and third-party domain rejection.
+- **AI Schemas**: Strict validation of Gemini JSON responses via Zod schemas and fallback handling.
+- **Data Validation**: Email and password constraint verification.
+
+---
+
+## 🏛️ System Architecture & Scaling Path
+
+### Real-Time Sockets & Horizontal Scaling
+Currently, real-time event rooms and organizer notifications run on in-process Socket.IO instances with database-backed room authorization. To scale horizontally across multiple instances behind a load balancer, configure the `@socket.io/redis-adapter` with a shared Redis or DragonFly instance.
+
+### Data Moderation & Content Integrity
+Event submissions follow a status pipeline (`pending` -> `approved` -> `rejected`). Only approved listings appear in public search indexes. Organizers can submit events, which undergo automated validation for dates, links, and text formatting.
+
 
 ## 🏗️ Architecture
 

@@ -1,7 +1,10 @@
 import { Server } from "socket.io";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 import { ENV } from "./env.js";
 import { parseCookies } from "./utils.js";
+import { checkAllowedOrigin } from "./cors.js";
+import Event from "../models/Event.js";
 
 let io;
 const userSocketMap = new Map(); // userId -> Set of socketIds
@@ -11,24 +14,7 @@ const userSocketMap = new Map(); // userId -> Set of socketIds
 export const initializeSocket = (server) => {
   io = new Server(server, {
     cors: {
-      origin: (origin, callback) => {
-        if (!origin) return callback(null, true);
-        if (/^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) return callback(null, true);
-
-        const allowedOrigins = [
-          ENV.FRONTEND_URL,
-          "https://hackcentral.me",
-          "https://www.hackcentral.me",
-        ].filter(Boolean);
-
-        if (
-          allowedOrigins.includes(origin) ||
-          /\.vercel\.app$/.test(new URL(origin).hostname)
-        ) {
-          return callback(null, true);
-        }
-        callback(new Error(`Not allowed by CORS: ${origin}`));
-      },
+      origin: checkAllowedOrigin,
       methods: ["GET", "POST", "PUT", "DELETE"],
       credentials: true,
     },
@@ -60,13 +46,40 @@ export const initializeSocket = (server) => {
     }
     userSocketMap.get(socket.userId).add(socket.id);
 
-    // Join a specific event room
-    socket.on("join_event_room", (eventId) => {
-      socket.join(`event_${eventId}`);
+    // Join a specific event room with validation & authorization
+    socket.on("join_event_room", async (eventId) => {
+      try {
+        if (!eventId || !mongoose.Types.ObjectId.isValid(eventId)) {
+          return socket.emit("error", { message: "Invalid event ID for room" });
+        }
+
+        const event = await Event.findById(eventId).select("submittedBy participants status");
+        if (!event) {
+          return socket.emit("error", { message: "Event does not exist" });
+        }
+
+        const isOrganizer = event.submittedBy && event.submittedBy.toString() === socket.userId.toString();
+        const isParticipant = event.participants?.some(
+          (p) => p.user && p.user.toString() === socket.userId.toString()
+        );
+
+        // Allow organizer, participant, or public access if event is approved
+        if (!isOrganizer && !isParticipant && event.status !== "approved") {
+          return socket.emit("error", { message: "Unauthorized to join this event room" });
+        }
+
+        socket.join(`event_${eventId}`);
+      } catch (err) {
+        console.error("Error joining event room:", err);
+        socket.emit("error", { message: "Failed to join event room" });
+      }
     });
+
     // Leave a specific event room
     socket.on("leave_event_room", (eventId) => {
-      socket.leave(`event_${eventId}`);
+      if (eventId && mongoose.Types.ObjectId.isValid(eventId)) {
+        socket.leave(`event_${eventId}`);
+      }
     });
     socket.on("disconnect", () => {
       const userSockets = userSocketMap.get(socket.userId);
