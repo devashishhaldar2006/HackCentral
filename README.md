@@ -1,339 +1,386 @@
 <div align="center">
-  <img src="./frontend/public/hackcentral.svg" alt="HackCentral Logo" width="120" />
+  <img src="./frontend/public/hackcentral.svg" alt="HackCentral Logo" width="130" />
 
-# 🚀 HackCentral
-
-**HackCentral is a full-stack MERN platform that helps students discover hackathons, coding contests, workshops, and conferences while providing AI-powered project assistance and real-time event communication.**
+  # 🚀 HackCentral
+  
+  **The ultimate modern hub for students, developers, and organizers to discover hackathons, manage registrations, collaborate via real-time WebSocket communication, and leverage Google Gemini AI for smart pitch decks & project evaluations.**
 
   <br />
 
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](#)
-[![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](#)
-[![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](#)
-[![Express](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)](#)
-[![Socket.IO](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101)](#)
-[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](#)
-[![Render](https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=white)](#)
-[![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)](#)
-[![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](#)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](#)
+  <!-- Core Status & Platforms -->
+  [![Website](https://img.shields.io/badge/Live_Demo-hackcentral.me-FACC15?style=for-the-badge&logo=googlechrome&logoColor=0F172A)](https://hackcentral.me)
+  [![Vercel Deployment](https://img.shields.io/badge/Frontend-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://hackcentral.me)
+  [![Render Backend](https://img.shields.io/badge/Backend-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://hackcentral-backend.onrender.com)
+  [![API Docs](https://img.shields.io/badge/REST_API-Documentation-0284c7?style=for-the-badge&logo=swagger&logoColor=white)](API_DOCS.md)
+  [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
+
+  <br />
+
+  <!-- Frontend Stack -->
+  [![React](https://img.shields.io/badge/React_19-20232A?style=flat-square&logo=react&logoColor=61DAFB)](https://react.dev/)
+  [![Vite](https://img.shields.io/badge/Vite_7-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
+  [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+  [![DaisyUI](https://img.shields.io/badge/DaisyUI_5-5A0EF8?style=flat-square&logo=daisyui&logoColor=white)](https://daisyui.com/)
+  [![Redux Toolkit](https://img.shields.io/badge/Redux_Toolkit-764ABC?style=flat-square&logo=redux&logoColor=white)](https://redux-toolkit.js.org/)
+  [![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=flat-square&logo=framer&logoColor=white)](https://www.framer.com/motion/)
+  [![Recharts](https://img.shields.io/badge/Recharts-22b5bf?style=flat-square&logo=chartdotjs&logoColor=white)](https://recharts.org/)
+
+  <!-- Backend & Database Stack -->
+  [![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
+  [![Express.js](https://img.shields.io/badge/Express.js_5-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com/)
+  [![MongoDB](https://img.shields.io/badge/MongoDB_Atlas-47A248?style=flat-square&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+  [![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=flat-square&logo=mongoose&logoColor=white)](https://mongoosejs.com/)
+  [![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white)](https://redis.io/)
+  [![Socket.IO](https://img.shields.io/badge/Socket.io-010101?style=flat-square&logo=socket.io&logoColor=white)](https://socket.io/)
+
+  <!-- AI & Cloud & Security -->
+  [![Google Gemini](https://img.shields.io/badge/Google_Gemini_AI-4285F4?style=flat-square&logo=googlegemini&logoColor=white)](https://ai.google.dev/)
+  [![Firebase Auth](https://img.shields.io/badge/Firebase_OAuth-FFCA28?style=flat-square&logo=firebase&logoColor=black)](https://firebase.google.com/)
+  [![JWT](https://img.shields.io/badge/JWT_Auth-000000?style=flat-square&logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
+  [![Cloudinary](https://img.shields.io/badge/Cloudinary-3448C5?style=flat-square&logo=cloudinary&logoColor=white)](https://cloudinary.com/)
+  [![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
+  [![Nginx](https://img.shields.io/badge/Nginx-009639?style=flat-square&logo=nginx&logoColor=white)](https://nginx.org/)
+  [![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=flat-square&logo=vitest&logoColor=white)](https://vitest.dev/)
+  [![Zod](https://img.shields.io/badge/Zod-3E67B1?style=flat-square&logo=zod&logoColor=white)](https://zod.dev/)
 
 </div>
 
 <br />
 
-## 🌍 Live Demo
+---
 
-- **Live Website:** [https://hackcentral.me](https://hackcentral.me) *(Mirror: [hack-central.vercel.app](https://hack-central.vercel.app))*
-- **Backend API:** [https://hackcentral-backend.onrender.com](https://hackcentral-backend.onrender.com)
-- **API Docs:** [API Documentation](API_DOCS.md)
+## 📑 Table of Contents
+
+- [🌍 Live Demo & Links](#-live-demo--links)
+- [📸 Screenshots & Walkthrough](#-screenshots--walkthrough)
+- [❓ Problem Statement](#-problem-statement)
+- [✨ Key Features](#-key-features)
+  - [👥 Participant / User Experience](#-participant--user-experience)
+  - [🏢 Organizer Portal](#-organizer-portal)
+  - [🤖 AI Project Lab](#-ai-project-lab)
+  - [⚡ Real-Time WebSocket Engine](#-real-time-websocket-engine)
+- [🛠️ Tech Stack & Architecture](#️-tech-stack--architecture)
+  - [Architecture Diagram](#architecture-diagram)
+  - [Technology Breakdown](#technology-breakdown)
+- [🧪 Testing & Quality Assurance](#-testing--quality-assurance)
+- [📂 Project Directory Structure](#-project-directory-structure)
+- [💻 Getting Started & Local Setup](#-getting-started--local-setup)
+- [🔐 Environment Variables](#-environment-variables)
+- [🐳 Docker Deployment](#-docker-deployment)
+- [🔌 API Overview](#-api-overview)
+- [🚢 Cloud Infrastructure & Deployment](#-cloud-infrastructure--deployment)
+- [🤝 Contributing & License](#-contributing--license)
+- [📫 Contact](#-contact)
+
+---
+
+## 🌍 Live Demo & Links
+
+- 🌐 **Primary Web App:** [https://hackcentral.me](https://hackcentral.me)
+- 🪞 **Vercel Mirror:** [https://hack-central.vercel.app](https://hack-central.vercel.app)
+- ⚙️ **Production REST API:** [https://hackcentral-backend.onrender.com](https://hackcentral-backend.onrender.com)
+- 📖 **API Documentation:** [View API Specification (API_DOCS.md)](API_DOCS.md)
+- 🎥 **Video Demo:** [Watch on YouTube](https://www.youtube.com/watch?v=SghLIZvvfb0)
 
 [![HackCentral Demo Video](https://img.youtube.com/vi/SghLIZvvfb0/0.jpg?t=1)](https://www.youtube.com/watch?v=SghLIZvvfb0)
 
 ---
 
-## 📸 Screenshots
+## 📸 Screenshots & Walkthrough
 
-![Landing Page](<https://i.postimg.cc/pr00Spmk/Screenshot-(1590).png>)
-![Dashboard](<https://i.postimg.cc/CKyc9yKS/Screenshot-(1592).png>)
-![Events](<https://i.postimg.cc/9FMg7tSm/Screenshot-(1591).png>)
-![Resource Hub](<https://i.postimg.cc/J4GKn7DW/Screenshot-(1594).png>)
-![Project Lab](<https://i.postimg.cc/JnxKyG5r/Screenshot-(1593).png>)
-![Organizer Dashboard](<https://i.postimg.cc/q7dGj8m0/Screenshot-(1595).png>)
-![Event Details](<https://i.postimg.cc/1tvcmby4/Screenshot-(1596).png>)
-![Profile](<https://i.postimg.cc/Ss1CF8Gz/Screenshot-(1597).png>)
-![Socket Notifications](https://i.postimg.cc/j2WNs5gK/Screenshot-2026-06-28-171112.png)
+| Landing Page | Explore Events |
+| :---: | :---: |
+| ![Landing Page](https://i.postimg.cc/pr00Spmk/Screenshot-(1590).png) | ![Events](https://i.postimg.cc/9FMg7tSm/Screenshot-(1591).png) |
+
+| User Dashboard & XP | Project Lab (AI Evaluator) |
+| :---: | :---: |
+| ![Dashboard](https://i.postimg.cc/CKyc9yKS/Screenshot-(1592).png) | ![Project Lab](https://i.postimg.cc/JnxKyG5r/Screenshot-(1593).png) |
+
+| Organizer Dashboard | Event Details & Registrations |
+| :---: | :---: |
+| ![Organizer Dashboard](https://i.postimg.cc/q7dGj8m0/Screenshot-(1595).png) | ![Event Details](https://i.postimg.cc/1tvcmby4/Screenshot-(1596).png) |
+
+| Resource Hub | Real-Time Notifications |
+| :---: | :---: |
+| ![Resource Hub](https://i.postimg.cc/J4GKn7DW/Screenshot-(1594).png) | ![Socket Notifications](https://i.postimg.cc/j2WNs5gK/Screenshot-2026-06-28-171112.png) |
 
 ---
 
 ## ❓ Problem Statement
 
-Students often rely on multiple platforms to discover hackathons, coding contests, conferences, and learning resources. HackCentral centralizes these opportunities into a single platform while enhancing the experience with AI-powered project assistance and real-time communication.
+Aspiring software engineers, college students, and tech enthusiasts frequently struggle with fragmented channels to find relevant hackathons, coding contests, and tech conferences. Important announcements, team registrations, and deadline updates are often buried across Discord servers, Slack channels, Google Forms, and scattered websites.
+
+**HackCentral** solves this problem by providing a centralized hub where:
+1. Students discover verified hackathons, competitions, workshops, and learning resources with rich filtering and instant bookmarking.
+2. Organizers manage events, view live registration telemetry, and send instantaneous push announcements to participants.
+3. Participants leverage built-in **Generative AI** tools to critique their ideas, calculate project viability scores, and generate complete hackathon pitch decks.
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
-### User
+### 👥 Participant / User Experience
+- 🔑 **Dual Authentication**: Secure sign-in via Email/Password (bcrypt-hashed) or one-click Google OAuth through Firebase.
+- 🔍 **Event Discovery & Smart Filters**: Query events by Category (*Hackathons, Workshops, Conferences, Meetups, Competitions*), Mode (*Online, Offline, Hybrid*), Price (*Free, Paid*), Dates, and custom tags.
+- 📌 **Bookmarks & Registrations**: Save events to your personal watchlist and register solo or with a team.
+- 📊 **User Dashboard**: Track upcoming hackathons, earned badges, participation streaks, and platform XP.
+- 📚 **Curated Resource Hub**: Guides, cheat-sheets, APIs, and starter kits to build hackathon-winning prototypes fast.
+- 👤 **Customizable Profile**: Showcase skills, interests, portfolio links (GitHub, LinkedIn), and upload custom avatars hosted on Cloudinary.
 
-- Authentication (Email & Google OAuth)
-- Discover Events (Hackathons, Workshops, Conferences)
-- Search & Filters
-- Bookmark Events
-- Register for Events
-- Dashboard Analytics
-- Resource Hub
+### 🏢 Organizer Portal
+- 📊 **Dedicated Organizer Dashboard**: Real-time participant analytics, submission metrics, and live engagement tracking.
+- 📝 **Event Submission Pipeline**: Submit comprehensive event metadata with poster uploads, tags, and custom registration workflows.
+- 📢 **Instant Announcements**: Broadcast live updates directly to all participants currently viewing the event room.
 
-### Organizer
+### 🤖 AI Project Lab
+- 🧪 **AI Project Evaluator**: Powered by **Google Gemini** (`gemini-2.5-flash`), providing structured JSON evaluations with scores for *Innovation*, *Technical Complexity*, *Market Potential*, and *Presentation Readiness*, alongside actionable weaknesses and improvements.
+- 📑 **Pitch Deck Generator**: Automatically creates tailored 5-slide pitch decks based on problem, solution, tech stack, and target market.
+- 🛡️ **Schema-Enforced Outputs**: Validated through **Zod schemas** to guarantee reliable JSON parsing and eliminate hallucinations.
 
-- Organizer Dashboard
-- Submit Events
-- Analytics
-- Live Announcements
-
-### AI
-
-- Project Evaluator (Gemini API)
-- Pitch Deck Generator
-
-### Real-Time
-
-- Live participant count
-- Event announcements
-- Organizer notifications
+### ⚡ Real-Time WebSocket Engine
+- 👥 **Live Participant Counters**: Active viewer and registration counters synchronized across all connected browser clients.
+- 🔔 **Organizer Broadcast Alerts**: Instant toast alerts when an organizer posts an announcement or deadline extension.
+- 🔄 **Redis Scalability**: Architectural support for `@socket.io/redis-adapter` for zero-downtime multi-instance clustering.
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack & Architecture
 
-| Category           | Technologies                             |
-| ------------------ | ---------------------------------------- |
-| **Frontend**       | React, Vite, Tailwind CSS, Redux Toolkit |
-| **Backend**        | Node.js, Express.js                      |
-| **Database**       | MongoDB Atlas, Mongoose                  |
-| **Authentication** | JWT, OAuth (Google/Firebase)             |
-| **AI**             | Google Gemini API (`gemini-2.5-flash` with Zod schema validation) |
-| **Real-Time**      | Socket.IO (In-memory pub/sub; horizontal scaling via Redis adapter) |
-| **Deployment**     | Docker, Nginx, Let's Encrypt, Vercel (Frontend), Render (Backend) |
-| **Storage**        | Cloudinary                               |
-| **Testing**        | Vitest, Supertest                        |
-
----
-
-## 🧪 Automated Testing
-
-The backend includes automated unit and integration tests powered by **Vitest**:
-
-```bash
-cd backend
-npm test
-```
-
-Test coverage includes:
-- **CORS Security**: Verification of origin whitelisting, dev mode localhost scoping, and third-party domain rejection.
-- **AI Schemas**: Strict validation of Gemini JSON responses via Zod schemas and fallback handling.
-- **Data Validation**: Email and password constraint verification.
-
----
-
-## 🏛️ System Architecture & Scaling Path
-
-### Real-Time Sockets & Horizontal Scaling
-Currently, real-time event rooms and organizer notifications run on in-process Socket.IO instances with database-backed room authorization. To scale horizontally across multiple instances behind a load balancer, configure the `@socket.io/redis-adapter` with a shared Redis or DragonFly instance.
-
-### Data Moderation & Content Integrity
-Event submissions follow a status pipeline (`pending` -> `approved` -> `rejected`). Only approved listings appear in public search indexes. Organizers can submit events, which undergo automated validation for dates, links, and text formatting.
-
-
-## 🏗️ Architecture
+### Architecture Diagram
 
 ```mermaid
 graph TD
-    React[React Frontend] -->|REST API| Express[Express Backend]
-    React -->|WebSocket| Socket[Socket.IO]
-    Express --> Mongo[(MongoDB Atlas)]
-    Express --> Gemini[Gemini API]
-    Express --> Cloudinary[Cloudinary]
-    Socket --> Express
+    Client[React 19 + Vite Frontend\nTailwind CSS v4 & Redux Toolkit] -->|HTTPS REST API| API[Express.js 5 Backend\nNode.js Runtime]
+    Client <-->|WSS WebSockets| Gateway[Socket.IO Real-Time Gateway]
+    
+    API --> Auth[JWT Cookie & Firebase OAuth]
+    API --> DB[(MongoDB Atlas\nPrimary Database)]
+    API --> AI[Google Gemini API\nStructured JSON & Zod]
+    API --> CDN[Cloudinary Media Storage\nAvatars & Event Posters]
+    API --> Mail[Nodemailer SMTP\nHTML OTP Transporter]
+    
+    Gateway <--> Redis[(Redis Pub/Sub Adapter\nHorizontal Multi-Node Sync)]
+    Gateway <--> API
 ```
+
+### Technology Breakdown
+
+| Domain | Technology / Library | Description |
+| :--- | :--- | :--- |
+| **Frontend Framework** | `React 19` + `Vite 7` | Ultra-fast client-side SPA with blazing HMR |
+| **Styling & UI** | `Tailwind CSS v4` + `DaisyUI 5` | Sleek modern aesthetics, dark mode, responsive layouts |
+| **State Management** | `Redux Toolkit` + `React-Redux` | Centralized user, event, and filter state |
+| **Animations & Icons** | `Framer Motion` + `React Icons` | Fluid micro-interactions, smooth route transitions |
+| **Data Visualization** | `Recharts` + `Heatmap` | Interactive user streak heatmaps and organizer metric charts |
+| **Backend Runtime** | `Node.js` + `Express.js 5` | RESTful API with structured routes, controllers, and middleware |
+| **Database** | `MongoDB Atlas` + `Mongoose 9` | Scalable NoSQL persistence with schemas, indexing, and validation |
+| **Real-Time Communication** | `Socket.IO 4` + `Redis Adapter` | Low-latency bi-directional event broadcasts and rooms |
+| **Artificial Intelligence** | `Google Gemini API` (`@google/genai`) | High-speed LLM inference for project critique & pitch generation |
+| **Validation & Security** | `Zod`, `bcrypt`, `CORS`, `express-rate-limit` | Type safety, sanitized inputs, credential hashing, DDoS mitigation |
+| **Authentication** | `JWT` (HTTP-only cookies) + `Firebase Admin` | Secure stateless auth & social login verification |
+| **File Storage** | `Cloudinary` + `Multer` | Cloud-hosted image optimization and delivery |
+| **Email Service** | `Nodemailer` | Automated OTP verification emails and alerts |
+| **Testing** | `Vitest`, `@testing-library/react`, `Supertest` | End-to-end unit, integration, and security validation |
+| **DevOps & Containers** | `Docker`, `Docker Compose`, `Nginx` | Reproducible multi-stage container orchestration |
 
 ---
 
-## 📂 Folder Structure
+## 🧪 Testing & Quality Assurance
+
+HackCentral is tested on both frontend and backend using **Vitest**:
+
+```bash
+# Run backend API tests (CORS security, Gemini schema validation, Auth)
+cd backend
+npm test
+
+# Run frontend component & unit tests
+cd ../frontend
+npm test
+```
+
+### Test Coverage Highlights
+- ✅ **CORS Security**: Strict validation of origin whitelisting, dev mode loopback isolation, and arbitrary third-party domain rejection.
+- ✅ **AI Schema Enforcement**: Robust Zod parsing ensuring Gemini JSON output strictly conforms to frontend contracts.
+- ✅ **Sanitization & Auth Persistence**: Protection against password leaks in responses via sanitized data utilities.
+
+---
+
+## 📂 Project Directory Structure
 
 ```text
 HackCentral/
-├── frontend/             # React + Vite Client
-├── backend/              # Node.js + Express Server
-│   ├── controllers/      # Route logic
-│   ├── models/           # Mongoose schemas
-│   ├── routes/           # Express routes
-│   ├── middlewares/      # Auth & Error handling
-│   ├── socket/           # Socket.IO configuration
-│   └── services/         # External APIs (Email, Gemini)
-├── docker-compose.yml    # Docker configuration
-└── README.md
+├── backend/
+│   ├── src/
+│   │   ├── controllers/      # Route controllers (auth, events, dashboard, etc.)
+│   │   ├── middlewares/      # userAuth, organizerAuth, rateLimiters, errorHandlers
+│   │   ├── models/           # Mongoose models (User, Event, Resource, Notification)
+│   │   ├── routes/           # Express REST endpoints
+│   │   ├── socket/           # Socket.IO connection handlers & room management
+│   │   ├── services/         # External integrations (Gemini AI, Cloudinary, Email)
+│   │   ├── utils/            # Validators, sanitizers, and token helpers
+│   │   └── app.js            # Express application bootstrap & HTTP server
+│   ├── tests/                # Backend unit, integration, and security tests
+│   ├── Dockerfile            # Container configuration for backend API
+│   └── package.json
+├── frontend/
+│   ├── public/               # Static assets & brand SVG logo
+│   ├── src/
+│   │   ├── components/       # Reusable components (Navbar, Footer, Cards, Modals)
+│   │   │   ├── auth/         # RouteGuards (ProtectedRoute, OrganizerRoute, AuthLoader)
+│   │   │   └── layout/       # Layout wrappers, ErrorBoundary, Navigation
+│   │   ├── pages/            # View pages (HomePage, EventsPage, Dashboard, Lab, etc.)
+│   │   ├── lib/              # Redux slices and store configuration
+│   │   ├── utils/            # Socket.IO client, API axios client, helpers
+│   │   ├── App.jsx           # Master route declarations
+│   │   └── main.jsx          # DOM entry point
+│   ├── Dockerfile            # Multi-stage Nginx build for frontend
+│   └── package.json
+├── docker-compose.yml        # Multi-container orchestration
+├── API_DOCS.md               # Complete REST API specification
+├── LICENSE                   # Open-source MIT License
+└── README.md                 # Project documentation
 ```
 
 ---
 
-## 🗄️ Database Design
+## 💻 Getting Started & Local Setup
 
-The MongoDB database consists of the following primary collections:
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v18 or higher recommended)
+- [MongoDB Atlas](https://www.mongodb.com/) cluster or local MongoDB instance
+- [Docker](https://www.docker.com/) *(optional, for containerized run)*
 
-- `User`
-- `Event`
-- `Resource`
-- `Notification`
-- `ActivityLog`
+### 1. Clone Repository
+```bash
+git clone https://github.com/devashishhaldar2006/HackCentral.git
+cd HackCentral
+```
 
----
+### 2. Backend Installation & Run
+```bash
+cd backend
+npm install
+cp .env.example .env
+# Fill in your database and API credentials in .env
+npm run dev
+```
+> Backend runs at `http://localhost:7777`
 
-## 💻 Installation
-
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/devashishhaldar2006/HackCentral.git
-   cd HackCentral
-   ```
-
-2. **Backend Setup**
-
-   ```bash
-   cd backend
-   npm install
-   cp .env.example .env
-   npm run dev
-   ```
-
-3. **Frontend Setup**
-
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
-
-4. **Running with Docker**
-   ```bash
-   docker compose up --build -d
-   ```
+### 3. Frontend Installation & Run
+```bash
+cd ../frontend
+npm install
+npm run dev
+```
+> Frontend Vite dev server launches at `http://localhost:5173`
 
 ---
 
 ## 🔐 Environment Variables
 
-Create a `.env` file in the `backend` directory. Reference `.env.example` for the required keys.
-
-**`.env.example`**
+Create a `.env` file inside the `backend/` directory referencing `.env.example`:
 
 ```env
+# Server Configuration
 PORT=7777
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
+NODE_ENV=development
 FRONTEND_URL=http://localhost:5173
 
-# Firebase/Google OAuth
-FIREBASE_PROJECT_ID=
-FIREBASE_PRIVATE_KEY=
-FIREBASE_CLIENT_EMAIL=
+# Database
+MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/hackcentral?retryWrites=true&w=majority
 
-# Email (Nodemailer)
-EMAIL_USER=
-EMAIL_PASS=
+# Authentication Secrets
+JWT_SECRET=your_super_secret_jwt_key_here
 
-# AI & Storage
-GEMINI_API_KEY=
-CLOUDINARY_CLOUD_NAME=
-CLOUDINARY_API_KEY=
-CLOUDINARY_API_SECRET=
+# Firebase Admin SDK (Google OAuth)
+FIREBASE_PROJECT_ID=your-firebase-project-id
+FIREBASE_CLIENT_EMAIL=your-client-email@project.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----"
+
+# Cloudinary (Media & Poster Storage)
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_key
+CLOUDINARY_API_SECRET=your_cloudinary_secret
+
+# Google Gemini AI API
+GEMINI_API_KEY=your_gemini_api_key
+
+# Email Transporter (Nodemailer OTP)
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_app_password
 ```
 
 ---
 
-## 🐳 Docker
+## 🐳 Docker Deployment
 
-HackCentral is fully containerized for consistent environments across development and production.
-
-To run the full stack:
+HackCentral includes pre-configured Dockerfiles and a `docker-compose.yml` for unified local or production deployments:
 
 ```bash
+# Build and run containers in detached mode
 docker compose up --build -d
+
+# Check service logs
+docker compose logs -f
+
+# Shut down containers
+docker compose down
 ```
 
-This automatically builds and orchestrates:
-
-- **Frontend Container** (Nginx serving React)
-- **Backend Container** (Node.js API)
+- **Frontend Container**: Built with Vite and served through an optimized **Nginx** reverse proxy with SSL certificate volume mounts.
+- **Backend Container**: Node.js container with integrated `/healthz` health-checks.
 
 ---
 
 ## 🔌 API Overview
 
-The REST API is organized into the following primary modules:
+| Method | Endpoint | Description | Access |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/auth/signup` | Register a new user or organizer | Public |
+| `POST` | `/api/auth/signin` | Authenticate with credentials (sets cookie) | Public |
+| `POST` | `/api/auth/social-login` | Authenticate via Firebase Google ID token | Public |
+| `POST` | `/api/auth/send-otp` | Request password reset OTP email | Public |
+| `POST` | `/api/auth/verify-otp` | Reset password using OTP | Public |
+| `GET` | `/api/profile/me` | Fetch active session & user details | Authenticated |
+| `PATCH`| `/api/profile/me/edit` | Update profile information | Authenticated |
+| `PATCH`| `/api/profile/me/upload-avatar` | Upload profile avatar (Cloudinary) | Authenticated |
+| `GET` | `/api/events` | Filtered and paginated event discovery | Public |
+| `POST` | `/api/events` | Submit a new event | Organizer Only |
+| `POST` | `/api/events/:id/register` | Register team/individual for an event | Authenticated |
+| `POST` | `/api/events/:id/announcements` | Publish live event announcement | Organizer Only |
+| `GET` | `/api/dashboard/user` | User metrics, registrations, and streak | Authenticated |
+| `GET` | `/api/dashboard/organizer` | Organizer telemetry and event stats | Organizer Only |
+| `POST` | `/api/project-lab/evaluate` | AI Project Viability Evaluation | Authenticated |
+| `POST` | `/api/project-lab/pitch-deck` | AI Hackathon Pitch Deck Generation | Authenticated |
 
-- `/api/auth` - Authentication & Registration
-- `/api/events` - Event CRUD & Discovery
-- `/api/profile` - User Profile & Bookmarks
-- `/api/dashboard` - Analytics & Metrics
-- `/api/resources` - Learning Materials
-- `/api/project-lab` - AI Evaluator & Pitch Deck
-- `/api/organizer` - Event Management
-
----
-
-## ⚡ Socket.IO Events
-
-| Event                | Description               |
-| -------------------- | ------------------------- |
-| `join-event`         | Join event room           |
-| `leave-event`        | Leave event room          |
-| `participant-update` | Live participant count    |
-| `announcement`       | Organizer announcement    |
-| `notification`       | Registration notification |
-
----
-
-## 🤖 AI Workflow
-
-```mermaid
-graph LR
-    Input[User Input] --> Gemini[Gemini API]
-    Gemini --> Structured[Structured JSON Response]
-    Structured --> Display[Frontend Display]
-```
+*For complete request/response schemas, error envelopes, and WebSocket events, see [API_DOCS.md](API_DOCS.md).*
 
 ---
 
-## 🚢 Deployment
- 
-HackCentral is built for high availability and low latency with flexible deployment options:
+## 🚢 Cloud Infrastructure & Deployment
 
-- **Frontend:** Hosted on **Vercel** (Global Edge CDN, auto-SSL, instant preview deployments)
-- **Backend:** Hosted on **Render** (Node.js runtime with WebSockets & 24/7 keep-alive)
-- **Cloud Infrastructure:** Multi-cloud ready with support for **AWS (EC2, VPC, Route 53)**
-- **Database:** **MongoDB Atlas** (Managed Cloud Database)
-- **Domain & DNS:** Custom domain via Namecheap (`hackcentral.me`)
-- **Containerization:** Docker & Docker Compose for production and local development
+- **Frontend**: Hosted on **Vercel** with worldwide Edge CDN caching and automatic HTTPS.
+- **Backend**: Hosted on **Render** (Node.js runtime with WebSockets support and continuous deployment).
+- **Database**: **MongoDB Atlas** with automated failover and IP whitelisting.
+- **Media CDN**: **Cloudinary** for image optimization, transformations, and responsive avatars.
+- **Domain & DNS**: Custom top-level domain configured at `hackcentral.me`.
 
 ---
 
-## 🔮 Future Enhancements
+## 🤝 Contributing & License
 
-- Admin Panel for platform moderation
-- Event Recommendation Engine
-- Certificate Generation
-- Calendar Integration
-- Email Reminders
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/devashishhaldar2006/HackCentral/issues).
 
----
-
-## 👨‍💻 Contributors
-
-- **Devashish Haldar** - Lead Developer
-
----
-
-## 📝 License
-
-[MIT License](LICENSE)
-
----
-
-## 🙏 Acknowledgements
-
-- Gemini API
-- MongoDB
-- Socket.IO
-- Cloudinary
-- Docker
-- AWS
+Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more details.
 
 ---
 
 ## 📫 Contact
 
-- **GitHub:** [@devashishhaldar2006](https://github.com/devashishhaldar2006)
-- **LinkedIn:** [Devashish Haldar](https://www.linkedin.com/in/devashish-haldar)
-- **Email:** hackcentralofficial@gmail.com
+- **Author**: Devashish Haldar
+- **GitHub**: [@devashishhaldar2006](https://github.com/devashishhaldar2006)
+- **LinkedIn**: [Devashish Haldar](https://www.linkedin.com/in/devashish-haldar)
+- **Email**: [hackcentralofficial@gmail.com](mailto:hackcentralofficial@gmail.com)
+- **Project Repository**: [https://github.com/devashishhaldar2006/HackCentral](https://github.com/devashishhaldar2006/HackCentral)
+
