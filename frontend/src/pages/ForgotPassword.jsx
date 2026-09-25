@@ -129,75 +129,31 @@ const ForgotPassword = () => {
   };
 
   return (
-    <section className="flex-1 flex items-center justify-center relative overflow-hidden min-h-[calc(100vh-64px)] bg-[#f5f6f8] dark:bg-[#080c18]">
-      {/* ─── animated grid background ─── */}
-      <div className="login-grid-bg absolute inset-0 pointer-events-none" />
-
-      {/* ─── floating orbs ─── */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] pointer-events-none">
-        {/* Orbiting dot 1 */}
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{ animation: "orbit 25s linear infinite" }}
-        >
-          <div className="w-2.5 h-2.5 rounded-full bg-[#0d4af2] shadow-[0_0_20px_6px_rgba(13,74,242,0.4)]" />
-        </div>
-        {/* Orbiting dot 2 */}
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{ animation: "orbit-reverse 18s linear infinite" }}
-        >
-          <div className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_16px_4px_rgba(139,92,246,0.4)]" />
-        </div>
-        {/* Orbiting dot 3 */}
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{
-            animation: "orbit 32s linear infinite",
-            animationDelay: "-8s",
-          }}
-        >
-          <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_14px_4px_rgba(6,182,212,0.35)]" />
-        </div>
-        {/* Centre pulse */}
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] rounded-full border border-[#0d4af2]/10 dark:border-[#0d4af2]/15"
-          style={{ animation: "pulse-ring 4s ease-in-out infinite" }}
-        />
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] rounded-full border border-purple-500/8 dark:border-purple-500/12"
-          style={{ animation: "pulse-ring 5s ease-in-out infinite 1s" }}
-        />
-      </div>
-
-      {/* ─── ambient blurs ─── */}
-      <div className="absolute top-[-10%] right-[-5%] w-[420px] h-[420px] rounded-full bg-[#0d4af2]/8 dark:bg-[#0d4af2]/15 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-8%] left-[-5%] w-[380px] h-[380px] rounded-full bg-purple-600/6 dark:bg-purple-600/12 blur-[100px] pointer-events-none" />
-      <div className="absolute top-[40%] left-[15%] w-[200px] h-[200px] rounded-full bg-cyan-400/5 dark:bg-cyan-400/8 blur-[80px] pointer-events-none" />
+    <section className="flex-1 flex items-center justify-center relative overflow-hidden min-h-[calc(100vh-64px)] bg-slate-50 py-12 px-4">
+      {/* Soft yellow ambient glow */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-yellow-200/40 blur-[100px] pointer-events-none" />
 
       {/* ═══════════ CARD ═══════════ */}
-      <div className="relative z-10 w-full max-w-[480px] mx-4 login-card-enter">
-        {/* Gradient border card wrapper */}
-        <div className="gradient-border rounded-2xl">
-          <div className="bg-white/80 dark:bg-[#111827]/85 backdrop-blur-xl rounded-2xl p-8 sm:p-10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)]">
-            {/* ── Logo + heading ── */}
-            <div className="text-center mb-8">
-              <Link
-                to="/"
-                className="inline-flex items-center gap-2.5 mb-6 group"
-              >
-                <div className="w-9 h-9 text-[#0d4af2] transition-transform group-hover:scale-110">
-                  <Logo className="w-9 h-9" />
-                </div>
-                <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white">
-                  HackCentral
-                </span>
-              </Link>
+      <div className="relative z-10 w-full max-w-[440px] mx-auto login-card-enter">
+        <div className="bg-white border border-slate-200 rounded-3xl p-8 sm:p-10 shadow-lg">
+          {/* ── Logo + heading ── */}
+          <div className="text-center mb-8">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 mb-4 group"
+            >
+              <div className="w-8 h-8 rounded-xl bg-yellow-400 text-slate-950 flex items-center justify-center font-bold">
+                <Logo className="w-4.5 h-4.5 text-slate-950" color="#020617" />
+              </div>
+              <span className="font-bold text-xl text-slate-900 tracking-tight">
+                HackCentral
+              </span>
+            </Link>
 
-              <h1 className="text-[28px] sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                Reset Password
-              </h1>
-              <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Reset Password
+            </h1>
+            <p className="mt-2 text-sm text-slate-500 leading-relaxed">
                 {step === 1
                   ? "Enter your email to receive a password reset OTP."
                   : `We've sent an OTP to ${formData.email}.`}
@@ -216,7 +172,7 @@ const ForgotPassword = () => {
                 >
                   <label
                     htmlFor="email"
-                    className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+                    className="text-xs font-semibold uppercase tracking-wider text-slate-500"
                   >
                     Email Address
                   </label>
@@ -232,7 +188,7 @@ const ForgotPassword = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="input-focus-glow w-full h-12 pl-11 pr-4 bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/50 rounded-xl focus:border-[#0d4af2] focus:bg-white dark:focus:bg-slate-800/60 outline-none transition-all duration-200 placeholder:text-slate-400 text-sm"
+                      className="input-focus-glow w-full h-12 pl-11 pr-4 bg-slate-50 border border-slate-200 rounded-xl focus:border-yellow-400 focus:bg-white outline-none transition-all duration-200 placeholder:text-slate-400 text-sm"
                     />
                   </div>
                 </div>
@@ -246,7 +202,7 @@ const ForgotPassword = () => {
                   >
                     <label
                       htmlFor="otp"
-                      className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+                      className="text-xs font-semibold uppercase tracking-wider text-slate-500"
                     >
                       Enter OTP
                     </label>
@@ -262,7 +218,7 @@ const ForgotPassword = () => {
                         value={formData.otp}
                         onChange={handleChange}
                         required
-                        className="input-focus-glow w-full h-12 pl-11 pr-4 bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/50 rounded-xl focus:border-[#0d4af2] focus:bg-white dark:focus:bg-slate-800/60 outline-none transition-all duration-200 placeholder:text-slate-400 text-sm tracking-widest font-mono"
+                        className="input-focus-glow w-full h-12 pl-11 pr-4 bg-slate-50 border border-slate-200 rounded-xl focus:border-yellow-400 focus:bg-white outline-none transition-all duration-200 placeholder:text-slate-400 text-sm tracking-widest font-mono"
                       />
                     </div>
                   </div>
@@ -275,7 +231,7 @@ const ForgotPassword = () => {
                     <div className="flex items-center justify-between">
                       <label
                         htmlFor="newPassword"
-                        className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+                        className="text-xs font-semibold uppercase tracking-wider text-slate-500"
                       >
                         New Password
                       </label>
@@ -293,12 +249,12 @@ const ForgotPassword = () => {
                         onChange={handleChange}
                         required
                         minLength={8}
-                        className="input-focus-glow w-full h-12 pl-11 pr-12 bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/50 rounded-xl focus:border-[#0d4af2] focus:bg-white dark:focus:bg-slate-800/60 outline-none transition-all duration-200 placeholder:text-slate-400 text-sm"
+                        className="input-focus-glow w-full h-12 pl-11 pr-12 bg-slate-50 border border-slate-200 rounded-xl focus:border-yellow-400 focus:bg-white outline-none transition-all duration-200 placeholder:text-slate-400 text-sm"
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword((v) => !v)}
-                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 cursor-pointer transition-colors"
+                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
                       >
                         <span className="material-symbols-outlined text-[20px]">
                           {showPassword ? "visibility_off" : "visibility"}
@@ -319,7 +275,7 @@ const ForgotPassword = () => {
                               className={`flex-1 rounded-full transition-all duration-300 ${
                                 i <= pwStrength.score
                                   ? pwStrength.color
-                                  : "bg-slate-200 dark:bg-slate-700"
+                                  : "bg-slate-200"
                               }`}
                             />
                           ))}
@@ -345,13 +301,13 @@ const ForgotPassword = () => {
               {/* Error */}
               {error && (
                 <div
-                  className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-50/80 dark:bg-red-900/15 border border-red-200/60 dark:border-red-800/40 backdrop-blur-sm"
+                  className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-50 border border-red-200"
                   style={{ animation: "slide-up 0.25s ease-out" }}
                 >
                   <span className="material-symbols-outlined text-red-500 text-lg mt-0.5 shrink-0">
                     error
                   </span>
-                  <p className="text-sm text-red-600 dark:text-red-400 font-medium leading-snug">
+                  <p className="text-sm text-red-600 font-medium leading-snug">
                     {error}
                   </p>
                 </div>
@@ -360,13 +316,13 @@ const ForgotPassword = () => {
               {/* Message */}
               {message && (
                 <div
-                  className="flex items-start gap-2.5 p-3.5 rounded-xl bg-emerald-50/80 dark:bg-emerald-900/15 border border-emerald-200/60 dark:border-emerald-800/40 backdrop-blur-sm"
+                  className="flex items-start gap-2.5 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200"
                   style={{ animation: "slide-up 0.25s ease-out" }}
                 >
                   <span className="material-symbols-outlined text-emerald-500 text-lg mt-0.5 shrink-0">
                     check_circle
                   </span>
-                  <p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium leading-snug">
+                  <p className="text-sm text-emerald-600 font-medium leading-snug">
                     {message}
                   </p>
                 </div>
@@ -376,14 +332,8 @@ const ForgotPassword = () => {
               <button
                 type="submit"
                 disabled={loading || otpAttempts >= 5}
-                className="relative w-full h-12 bg-[#0d4af2] text-white font-bold rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer group overflow-hidden hover:shadow-[0_8px_30px_-6px_rgba(13,74,242,0.5)] active:scale-[0.98]"
+                className="w-full h-11 bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer mt-4"
               >
-                {/* sheen effect */}
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-                  style={{ animation: "shimmer 2s ease-in-out infinite" }}
-                />
-
                 {loading ? (
                   <>
                     <Spinner />
@@ -392,7 +342,7 @@ const ForgotPassword = () => {
                 ) : (
                   <>
                     <span>{step === 1 ? "Send OTP" : "Reset Password"}</span>
-                    <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform duration-200">
+                    <span className="material-symbols-outlined text-base">
                       arrow_forward
                     </span>
                   </>
@@ -408,7 +358,7 @@ const ForgotPassword = () => {
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="text-[13px] text-[#0d4af2] hover:underline font-medium"
+                  className="text-xs text-yellow-600 hover:underline font-semibold"
                 >
                   Change Email
                 </button>
@@ -416,23 +366,22 @@ const ForgotPassword = () => {
                   type="button"
                   onClick={handleSendOTP}
                   disabled={loading}
-                  className="text-[13px] text-[#0d4af2] hover:underline font-medium disabled:opacity-50 disabled:no-underline"
+                  className="text-xs text-yellow-600 hover:underline font-semibold disabled:opacity-50 disabled:no-underline"
                 >
                   {otpAttempts >= 5 ? "Request New OTP" : "Resend OTP"}
                 </button>
               </div>
             )}
 
-            <p className="mt-7 text-center text-sm text-slate-500 dark:text-slate-400">
+            <p className="mt-7 text-center text-xs text-slate-500">
               Remember your password?{" "}
               <Link
                 to="/signin"
-                className="text-[#0d4af2] font-bold hover:underline cursor-pointer transition-colors"
+                className="text-yellow-600 font-bold hover:underline cursor-pointer transition-colors"
               >
                 Sign In
               </Link>
             </p>
-          </div>
         </div>
       </div>
     </section>

@@ -1,15 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import {
-  GRADIENTS,
   CATEGORY_COLORS,
   MODE_COLORS,
   formatDateRange,
 } from "../../lib/eventUtils";
 import { RSVPModal } from "./RSVPModal";
-
-import { toast } from "react-hot-toast";
 
 const EventCard = ({ event, idx }) => {
   const dispatch = useDispatch();
@@ -35,11 +32,9 @@ const EventCard = ({ event, idx }) => {
     event.participants ? event.participants.length : 0
   );
 
-
-
   const handleRSVPClick = (e) => {
     e.stopPropagation();
-    if (!user) return; // must be logged in
+    if (!user) return;
     setIsRSVPModalOpen(true);
   };
 
@@ -49,6 +44,7 @@ const EventCard = ({ event, idx }) => {
       const { data } = await axios.post(`/api/events/${event._id}/register`, { teamName }, { withCredentials: true });
       dispatch({ type: "user/setRegisteredEvents", payload: data.registeredEvents });
       setIsRSVPModalOpen(false);
+      setParticipantCount((prev) => prev + 1);
     } catch (error) {
       console.error("Failed to RSVP:", error);
       alert(error.response?.data?.message || "Failed to register for the event");
@@ -59,7 +55,7 @@ const EventCard = ({ event, idx }) => {
 
   const toggleBookmark = async (e) => {
     e.stopPropagation();
-    if (!user) return; // must be logged in
+    if (!user) return;
     setLoading(true);
     try {
       const url = isBookmarked ? "/api/saved/unsave" : "/api/saved/save";
@@ -73,50 +69,46 @@ const EventCard = ({ event, idx }) => {
   };
 
   return (
-    <div className="group bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-[#0d4af2]/50 transition-all duration-300 flex flex-col shadow-sm hover:shadow-xl hover:shadow-[#0d4af2]/5 hover:-translate-y-1">
-      {/* Card header image or gradient */}
-      <div
-        className={`relative h-44 w-full bg-gradient-to-br ${GRADIENTS[idx % GRADIENTS.length]} overflow-hidden`}
-      >
-        {event.image && (
+    <div className="group bg-white border border-slate-200/90 rounded-2xl overflow-hidden hover:border-yellow-400 transition-all duration-300 flex flex-col shadow-sm hover:shadow-lg hover:-translate-y-1">
+      {/* Card header image or light banner */}
+      <div className="relative h-44 w-full bg-yellow-50 overflow-hidden">
+        {event.image ? (
           <img
             src={event.image}
             alt={event.title}
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-        {/* decorative circles (only show if there is no image) */}
-        {!event.image && (
-          <div className="absolute inset-0 opacity-20">
-            <div className="absolute top-4 right-4 w-24 h-24 border-2 border-white/30 rounded-full"></div>
-            <div className="absolute bottom-6 right-8 w-16 h-16 border-2 border-white/20 rounded-full"></div>
-            <div className="absolute top-8 left-1/2 w-12 h-12 border border-white/20 rounded-lg rotate-45"></div>
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center p-6 text-center select-none bg-gradient-to-br from-yellow-100 to-amber-50">
+            <span className="text-xl font-bold text-yellow-900/40">
+              {event.title}
+            </span>
           </div>
         )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
 
-        {/* Category & Mode badges */}
+        {/* Badges */}
         <div className="absolute top-3 left-3 flex gap-2 z-10">
           <span
-            className={`${CATEGORY_COLORS[event.category] || "bg-slate-600"} text-white text-[10px] uppercase font-black px-2.5 py-1 rounded-md`}
+            className="bg-yellow-400 text-slate-950 text-[10px] font-bold uppercase px-2.5 py-1 rounded-md shadow-sm"
           >
             {event.category}
           </span>
           <span
-            className={`${MODE_COLORS[event.mode] || "bg-slate-600"} text-white text-[10px] uppercase font-black px-2.5 py-1 rounded-md`}
+            className="bg-white/90 text-slate-800 text-[10px] font-bold uppercase px-2 py-1 rounded-md backdrop-blur-sm"
           >
             {event.mode}
           </span>
         </div>
 
-        {/* Price badge — shifted left to not overlap bookmark */}
+        {/* Price badge */}
         {event.price && (
           <div className="absolute bottom-3 right-3 z-10">
             <span
-              className={`text-[10px] uppercase font-black px-2.5 py-1 rounded-md ${
+              className={`text-[10px] uppercase font-bold px-2 py-1 rounded-md shadow-sm ${
                 event.price === "Free"
-                  ? "bg-emerald-500/90 text-white"
-                  : "bg-amber-500/90 text-white"
+                  ? "bg-emerald-500 text-white"
+                  : "bg-yellow-400 text-slate-950"
               }`}
             >
               {event.price}
@@ -130,13 +122,13 @@ const EventCard = ({ event, idx }) => {
             onClick={toggleBookmark}
             disabled={loading}
             title={isBookmarked ? "Remove bookmark" : "Save event"}
-            className={`absolute top-3 right-3 z-10 p-1.5 rounded-full backdrop-blur-sm transition-all duration-200 ${
+            className={`absolute top-3 right-3 z-10 p-1.5 rounded-full backdrop-blur-md transition-all duration-200 cursor-pointer ${
               isBookmarked
-                ? "bg-[#0d4af2] text-white shadow-lg"
-                : "bg-black/25 hover:bg-black/50 text-white"
-            } ${loading ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}`}
+                ? "bg-yellow-400 text-slate-950 shadow-md"
+                : "bg-black/30 hover:bg-yellow-400 hover:text-slate-950 text-white"
+            } ${loading ? "opacity-60 cursor-not-allowed" : ""}`}
           >
-            <span className="material-symbols-outlined text-base leading-none">
+            <span className="material-symbols-outlined text-base leading-none block">
               {isBookmarked ? "bookmark" : "bookmark_add"}
             </span>
           </button>
@@ -144,20 +136,20 @@ const EventCard = ({ event, idx }) => {
       </div>
 
       {/* Card body */}
-      <div className="p-5 flex-1 flex flex-col gap-4">
+      <div className="p-5 flex-1 flex flex-col gap-3">
         <div>
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#0d4af2] transition-colors leading-tight line-clamp-2">
+          <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-yellow-600 transition-colors leading-snug line-clamp-2">
             {event.title}
           </h3>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1">
-            <span className="material-symbols-outlined text-sm">
+          <p className="text-xs text-slate-500 mt-2 flex items-center gap-1.5 font-medium">
+            <span className="material-symbols-outlined text-sm text-yellow-600">
               calendar_today
             </span>
             {formatDateRange(event.startDate, event.endDate)}
           </p>
           {event.location && (
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1">
-              <span className="material-symbols-outlined text-sm">
+            <p className="text-xs text-slate-500 mt-1 flex items-center gap-1.5 font-medium">
+              <span className="material-symbols-outlined text-sm text-yellow-600">
                 location_on
               </span>
               {event.location}
@@ -166,30 +158,32 @@ const EventCard = ({ event, idx }) => {
         </div>
 
         {event.description && (
-          <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">
+          <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">
             {event.description}
           </p>
         )}
 
-        <div className="flex flex-wrap gap-2">
+        {/* Tags */}
+        <div className="flex flex-wrap gap-1.5 mt-auto pt-2">
           {event.tags?.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="text-[10px] font-bold py-1 px-2.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"
+              className="text-[10px] font-semibold py-0.5 px-2 rounded-md bg-slate-100 text-slate-600"
             >
-              {tag}
+              #{tag}
             </span>
           ))}
           {event.tags?.length > 3 && (
-            <span className="text-[10px] font-bold py-1 px-2 rounded bg-slate-100 dark:bg-slate-800 text-slate-400">
+            <span className="text-[10px] font-semibold py-0.5 px-1.5 rounded-md bg-slate-100 text-slate-400">
               +{event.tags.length - 3}
             </span>
           )}
         </div>
 
-        <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-          <span className="text-xs font-bold text-slate-400 flex items-center gap-1">
-            <span className="material-symbols-outlined text-sm">business</span>
+        {/* Footer info & RSVP CTA */}
+        <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+          <span className="text-xs text-slate-500 font-medium flex items-center gap-1 truncate max-w-[130px]">
+            <span className="material-symbols-outlined text-sm text-yellow-600">business</span>
             {event.organizer}
           </span>
           <div className="flex gap-2">
@@ -199,10 +193,10 @@ const EventCard = ({ event, idx }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="bg-[#0d4af2]/10 text-[#0d4af2] hover:bg-[#0d4af2] hover:text-white px-4 py-2 rounded-lg text-sm font-bold transition-all cursor-pointer inline-flex items-center gap-1"
+                className="bg-yellow-50 text-yellow-800 hover:bg-yellow-400 hover:text-slate-950 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all inline-flex items-center gap-1"
               >
-                Link
-                <span className="material-symbols-outlined text-sm">
+                <span>Link</span>
+                <span className="material-symbols-outlined text-xs">
                   open_in_new
                 </span>
               </a>
@@ -210,22 +204,22 @@ const EventCard = ({ event, idx }) => {
               <button
                 onClick={handleRSVPClick}
                 disabled={rsvpLoading || isRegistered}
-                className={`px-4 py-2 rounded-lg text-sm font-bold transition-all inline-flex items-center gap-1 cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all inline-flex items-center gap-1 cursor-pointer ${
                   isRegistered
-                    ? "bg-emerald-500/10 text-emerald-600 cursor-default"
-                    : "bg-[#0d4af2] text-white hover:bg-[#0d4af2]/90 shadow-lg shadow-[#0d4af2]/20"
+                    ? "bg-emerald-50 text-emerald-700 border border-emerald-200 cursor-default"
+                    : "bg-yellow-400 text-slate-950 hover:bg-yellow-300 shadow-sm"
                 } ${rsvpLoading ? "opacity-60 cursor-wait" : ""}`}
               >
                 {isRegistered ? (
                   <>
                     <span className="material-symbols-outlined text-sm">check_circle</span>
-                    RSVP'd
+                    Registered
                   </>
                 ) : (
                   <>
-                    RSVP
+                    <span>RSVP</span>
                     {participantCount > 0 && (
-                      <span className="ml-1 px-1.5 py-0.5 bg-white/20 rounded text-[10px]">
+                      <span className="px-1.5 py-0.2 bg-black/15 rounded text-[9px]">
                         {participantCount}
                       </span>
                     )}

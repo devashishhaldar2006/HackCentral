@@ -59,7 +59,7 @@ const UserDashboard = () => {
   // ── Loading state ──
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-[#0a0f1e] pt-6 pb-16 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-slate-50 pt-6 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto space-y-6">
           <div className="flex justify-between items-center mb-8">
             <div className="space-y-2">
@@ -92,12 +92,15 @@ const UserDashboard = () => {
   // ── Error state ──
   if (error) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-[#0a0f1e] flex items-center justify-center">
-        <div className="text-center">
-          <span className="material-symbols-outlined text-5xl text-red-400 mb-3 block">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-center bg-white p-8 rounded-3xl border border-slate-200 shadow-sm max-w-md">
+          <span className="material-symbols-outlined text-5xl text-rose-500 mb-3 block">
             error
           </span>
-          <p className="text-red-500 font-semibold">{error}</p>
+          <p className="text-slate-800 font-semibold mb-4">{error}</p>
+          <button onClick={() => window.location.reload()} className="btn-yellow">
+            Try Again
+          </button>
         </div>
       </div>
     );
@@ -132,7 +135,7 @@ const UserDashboard = () => {
     : 100;
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0a0f1e] pt-6 pb-16 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+    <div className="min-h-screen bg-slate-50 pt-6 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* ═══════ HEADER ═══════ */}
         <motion.div
@@ -143,12 +146,12 @@ const UserDashboard = () => {
         >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
                 Dashboard
               </h1>
-              <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
+              <p className="text-slate-500 text-sm mt-1">
                 Welcome back,{" "}
-                <span className="capitalize font-semibold text-slate-700 dark:text-slate-300">
+                <span className="capitalize font-semibold text-slate-800">
                   {user?.fullName || "User"}
                 </span>
               </p>
@@ -156,7 +159,7 @@ const UserDashboard = () => {
             <div className="flex items-center gap-3">
               <Link
                 to="/events"
-                className="inline-flex items-center gap-2 bg-[#0d4af2] text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-[#0d4af2]/90 transition-colors shadow-lg shadow-[#0d4af2]/20"
+                className="btn-yellow"
               >
                 <span className="material-symbols-outlined text-sm">search</span>
                 Find Events
@@ -176,28 +179,28 @@ const UserDashboard = () => {
             icon="how_to_reg"
             label="Registered"
             value={stats.registered}
-            color="bg-[#0d4af2]"
+            color="bg-yellow-400 text-slate-950"
             delay={0}
           />
           <StatCard
             icon="bookmark"
             label="Bookmarked"
             value={stats.bookmarked}
-            color="bg-amber-500"
+            color="bg-amber-400 text-slate-950"
             delay={1}
           />
           <StatCard
             icon="check_circle"
             label="Attended"
             value={stats.attended}
-            color="bg-emerald-500"
+            color="bg-emerald-500 text-white"
             delay={2}
           />
           <StatCard
             icon="upcoming"
             label="Upcoming"
             value={stats.upcoming}
-            color="bg-violet-500"
+            color="bg-yellow-500 text-slate-950"
             delay={3}
           />
         </motion.div>
@@ -213,20 +216,20 @@ const UserDashboard = () => {
           <motion.div
             variants={fadeUp}
             custom={4}
-            className="lg:col-span-2 bg-white dark:bg-[#161d2f] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6"
+            className="lg:col-span-2 bg-white rounded-3xl border border-slate-200 shadow-sm p-6"
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#0d4af2] to-violet-600 flex items-center justify-center shadow-lg shadow-[#0d4af2]/20">
-                  <span className="text-white font-black text-lg">
+                <div className="w-12 h-12 rounded-2xl bg-yellow-400 flex items-center justify-center shadow-sm">
+                  <span className="text-slate-950 font-black text-lg">
                     {xp.level}
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                  <h3 className="text-lg font-bold text-slate-900">
                     {xp.levelName}
                   </h3>
-                  <p className="text-xs text-slate-400 dark:text-slate-500 font-medium">
+                  <p className="text-xs text-slate-500 font-medium">
                     Level {xp.level}{" "}
                     {xp.nextLevelName
                       ? `• ${xp.total} / ${xp.nextLevelXp} XP`
@@ -235,7 +238,7 @@ const UserDashboard = () => {
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-2xl font-black text-[#0d4af2]">
+                <p className="text-2xl font-black text-yellow-600">
                   {xp.total}
                   <span className="text-sm font-bold text-slate-400 ml-1">
                     XP
@@ -244,9 +247,9 @@ const UserDashboard = () => {
               </div>
             </div>
             {/* Progress bar */}
-            <div className="w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+            <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-[#0d4af2] to-violet-500 rounded-full transition-all duration-1000 ease-out"
+                className="h-full bg-yellow-400 rounded-full transition-all duration-1000 ease-out"
                 style={{
                   width: `${Math.min(100, xpProgress)}%`,
                   animation: "progress-fill 1.2s ease-out",
@@ -269,21 +272,21 @@ const UserDashboard = () => {
           <motion.div
             variants={fadeUp}
             custom={5}
-            className="bg-white dark:bg-[#161d2f] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 flex flex-col items-center justify-center text-center"
+            className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 flex flex-col items-center justify-center text-center"
           >
             <div className="streak-fire mb-2">
               <span className="material-symbols-outlined text-5xl text-amber-500">
                 local_fire_department
               </span>
             </div>
-            <p className="text-4xl font-black text-slate-900 dark:text-white tabular-nums">
+            <p className="text-4xl font-black text-slate-900 tabular-nums">
               {streak.current}
             </p>
-            <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mt-1">
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mt-1">
               Month Streak
             </p>
-            <div className="mt-3 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800">
-              <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400">
+            <div className="mt-3 px-3 py-1.5 rounded-lg bg-yellow-50 border border-yellow-200/60">
+              <p className="text-[11px] font-bold text-amber-800">
                 Best: {streak.best} months
               </p>
             </div>
@@ -321,13 +324,13 @@ const UserDashboard = () => {
                 />
               </div>
             </div>
-            <div className="flex items-center justify-end gap-1.5 mt-3 text-[10px] font-bold text-slate-400 dark:text-slate-500">
+            <div className="flex items-center justify-end gap-1.5 mt-3 text-[10px] font-bold text-slate-400">
               <span>Less</span>
-              <span className="w-3 h-3 rounded-[3px] bg-slate-200 dark:bg-slate-800" />
-              <span className="w-3 h-3 rounded-[3px] bg-blue-300 dark:bg-[#1e3a5f]" />
-              <span className="w-3 h-3 rounded-[3px] bg-blue-500 dark:bg-blue-700" />
-              <span className="w-3 h-3 rounded-[3px] bg-blue-700 dark:bg-blue-600" />
-              <span className="w-3 h-3 rounded-[3px] bg-[#0d4af2] dark:bg-blue-500" />
+              <span className="w-3 h-3 rounded-[3px] bg-slate-100" />
+              <span className="w-3 h-3 rounded-[3px] bg-yellow-100" />
+              <span className="w-3 h-3 rounded-[3px] bg-yellow-200" />
+              <span className="w-3 h-3 rounded-[3px] bg-yellow-400" />
+              <span className="w-3 h-3 rounded-[3px] bg-yellow-500" />
               <span>More</span>
             </div>
           </Section>
@@ -415,10 +418,10 @@ const UserDashboard = () => {
                           backgroundColor: PIE_COLORS[i % PIE_COLORS.length],
                         }}
                       />
-                      <span className="text-sm font-medium text-slate-600 dark:text-slate-300 flex-1 truncate">
+                      <span className="text-sm font-medium text-slate-600 flex-1 truncate">
                         {cat.category}
                       </span>
-                      <span className="text-sm font-bold text-slate-800 dark:text-white tabular-nums">
+                      <span className="text-sm font-bold text-slate-900 tabular-nums">
                         {cat.count}
                       </span>
                     </div>
@@ -447,10 +450,10 @@ const UserDashboard = () => {
                   const pct = (tag.count / maxCount) * 100;
                   return (
                     <div key={tag.tag} className="flex items-center gap-3">
-                      <span className="text-sm font-semibold text-slate-600 dark:text-slate-300 w-32 truncate">
+                      <span className="text-sm font-semibold text-slate-700 w-32 truncate">
                         {tag.tag}
                       </span>
-                      <div className="flex-1 h-6 bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden">
+                      <div className="flex-1 h-6 bg-slate-100 rounded-lg overflow-hidden">
                         <div
                           className="h-full rounded-lg flex items-center justify-end pr-2 transition-all duration-700"
                           style={{
@@ -459,7 +462,7 @@ const UserDashboard = () => {
                               TAG_COLORS[i % TAG_COLORS.length],
                           }}
                         >
-                          <span className="text-[10px] font-black text-white">
+                          <span className="text-[10px] font-black text-slate-950">
                             {tag.count}
                           </span>
                         </div>
@@ -485,18 +488,18 @@ const UserDashboard = () => {
               {achievements.map((badge, i) => (
                 <div
                   key={badge.badge}
-                  className={`relative rounded-xl p-4 text-center transition-all duration-200 border ${
+                  className={`relative rounded-2xl p-4 text-center transition-all duration-200 border ${
                     badge.earned
-                      ? "bg-slate-50 dark:bg-[#1c2438] border-[#0d4af2]/30 hover:border-[#0d4af2]/60 badge-enter"
-                      : "bg-slate-50/50 dark:bg-slate-800/30 border-slate-200 dark:border-slate-700/50 opacity-40 grayscale"
+                      ? "bg-yellow-50/50 border-yellow-200 hover:border-yellow-400 badge-enter shadow-xs"
+                      : "bg-slate-50 border-slate-200 opacity-40 grayscale"
                   }`}
                   style={{ animationDelay: `${i * 0.08}s` }}
                 >
                   <span
                     className={`material-symbols-outlined text-3xl mb-2 block ${
                       badge.earned
-                        ? "text-[#0d4af2]"
-                        : "text-slate-400 dark:text-slate-600"
+                        ? "text-yellow-600"
+                        : "text-slate-400"
                     }`}
                   >
                     {badge.icon}
@@ -504,18 +507,18 @@ const UserDashboard = () => {
                   <p
                     className={`text-xs font-bold ${
                       badge.earned
-                        ? "text-slate-800 dark:text-white"
-                        : "text-slate-400 dark:text-slate-600"
+                        ? "text-slate-900"
+                        : "text-slate-400"
                     }`}
                   >
                     {badge.label}
                   </p>
-                  <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
+                  <p className="text-[10px] text-slate-500 mt-0.5">
                     {badge.description}
                   </p>
                   {badge.earned && (
-                    <span className="absolute top-2 right-2 w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center">
-                      <span className="material-symbols-outlined text-white text-[12px]">
+                    <span className="absolute top-2 right-2 w-5 h-5 rounded-full bg-yellow-400 flex items-center justify-center">
+                      <span className="material-symbols-outlined text-slate-950 text-[12px] font-black">
                         check
                       </span>
                     </span>
@@ -544,18 +547,18 @@ const UserDashboard = () => {
                 {upcomingEvents.map((event) => (
                   <div
                     key={event._id}
-                    className="flex items-center gap-4 p-3.5 rounded-xl bg-slate-50 dark:bg-[#1c2438] border border-slate-100 dark:border-slate-700/60 hover:border-[#0d4af2]/30 transition-colors"
+                    className="flex items-center gap-4 p-3.5 rounded-xl bg-white border border-slate-200 hover:border-yellow-400 transition-colors"
                   >
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#0d4af2] to-violet-600 flex items-center justify-center shrink-0">
-                      <span className="text-white font-black text-sm">
+                    <div className="w-12 h-12 rounded-xl bg-yellow-400 flex items-center justify-center shrink-0">
+                      <span className="text-slate-950 font-black text-sm">
                         {event.daysRemaining}d
                       </span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold text-slate-800 dark:text-white truncate">
+                      <p className="text-sm font-bold text-slate-900 truncate">
                         {event.title}
                       </p>
-                      <p className="text-xs text-slate-400 dark:text-slate-500 flex items-center gap-1 mt-0.5">
+                      <p className="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
                         <span className="material-symbols-outlined text-[12px]">
                           calendar_today
                         </span>
@@ -572,9 +575,7 @@ const UserDashboard = () => {
                       </p>
                     </div>
                     <span
-                      className={`text-[10px] font-black px-2 py-1 rounded-md uppercase ${
-                        CATEGORY_COLORS[event.category] || "bg-slate-500"
-                      } text-white`}
+                      className="text-[10px] font-bold px-2 py-1 rounded-md uppercase bg-yellow-100 text-yellow-900"
                     >
                       {event.category}
                     </span>
@@ -588,7 +589,7 @@ const UserDashboard = () => {
                 action={
                   <Link
                     to="/events"
-                    className="text-[#0d4af2] text-xs font-bold hover:underline"
+                    className="text-yellow-600 text-xs font-bold hover:underline"
                   >
                     Browse events →
                   </Link>
@@ -613,13 +614,13 @@ const UserDashboard = () => {
                     register: "text-emerald-500",
                     bookmark: "text-amber-500",
                     unbookmark: "text-slate-400",
-                    create_event: "text-[#0d4af2]",
+                    create_event: "text-yellow-600",
                     profile_update: "text-violet-500",
                   };
                   return (
                     <div
                       key={i}
-                      className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-[#1c2438] transition-colors"
+                      className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors"
                     >
                       <span
                         className={`material-symbols-outlined text-xl ${
@@ -629,11 +630,11 @@ const UserDashboard = () => {
                         {iconMap[item.type] || "circle"}
                       </span>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate">
+                        <p className="text-sm font-medium text-slate-700 truncate">
                           {item.action}
                         </p>
                       </div>
-                      <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 shrink-0">
+                      <span className="text-[11px] font-semibold text-slate-400 shrink-0">
                         {item.timeAgo}
                       </span>
                     </div>
@@ -664,11 +665,11 @@ const UserDashboard = () => {
             className="mb-8"
           >
             <Section title="Event Journey" icon="timeline" delay={13}>
-              <div className="relative pl-6 border-l-2 border-slate-200 dark:border-slate-700 space-y-6">
+              <div className="relative pl-6 border-l-2 border-slate-200 space-y-6">
                 {timeline.map((group) => (
                   <div key={group.month} className="relative">
-                    <div className="absolute -left-[33px] w-4 h-4 rounded-full bg-[#0d4af2] border-2 border-white dark:border-[#161d2f]" />
-                    <p className="text-sm font-bold text-slate-800 dark:text-white mb-2">
+                    <div className="absolute -left-[33px] w-4 h-4 rounded-full bg-yellow-400 border-2 border-white" />
+                    <p className="text-sm font-bold text-slate-900 mb-2">
                       {group.month}
                     </p>
                     <div className="space-y-1.5">
@@ -681,18 +682,18 @@ const UserDashboard = () => {
                             className={`material-symbols-outlined text-[14px] ${
                               evt.action === "attended"
                                 ? "text-emerald-500"
-                                : "text-[#0d4af2]"
+                                : "text-yellow-600"
                             }`}
                           >
                             {evt.action === "attended"
                               ? "check_circle"
                               : "app_registration"}
                           </span>
-                          <span className="text-slate-600 dark:text-slate-400">
+                          <span className="text-slate-600">
                             {evt.action === "attended"
                               ? "Attended"
                               : "Registered for"}{" "}
-                            <span className="font-semibold text-slate-800 dark:text-slate-200">
+                            <span className="font-semibold text-slate-800">
                               {evt.title}
                             </span>
                           </span>
@@ -724,24 +725,22 @@ const UserDashboard = () => {
                 {recommendations.map((rec) => (
                   <div
                     key={rec.event._id}
-                    className="rounded-xl border border-slate-200 dark:border-slate-700/60 bg-slate-50 dark:bg-[#1c2438] p-4 hover:border-[#0d4af2]/40 transition-all duration-200 group"
+                    className="rounded-2xl border border-slate-200 bg-white p-4 hover:border-yellow-400 hover:shadow-md transition-all duration-200 group"
                   >
                     <div className="flex items-center justify-between mb-3">
                       <span
-                        className={`text-[10px] font-black px-2 py-1 rounded-md uppercase ${
-                          CATEGORY_COLORS[rec.event.category] || "bg-slate-500"
-                        } text-white`}
+                        className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase bg-yellow-100 text-yellow-900"
                       >
                         {rec.event.category}
                       </span>
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-[10px] font-black">
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
                         {rec.matchScore}% match
                       </span>
                     </div>
-                    <p className="text-sm font-bold text-slate-800 dark:text-white mb-1 line-clamp-2 group-hover:text-[#0d4af2] transition-colors">
+                    <p className="text-sm font-bold text-slate-900 mb-1 line-clamp-2 group-hover:text-yellow-600 transition-colors">
                       {rec.event.title}
                     </p>
-                    <p className="text-xs text-slate-400 dark:text-slate-500 flex items-center gap-1">
+                    <p className="text-xs text-slate-400 flex items-center gap-1">
                       <span className="material-symbols-outlined text-[12px]">
                         calendar_today
                       </span>
@@ -752,7 +751,7 @@ const UserDashboard = () => {
                         {rec.event.tags.slice(0, 3).map((tag) => (
                           <span
                             key={tag}
-                            className="text-[9px] font-bold py-0.5 px-2 rounded-md bg-slate-200/80 dark:bg-slate-700 text-slate-500 dark:text-slate-400"
+                            className="text-[9px] font-bold py-0.5 px-2 rounded-md bg-slate-100 text-slate-600"
                           >
                             {tag}
                           </span>

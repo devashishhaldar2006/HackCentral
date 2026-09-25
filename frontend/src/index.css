@@ -1,18 +1,28 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-/* ===== Custom Theme & Base Styles ===== */
+/* ===== Clean Yellow & White Minimalist Theme ===== */
 @theme {
-  --color-primary: #0d4af2;
-  --color-bg-light: #f5f6f8;
-  --color-bg-dark: #101522;
+  --color-primary: #eab308;
+  --color-primary-yellow: #facc15;
+  --color-primary-yellow-light: #fef08a;
+  --color-primary-yellow-subtle: #fefce8;
+  --color-bg-white: #ffffff;
+  --color-bg-soft: #fafafa;
+  --color-border-subtle: #f1f5f9;
 }
 
-/* Base body styles */
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  letter-spacing: -0.025em;
 }
 
 /* Material Symbols font settings */
@@ -20,175 +30,97 @@ body {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
-/* Dark mode root background */
-html.dark body {
-  background-color: #101522;
-  color: #f1f5f9;
+/* Clean Yellow & White Buttons */
+.btn-yellow {
+  background-color: #facc15;
+  color: #171717;
+  font-weight: 700;
+  padding: 0.75rem 1.6rem;
+  border-radius: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px 0 rgba(234, 179, 8, 0.25);
+  border: 1px solid rgba(234, 179, 8, 0.3);
 }
 
-html body {
-  background-color: #f5f6f8;
-  color: #0f172a;
-}
-
-/* ===== Animations ===== */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
-}
-
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.2; transform: scale(1); }
-  50% { opacity: 0.35; transform: scale(1.05); }
-}
-
-.delay-1000 {
-  animation-delay: 1s;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ===== Login Page Animations ===== */
-@keyframes orbit {
-  0% { transform: rotate(0deg) translateX(180px) rotate(0deg); }
-  100% { transform: rotate(360deg) translateX(180px) rotate(-360deg); }
-}
-
-@keyframes orbit-reverse {
-  0% { transform: rotate(0deg) translateX(140px) rotate(0deg); }
-  100% { transform: rotate(-360deg) translateX(140px) rotate(360deg); }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
-@keyframes grid-scroll {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(40px, 40px); }
-}
-
-@keyframes pulse-ring {
-  0% { transform: scale(0.95); opacity: 0.7; }
-  50% { transform: scale(1); opacity: 0.3; }
-  100% { transform: scale(0.95); opacity: 0.7; }
-}
-
-@keyframes slide-up {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes card-glow {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
-}
-
-/* Login page grid background */
-.login-grid-bg {
-  background-image:
-    linear-gradient(rgba(13, 74, 242, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(13, 74, 242, 0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
-  animation: grid-scroll 20s linear infinite;
-}
-
-html.dark .login-grid-bg {
-  background-image:
-    linear-gradient(rgba(13, 74, 242, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(13, 74, 242, 0.07) 1px, transparent 1px);
-}
-
-/* Animated gradient border */
-.gradient-border {
-  position: relative;
-}
-
-.gradient-border::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    135deg,
-    rgba(13, 74, 242, 0.5),
-    rgba(139, 92, 246, 0.3),
-    rgba(6, 182, 212, 0.3),
-    rgba(13, 74, 242, 0.5)
-  );
-  background-size: 300% 300%;
-  animation: shimmer 6s ease-in-out infinite;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
-/* Login card entrance animation */
-.login-card-enter {
-  animation: slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* Success animation for inputs */
-.input-focus-glow:focus {
-  box-shadow: 0 0 0 3px rgba(13, 74, 242, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-/* Social button hover lift */
-.social-btn:hover {
+.btn-yellow:hover {
+  background-color: #fde047;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 20px rgba(234, 179, 8, 0.35);
 }
 
-html.dark .social-btn:hover {
-  box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.4);
+.btn-white {
+  background-color: #ffffff;
+  color: #1e293b;
+  font-weight: 600;
+  padding: 0.75rem 1.6rem;
+  border-radius: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 
-/* ===== Dashboard — Activity Heatmap ===== */
+.btn-white:hover {
+  background-color: #fafafa;
+  border-color: #cbd5e1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Minimalist Card */
+.minimal-card {
+  background-color: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 1.25rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04);
+}
+
+.minimal-card:hover {
+  border-color: #fde047;
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px -4px rgba(234, 179, 8, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+}
+
+/* Minimalist Badge */
+.yellow-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  background-color: #fefce8;
+  border: 1px solid #fef08a;
+  color: #854d0e;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  letter-spacing: 0.02em;
+}
+
+/* Activity Heatmap in Warm Yellow */
 .react-calendar-heatmap .color-empty {
-  fill: #e2e8f0;
-}
-
-html.dark .react-calendar-heatmap .color-empty {
-  fill: #1e293b;
+  fill: #f1f5f9;
 }
 
 .react-calendar-heatmap .color-scale-1 {
-  fill: #93c5fd;
+  fill: #fef08a;
 }
 
 .react-calendar-heatmap .color-scale-2 {
-  fill: #3b82f6;
+  fill: #fde047;
 }
 
 .react-calendar-heatmap .color-scale-3 {
-  fill: #1d4ed8;
+  fill: #facc15;
 }
 
 .react-calendar-heatmap .color-scale-4 {
-  fill: #0d4af2;
-}
-
-html.dark .react-calendar-heatmap .color-scale-1 {
-  fill: #1e3a5f;
-}
-
-html.dark .react-calendar-heatmap .color-scale-2 {
-  fill: #1d4ed8;
-}
-
-html.dark .react-calendar-heatmap .color-scale-3 {
-  fill: #2563eb;
-}
-
-html.dark .react-calendar-heatmap .color-scale-4 {
-  fill: #3b82f6;
+  fill: #eab308;
 }
 
 .react-calendar-heatmap text {
@@ -196,45 +128,7 @@ html.dark .react-calendar-heatmap .color-scale-4 {
   fill: #94a3b8;
 }
 
-html.dark .react-calendar-heatmap text {
-  fill: #64748b;
-}
-
 .react-calendar-heatmap rect:hover {
-  stroke: #0d4af2;
-  stroke-width: 1;
+  stroke: #eab308;
+  stroke-width: 1.5;
 }
-
-/* ===== Dashboard — XP Progress Bar ===== */
-@keyframes progress-fill {
-  from { width: 0; }
-}
-
-@keyframes count-up {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes badge-pop {
-  0% { transform: scale(0.5); opacity: 0; }
-  60% { transform: scale(1.1); }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-@keyframes streak-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
-}
-
-.dashboard-stat-enter {
-  animation: count-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.badge-enter {
-  animation: badge-pop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.streak-fire {
-  animation: streak-pulse 2s ease-in-out infinite;
-}
-

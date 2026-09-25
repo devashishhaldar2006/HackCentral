@@ -378,24 +378,24 @@ import { PasswordModal, DeleteAvatarModal } from "../components/profile/ProfileM
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-[#f5f6f8] dark:bg-[#0e1220] py-8 sm:py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+    <div className="min-h-[calc(100vh-64px)] bg-slate-50 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="max-w-4xl mx-auto space-y-6">
 
         {/* ═══════════════ STATUS MESSAGES ═══════════════ */}
         {error && (
-          <div className="flex items-center gap-3 px-5 py-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 text-red-700 dark:text-red-300 animate-[slide-up_0.25s_ease-out]">
+          <div className="flex items-center gap-3 px-5 py-4 rounded-2xl bg-red-50 border border-red-200 text-red-700 animate-[slide-up_0.25s_ease-out]">
             <span className="material-symbols-outlined text-xl shrink-0">error</span>
             <span className="text-sm font-medium">{error}</span>
           </div>
         )}
         {avatarError && (
-          <div className="flex items-center gap-3 px-5 py-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 text-red-700 dark:text-red-300 animate-[slide-up_0.25s_ease-out]">
+          <div className="flex items-center gap-3 px-5 py-4 rounded-2xl bg-red-50 border border-red-200 text-red-700 animate-[slide-up_0.25s_ease-out]">
             <span className="material-symbols-outlined text-xl shrink-0">error</span>
             <span className="text-sm font-medium">{avatarError}</span>
           </div>
         )}
         {successMsg && (
-          <div className="flex items-center gap-3 px-5 py-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/60 text-emerald-700 dark:text-emerald-300 animate-[slide-up_0.25s_ease-out]">
+          <div className="flex items-center gap-3 px-5 py-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-700 animate-[slide-up_0.25s_ease-out]">
             <span className="material-symbols-outlined text-xl shrink-0">check_circle</span>
             <span className="text-sm font-medium">{successMsg}</span>
           </div>

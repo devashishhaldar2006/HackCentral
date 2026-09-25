@@ -17,15 +17,14 @@ const ErrorPage = ({ type = "404", error }) => {
   const handleGoHome = () => navigate("/");
 
   return (
-    <div className="min-h-screen w-full bg-[#f5f6f8] dark:bg-[#0a0f1e] flex items-center justify-center relative overflow-hidden px-4">
+    <div className="min-h-screen w-full bg-slate-50 flex items-center justify-center relative overflow-hidden px-4">
       {/* Background Orbs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-500/20 dark:bg-[#0d4af2]/20 rounded-full blur-[120px]" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-500/20 dark:bg-purple-600/20 rounded-full blur-[120px]" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-yellow-200/50 rounded-full blur-[100px] pointer-events-none" />
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
         className="relative z-10 max-w-2xl w-full flex flex-col items-center text-center"
       >
         <motion.div
@@ -37,21 +36,21 @@ const ErrorPage = ({ type = "404", error }) => {
             damping: 20,
             delay: 0.1,
           }}
-          className="text-8xl md:text-[150px] font-black text-transparent bg-clip-text bg-gradient-to-br from-[#0d4af2] to-purple-600 tracking-tighter leading-none mb-6 drop-shadow-sm"
+          className="text-8xl md:text-[140px] font-black text-yellow-500 tracking-tighter leading-none mb-4"
         >
           {errorCode}
         </motion.div>
 
-        <h1 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white mb-4">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">
           {title}
         </h1>
 
-        <p className="text-base md:text-lg text-slate-500 dark:text-slate-400 max-w-lg mx-auto mb-10">
+        <p className="text-base text-slate-600 max-w-lg mx-auto mb-8">
           {subtitle}
         </p>
         
         {!is404 && error && (
-          <div className="w-full bg-red-500/10 border border-red-500/20 rounded-xl p-4 mb-10 text-left overflow-auto max-h-48 text-sm text-red-600 dark:text-red-400 font-mono">
+          <div className="w-full bg-red-50 border border-red-200 rounded-xl p-4 mb-8 text-left overflow-auto max-h-48 text-xs text-red-600 font-mono">
             {error.toString()}
           </div>
         )}
@@ -59,17 +58,17 @@ const ErrorPage = ({ type = "404", error }) => {
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
           <button
             onClick={handleGoBack}
-            className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 shadow-sm transition-all cursor-pointer flex items-center justify-center gap-2"
+            className="btn-white"
           >
-            <span className="material-symbols-outlined text-xl">arrow_back</span>
+            <span className="material-symbols-outlined text-lg">arrow_back</span>
             Go Back
           </button>
           
           <button
             onClick={handleGoHome}
-            className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-white bg-[#0d4af2] hover:bg-[#0d4af2]/90 shadow-lg shadow-[#0d4af2]/30 transition-all cursor-pointer flex items-center justify-center gap-2"
+            className="btn-yellow"
           >
-            <span className="material-symbols-outlined text-xl">home</span>
+            <span className="material-symbols-outlined text-lg">home</span>
             Return Home
           </button>
         </div>

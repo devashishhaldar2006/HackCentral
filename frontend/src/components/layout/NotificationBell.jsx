@@ -78,20 +78,20 @@ const NotificationBell = () => {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 text-slate-400 hover:text-[#0d4af2] hover:bg-[#0d4af2]/10 rounded-full transition-colors cursor-pointer"
+        className="relative p-2 text-slate-500 hover:text-slate-900 hover:bg-yellow-50 rounded-xl transition-colors cursor-pointer"
       >
         <span className="material-symbols-outlined text-2xl">notifications</span>
         {unreadCount > 0 && (
-          <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-rose-500 rounded-full ring-2 ring-white dark:ring-[#0a0f1e]" />
+          <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-yellow-500 rounded-full ring-2 ring-white" />
         )}
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-[#1e293b] rounded-xl shadow-xl border border-slate-200 dark:border-slate-800 z-50 overflow-hidden">
-          <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
-            <h3 className="font-bold text-slate-900 dark:text-white">Notifications</h3>
+        <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-slate-200 z-50 overflow-hidden">
+          <div className="p-4 border-b border-slate-100 flex justify-between items-center">
+            <h3 className="font-bold text-slate-900">Notifications</h3>
             {unreadCount > 0 && (
-              <span className="text-xs font-bold text-[#0d4af2] bg-[#0d4af2]/10 px-2 py-0.5 rounded-full">
+              <span className="text-xs font-bold text-yellow-900 bg-yellow-100 px-2 py-0.5 rounded-full">
                 {unreadCount} unread
               </span>
             )}
@@ -99,7 +99,7 @@ const NotificationBell = () => {
           
           <div className="max-h-96 overflow-y-auto">
             {notifications.length === 0 ? (
-              <div className="p-8 text-center text-slate-500 dark:text-slate-400">
+              <div className="p-8 text-center text-slate-400">
                 <span className="material-symbols-outlined text-4xl mb-2 opacity-50">notifications_off</span>
                 <p className="text-sm">No notifications yet</p>
               </div>
@@ -109,17 +109,17 @@ const NotificationBell = () => {
                 return (
                   <div
                     key={notif._id}
-                    className={`p-4 border-b border-slate-100 dark:border-slate-800 last:border-0 hover:bg-slate-50 dark:hover:bg-[#1c2438] transition-colors ${
-                      isUnread ? "bg-slate-50/50 dark:bg-slate-800/20" : "opacity-75"
+                    className={`p-4 border-b border-slate-100 last:border-0 hover:bg-yellow-50/40 transition-colors ${
+                      isUnread ? "bg-yellow-50/20" : "opacity-75"
                     }`}
                   >
                     <div className="flex gap-3">
-                      <div className={`mt-0.5 w-2 h-2 rounded-full flex-shrink-0 ${isUnread ? 'bg-[#0d4af2]' : 'bg-transparent'}`} />
+                      <div className={`mt-0.5 w-2 h-2 rounded-full shrink-0 ${isUnread ? 'bg-yellow-500' : 'bg-transparent'}`} />
                       <div className="flex-1">
-                        <p className="text-sm font-bold text-slate-900 dark:text-white mb-1">
+                        <p className="text-sm font-bold text-slate-900 mb-1">
                           {notif.title}
                         </p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">
+                        <p className="text-xs text-slate-500 mb-2 leading-relaxed">
                           {notif.message}
                         </p>
                         <div className="flex items-center justify-between mt-2">
@@ -129,7 +129,7 @@ const NotificationBell = () => {
                           {isUnread && (
                             <button
                               onClick={() => markAsRead(notif._id)}
-                              className="text-[11px] font-bold text-[#0d4af2] hover:text-[#0a3bc4] transition-colors"
+                              className="text-[11px] font-bold text-yellow-600 hover:text-yellow-700 transition-colors cursor-pointer"
                             >
                               Mark as read
                             </button>

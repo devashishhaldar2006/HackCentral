@@ -10,33 +10,31 @@ export const CATEGORY_ICONS = {
   Competition: "emoji_events",
 };
 
-/* ── gradient palettes for cards ── */
+/* ── editorial event card gradient accents (curated warm & technical, avoid neon blue/purple) ── */
 export const GRADIENTS = [
-  "from-indigo-600 via-blue-700 to-cyan-500",
-  "from-orange-500 via-rose-500 to-pink-600",
-  "from-purple-600 via-violet-600 to-indigo-700",
-  "from-sky-500 via-blue-500 to-indigo-600",
-  "from-red-600 via-rose-600 to-pink-700",
-  "from-teal-500 via-emerald-500 to-green-600",
-  "from-amber-500 via-orange-500 to-red-500",
-  "from-fuchsia-600 via-pink-600 to-rose-500",
+  "from-amber-600 via-yellow-600 to-stone-900",
+  "from-stone-800 via-neutral-900 to-amber-950",
+  "from-yellow-700 via-amber-800 to-zinc-900",
+  "from-orange-700 via-amber-800 to-neutral-900",
+  "from-stone-900 via-amber-900 to-yellow-800",
+  "from-yellow-600 via-stone-800 to-neutral-950",
 ];
 
-/* ── badge colours ── */
+/* ── badge colours tailored for yellow/warm white editorial design ── */
 export const CATEGORY_COLORS = {
-  Conference: "bg-[#0d4af2]",
-  Hackathon: "bg-violet-600",
-  Workshop: "bg-amber-500",
-  Expo: "bg-emerald-600",
-  Meetup: "bg-sky-500",
-  Entertainment: "bg-rose-500",
-  Competition: "bg-fuchsia-600",
+  Conference: "bg-[#facc15] text-[#0b0d11]",
+  Hackathon: "bg-[#facc15] text-[#0b0d11]",
+  Workshop: "bg-amber-400 text-[#0b0d11]",
+  Expo: "bg-yellow-300 text-[#0b0d11]",
+  Meetup: "bg-stone-200 text-[#0b0d11]",
+  Entertainment: "bg-amber-500 text-white",
+  Competition: "bg-[#eab308] text-[#0b0d11]",
 };
 
 export const MODE_COLORS = {
-  Online: "bg-emerald-500",
-  Offline: "bg-[#0d4af2]",
-  Hybrid: "bg-purple-500",
+  Online: "bg-emerald-500/90 text-white",
+  Offline: "bg-[#facc15] text-[#0b0d11]",
+  Hybrid: "bg-amber-400 text-[#0b0d11]",
 };
 
 /* ── date helper ── */

@@ -39,7 +39,7 @@ export const AuthLoader = ({ children }) => {
 
   if (!isAuthLoaded) {
     return (
-      <div className="h-screen w-full flex items-center justify-center bg-[#f5f6f8] dark:bg-[#080c18]">
+      <div className="h-screen w-full flex items-center justify-center bg-white">
         <Spinner />
       </div>
     );
@@ -59,7 +59,7 @@ export const ProtectedRoute = ({ children }) => {
   // If auth hasn't loaded yet, show a loading spinner instead of redirecting
   if (!isAuthLoaded) {
     return (
-      <div className="h-screen w-full flex items-center justify-center bg-[#f5f6f8] dark:bg-[#080c18]">
+      <div className="h-screen w-full flex items-center justify-center bg-white">
         <Spinner />
       </div>
     );
@@ -76,7 +76,7 @@ export const OrganizerRoute = ({ children }) => {
 
   if (!isAuthLoaded) {
     return (
-      <div className="h-screen w-full flex items-center justify-center bg-[#f5f6f8] dark:bg-[#080c18]">
+      <div className="h-screen w-full flex items-center justify-center bg-white">
         <Spinner />
       </div>
     );
@@ -94,7 +94,7 @@ export const UserRoute = ({ children }) => {
 
   if (!isAuthLoaded) {
     return (
-      <div className="h-screen w-full flex items-center justify-center bg-[#f5f6f8] dark:bg-[#080c18]">
+      <div className="h-screen w-full flex items-center justify-center bg-white">
         <Spinner />
       </div>
     );

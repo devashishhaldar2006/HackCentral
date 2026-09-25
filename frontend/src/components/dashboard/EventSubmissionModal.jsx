@@ -118,7 +118,7 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-slate-900/40 dark:bg-slate-900/60 backdrop-blur-sm"
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs"
         />
 
         {/* Modal */}
@@ -127,21 +127,21 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className="relative w-full max-w-3xl bg-white dark:bg-[#111827] rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 my-8 overflow-hidden flex flex-col max-h-[90vh]"
+          className="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl border border-slate-200 my-8 overflow-hidden flex flex-col max-h-[90vh]"
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-6 sm:p-8 border-b border-slate-100 dark:border-slate-800/60">
+          <div className="flex items-center justify-between p-6 sm:p-8 border-b border-slate-100">
             <div>
-              <h2 className="text-2xl font-black text-slate-900 dark:text-white">
+              <h2 className="text-2xl font-black text-slate-900">
                 {initialData ? "Edit Event" : "Create New Event"}
               </h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+              <p className="text-sm text-slate-500 mt-1">
                 {initialData ? "Update the details of your event." : "Fill out the details below to publish your event."}
               </p>
             </div>
             <button
               onClick={onClose}
-              className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
+              className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer"
             >
               <span className="material-symbols-outlined">close</span>
             </button>
@@ -150,11 +150,11 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
           {/* Body */}
           <div className="flex-1 overflow-y-auto p-6 sm:p-8 custom-scrollbar">
             {error && (
-              <div className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/40 flex items-start gap-3">
+              <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 flex items-start gap-3">
                 <span className="material-symbols-outlined text-red-500 shrink-0">
                   error
                 </span>
-                <p className="text-sm text-red-600 dark:text-red-400 font-medium">
+                <p className="text-sm text-red-600 font-medium">
                   {error}
                 </p>
               </div>
@@ -164,7 +164,7 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
               <div className="space-y-4">
                 {/* Title */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                     Event Title *
                   </label>
                   <input
@@ -174,13 +174,13 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
                     onChange={handleChange}
                     required
                     placeholder="e.g. Global Tech Hackathon 2026"
-                    className="w-full h-12 px-4 bg-slate-50 dark:bg-[#1a2235] border border-slate-200 dark:border-slate-700/60 rounded-xl focus:border-[#0d4af2] focus:ring-1 focus:ring-[#0d4af2] outline-none transition-all text-sm text-slate-900 dark:text-white"
+                    className="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-xl focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 outline-none transition-all text-sm text-slate-900"
                   />
                 </div>
 
                 {/* Description */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                     Description
                   </label>
                   <textarea
@@ -189,21 +189,21 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
                     onChange={handleChange}
                     rows="4"
                     placeholder="Describe your event..."
-                    className="w-full p-4 bg-slate-50 dark:bg-[#1a2235] border border-slate-200 dark:border-slate-700/60 rounded-xl focus:border-[#0d4af2] focus:ring-1 focus:ring-[#0d4af2] outline-none transition-all text-sm text-slate-900 dark:text-white resize-y"
+                    className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 outline-none transition-all text-sm text-slate-900 resize-y"
                   ></textarea>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {/* Category */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                       Category *
                     </label>
                     <select
                       name="category"
                       value={formData.category}
                       onChange={handleChange}
-                      className="w-full h-12 px-4 bg-slate-50 dark:bg-[#1a2235] border border-slate-200 dark:border-slate-700/60 rounded-xl focus:border-[#0d4af2] outline-none text-sm text-slate-900 dark:text-white"
+                      className="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-xl focus:border-yellow-400 outline-none text-sm text-slate-900"
                     >
                       <option value="Conference">Conference</option>
                       <option value="Hackathon">Hackathon</option>
@@ -217,14 +217,14 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
 
                   {/* Mode */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                       Mode *
                     </label>
                     <select
                       name="mode"
                       value={formData.mode}
                       onChange={handleChange}
-                      className="w-full h-12 px-4 bg-slate-50 dark:bg-[#1a2235] border border-slate-200 dark:border-slate-700/60 rounded-xl focus:border-[#0d4af2] outline-none text-sm text-slate-900 dark:text-white"
+                      className="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-xl focus:border-yellow-400 outline-none text-sm text-slate-900"
                     >
                       <option value="Online">Online</option>
                       <option value="Offline">Offline</option>
@@ -234,14 +234,14 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
 
                   {/* Price */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                       Price *
                     </label>
                     <select
                       name="price"
                       value={formData.price}
                       onChange={handleChange}
-                      className="w-full h-12 px-4 bg-slate-50 dark:bg-[#1a2235] border border-slate-200 dark:border-slate-700/60 rounded-xl focus:border-[#0d4af2] outline-none text-sm text-slate-900 dark:text-white"
+                      className="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-xl focus:border-yellow-400 outline-none text-sm text-slate-900"
                     >
                       <option value="Free">Free</option>
                       <option value="Paid">Paid</option>
@@ -252,7 +252,7 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
                 {/* Dates */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                       Start Date *
                     </label>
                     <input
@@ -261,11 +261,11 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
                       value={formData.startDate}
                       onChange={handleChange}
                       required
-                      className="w-full h-12 px-4 bg-slate-50 dark:bg-[#1a2235] border border-slate-200 dark:border-slate-700/60 rounded-xl focus:border-[#0d4af2] outline-none text-sm text-slate-900 dark:text-white"
+                      className="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-xl focus:border-yellow-400 outline-none text-sm text-slate-900"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                       End Date
                     </label>
                     <input
@@ -273,7 +273,7 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
                       name="endDate"
                       value={formData.endDate}
                       onChange={handleChange}
-                      className="w-full h-12 px-4 bg-slate-50 dark:bg-[#1a2235] border border-slate-200 dark:border-slate-700/60 rounded-xl focus:border-[#0d4af2] outline-none text-sm text-slate-900 dark:text-white"
+                      className="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-xl focus:border-yellow-400 outline-none text-sm text-slate-900"
                     />
                   </div>
                 </div>
@@ -281,7 +281,7 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
                 {/* Location & Venue */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                       Location / City
                     </label>
                     <input
@@ -290,11 +290,11 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
                       value={formData.location}
                       onChange={handleChange}
                       placeholder="e.g. San Francisco, CA"
-                      className="w-full h-12 px-4 bg-slate-50 dark:bg-[#1a2235] border border-slate-200 dark:border-slate-700/60 rounded-xl focus:border-[#0d4af2] outline-none text-sm text-slate-900 dark:text-white"
+                      className="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-xl focus:border-yellow-400 outline-none text-sm text-slate-900"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                       Venue Name
                     </label>
                     <input
@@ -303,7 +303,7 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
                       value={formData.venue}
                       onChange={handleChange}
                       placeholder="e.g. Moscone Center"
-                      className="w-full h-12 px-4 bg-slate-50 dark:bg-[#1a2235] border border-slate-200 dark:border-slate-700/60 rounded-xl focus:border-[#0d4af2] outline-none text-sm text-slate-900 dark:text-white"
+                      className="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-xl focus:border-yellow-400 outline-none text-sm text-slate-900"
                     />
                   </div>
                 </div>
@@ -311,7 +311,7 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
                 {/* Links & Image */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                       Registration Link
                     </label>
                     <input
@@ -320,11 +320,11 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
                       value={formData.registrationLink}
                       onChange={handleChange}
                       placeholder="https://..."
-                      className="w-full h-12 px-4 bg-slate-50 dark:bg-[#1a2235] border border-slate-200 dark:border-slate-700/60 rounded-xl focus:border-[#0d4af2] outline-none text-sm text-slate-900 dark:text-white"
+                      className="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-xl focus:border-yellow-400 outline-none text-sm text-slate-900"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                       Promotional Image URL
                     </label>
                     <input
@@ -333,14 +333,14 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
                       value={formData.image}
                       onChange={handleChange}
                       placeholder="https://..."
-                      className="w-full h-12 px-4 bg-slate-50 dark:bg-[#1a2235] border border-slate-200 dark:border-slate-700/60 rounded-xl focus:border-[#0d4af2] outline-none text-sm text-slate-900 dark:text-white"
+                      className="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-xl focus:border-yellow-400 outline-none text-sm text-slate-900"
                     />
                   </div>
                 </div>
 
                 {/* Tags */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                     Tags (comma separated)
                   </label>
                   <input
@@ -349,7 +349,7 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
                     value={formData.tags}
                     onChange={handleChange}
                     placeholder="e.g. AI, React, Web3"
-                    className="w-full h-12 px-4 bg-slate-50 dark:bg-[#1a2235] border border-slate-200 dark:border-slate-700/60 rounded-xl focus:border-[#0d4af2] outline-none text-sm text-slate-900 dark:text-white"
+                    className="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-xl focus:border-yellow-400 outline-none text-sm text-slate-900"
                   />
                 </div>
               </div>
@@ -357,11 +357,11 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
           </div>
 
           {/* Footer */}
-          <div className="p-6 border-t border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-[#1a2235]/50 flex justify-end gap-3 shrink-0">
+          <div className="p-6 border-t border-slate-100 bg-slate-50/50 flex justify-end gap-3 shrink-0">
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2.5 rounded-xl font-bold text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              className="px-6 py-2.5 rounded-xl font-bold text-sm text-slate-600 hover:bg-slate-200 transition-colors cursor-pointer"
             >
               Cancel
             </button>
@@ -369,7 +369,7 @@ export const EventSubmissionModal = ({ isOpen, onClose, onSuccess, initialData =
               type="submit"
               form="event-submit-form"
               disabled={loading}
-              className="px-6 py-2.5 rounded-xl font-bold text-sm bg-[#0d4af2] hover:bg-[#0d4af2]/90 text-white shadow-lg shadow-[#0d4af2]/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 cursor-pointer"
+              className="btn-yellow cursor-pointer"
             >
               {loading && <Spinner />}
               {loading ? "Submitting..." : initialData ? "Save Changes" : "Submit Event"}

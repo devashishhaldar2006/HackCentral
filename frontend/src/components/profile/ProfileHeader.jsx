@@ -18,12 +18,12 @@ export const ProfileHeader = ({
   handleCancelEdit
 }) => {
   return (
-    <div className="bg-white dark:bg-[#161d2f] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+    <div className="bg-white rounded-3xl border border-slate-200 shadow-sm">
       <div className="px-6 sm:px-8 py-6 sm:py-8">
         <div className="flex flex-col sm:flex-row sm:items-center gap-5">
           {/* Avatar */}
           <div className="relative group shrink-0 self-center sm:self-auto">
-            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-700 shadow-md">
+            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-slate-100 shadow-md">
               <img
                 src={avatarPreview || user.avatar || DEFAULT_AVATAR}
                 alt="Avatar"
@@ -31,7 +31,7 @@ export const ProfileHeader = ({
               />
               {avatarLoading && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="loading loading-spinner loading-md text-slate-500"></span>
+                  <span className="loading loading-spinner loading-md text-yellow-500"></span>
                 </div>
               )}
             </div>
@@ -67,7 +67,7 @@ export const ProfileHeader = ({
             {isCustomAvatar && !avatarLoading && (
               <button
                 onClick={() => setShowDeleteAvatarConfirm(true)}
-                className="absolute -top-1 -right-1 z-10 w-7 h-7 bg-white dark:bg-slate-700 hover:bg-red-50 dark:hover:bg-red-900/40 text-slate-400 hover:text-red-500 rounded-full flex items-center justify-center shadow-md transition-all duration-200 scale-0 group-hover:scale-100 focus:scale-100 cursor-pointer border border-slate-200 dark:border-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                className="absolute -top-1 -right-1 z-10 w-7 h-7 bg-white hover:bg-red-50 text-slate-400 hover:text-red-500 rounded-full flex items-center justify-center shadow-md transition-all duration-200 scale-0 group-hover:scale-100 focus:scale-100 cursor-pointer border border-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
                 title="Remove avatar"
               >
                 <span className="material-symbols-outlined text-[16px]">close</span>
@@ -77,24 +77,24 @@ export const ProfileHeader = ({
 
           {/* Name / Email / Badges */}
           <div className="flex-1 text-center sm:text-left pb-1">
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white capitalize leading-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 capitalize leading-tight">
               {user.fullName}
             </h1>
-            <p className="text-slate-500 dark:text-slate-400 text-sm mt-0.5 select-all">
+            <p className="text-slate-500 text-sm mt-0.5 select-all">
               {user.email}
             </p>
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mt-3">
-              <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 uppercase tracking-wide">
+              <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-yellow-100 text-yellow-900 uppercase tracking-wide">
                 {user.role}
               </span>
               {user.role === "organizer" && user.verified && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                   <span className="material-symbols-outlined text-[14px]">verified</span>
                   Verified
                 </span>
               )}
               {user.location && (
-                <span className="inline-flex items-center gap-1 text-xs font-medium text-slate-500 dark:text-slate-400">
+                <span className="inline-flex items-center gap-1 text-xs font-medium text-slate-500">
                   <span className="material-symbols-outlined text-[14px]">location_on</span>
                   <span className="capitalize">{user.location}</span>
                 </span>
@@ -107,7 +107,7 @@ export const ProfileHeader = ({
             {!isEditing ? (
               <button
                 onClick={() => setIsEditing(true)}
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-semibold hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors shadow-sm cursor-pointer"
+                className="btn-yellow text-xs py-2.5 px-5"
               >
                 <span className="material-symbols-outlined text-[18px]">edit</span>
                 Edit Profile
@@ -120,14 +120,14 @@ export const ProfileHeader = ({
                     setError(null);
                     setSuccessMsg(null);
                   }}
-                  className="px-4 py-2.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm font-medium hover:bg-slate-50 transition-colors cursor-pointer"
                   disabled={loading}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSave}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-semibold hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors shadow-sm cursor-pointer"
+                  className="btn-yellow text-xs py-2.5 px-5"
                   disabled={loading}
                 >
                   {loading ? (
@@ -142,9 +142,9 @@ export const ProfileHeader = ({
             {user.authProvider === "local" && !isEditing && (
               <button
                 onClick={openPasswordModal}
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                className="btn-white text-xs py-2.5 px-5"
               >
-                <span className="material-symbols-outlined text-[16px]">lock</span>
+                <span className="material-symbols-outlined text-[16px] text-yellow-600">lock</span>
                 Change Password
               </button>
             )}

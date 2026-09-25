@@ -144,7 +144,7 @@ const OrganizerDashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-[#0a0f1e] pt-6 pb-16 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-slate-50 pt-6 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto space-y-6">
           <div className="flex justify-between items-center mb-8">
             <div className="space-y-2">
@@ -170,12 +170,15 @@ const OrganizerDashboard = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-[#0a0f1e] flex items-center justify-center">
-        <div className="text-center">
-          <span className="material-symbols-outlined text-5xl text-red-400 mb-3 block">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-center bg-white p-8 rounded-3xl border border-slate-200 shadow-sm max-w-md">
+          <span className="material-symbols-outlined text-5xl text-rose-500 mb-3 block">
             error
           </span>
-          <p className="text-red-500 font-semibold">{error}</p>
+          <p className="text-slate-800 font-semibold mb-4">{error}</p>
+          <button onClick={() => window.location.reload()} className="btn-yellow">
+            Try Again
+          </button>
         </div>
       </div>
     );
@@ -186,7 +189,7 @@ const OrganizerDashboard = () => {
   const { stats, eventPerformance, categoryBreakdown, monthlyCreations } = data;
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0a0f1e] pt-6 pb-16 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+    <div className="min-h-screen bg-slate-50 pt-6 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* HEADER */}
         <motion.div
@@ -196,18 +199,18 @@ const OrganizerDashboard = () => {
           className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         >
           <div className="flex items-center gap-3 mb-2 sm:mb-0">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0d4af2] to-violet-600 flex items-center justify-center shadow-lg shadow-[#0d4af2]/20 shrink-0">
-              <span className="material-symbols-outlined text-xl text-white">
+            <div className="w-10 h-10 rounded-2xl bg-yellow-400 flex items-center justify-center shadow-sm shrink-0">
+              <span className="material-symbols-outlined text-xl text-slate-950">
                 analytics
               </span>
             </div>
             <div>
-              <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
                 Organizer Dashboard
               </h1>
-              <p className="text-slate-500 dark:text-slate-400 text-sm">
+              <p className="text-slate-500 text-sm">
                 Analytics for your events,{" "}
-                <span className="capitalize font-semibold text-slate-700 dark:text-slate-300">
+                <span className="capitalize font-semibold text-slate-800">
                   {user?.fullName || "Organizer"}
                 </span>
               </p>
@@ -218,7 +221,7 @@ const OrganizerDashboard = () => {
               setEditingEvent(null);
               setIsModalOpen(true);
             }}
-            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#0d4af2] hover:bg-[#0d4af2]/90 text-white font-bold rounded-xl shadow-lg shadow-[#0d4af2]/20 transition-all active:scale-[0.98] cursor-pointer"
+            className="btn-yellow"
           >
             <span className="material-symbols-outlined text-xl">add</span>
             Create Event
@@ -237,26 +240,26 @@ const OrganizerDashboard = () => {
               icon: "event",
               label: "Events Created",
               value: stats.eventsCreated,
-              color: "bg-[#0d4af2]",
+              color: "bg-yellow-400 text-slate-950",
             },
             {
               icon: "group",
               label: "Total Registrations",
               value: stats.totalRegistrations,
-              color: "bg-emerald-500",
+              color: "bg-emerald-500 text-white",
             },
             {
               icon: "bookmark",
               label: "Total Bookmarks",
               value: stats.totalBookmarks,
-              color: "bg-amber-500",
+              color: "bg-amber-400 text-slate-950",
             },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
               custom={i}
               variants={fadeUp}
-              className="bg-white dark:bg-[#161d2f] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:shadow-lg hover:shadow-slate-200/30 dark:hover:shadow-black/20 transition-shadow duration-300"
+              className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow duration-300"
             >
               <div className="flex items-center gap-3 mb-3">
                 <div
@@ -266,11 +269,11 @@ const OrganizerDashboard = () => {
                     {stat.icon}
                   </span>
                 </div>
-                <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                   {stat.label}
                 </span>
               </div>
-              <p className="text-3xl font-black text-slate-900 dark:text-white tabular-nums dashboard-stat-enter">
+              <p className="text-3xl font-black text-slate-900 tabular-nums dashboard-stat-enter">
                 {stat.value.toLocaleString()}
               </p>
             </motion.div>
@@ -288,10 +291,10 @@ const OrganizerDashboard = () => {
           <motion.div
             variants={fadeUp}
             custom={3}
-            className="bg-white dark:bg-[#161d2f] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6"
+            className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6"
           >
-            <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-5 flex items-center gap-2.5">
-              <span className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
+            <h2 className="text-lg font-bold text-slate-900 mb-5 flex items-center gap-2.5">
+              <span className="w-8 h-8 rounded-lg bg-yellow-50 flex items-center justify-center text-yellow-600">
                 <span className="material-symbols-outlined text-[18px]">
                   bar_chart
                 </span>
@@ -324,7 +327,7 @@ const OrganizerDashboard = () => {
                   />
                   <Bar
                     dataKey="count"
-                    fill="#0d4af2"
+                    fill="#facc15"
                     radius={[6, 6, 0, 0]}
                     maxBarSize={36}
                   />
@@ -339,10 +342,10 @@ const OrganizerDashboard = () => {
           <motion.div
             variants={fadeUp}
             custom={4}
-            className="bg-white dark:bg-[#161d2f] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6"
+            className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6"
           >
-            <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-5 flex items-center gap-2.5">
-              <span className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
+            <h2 className="text-lg font-bold text-slate-900 mb-5 flex items-center gap-2.5">
+              <span className="w-8 h-8 rounded-lg bg-yellow-50 flex items-center justify-center text-yellow-600">
                 <span className="material-symbols-outlined text-[18px]">
                   donut_large
                 </span>
@@ -394,10 +397,10 @@ const OrganizerDashboard = () => {
                           backgroundColor: PIE_COLORS[i % PIE_COLORS.length],
                         }}
                       />
-                      <span className="text-sm font-medium text-slate-600 dark:text-slate-300 flex-1 truncate">
+                      <span className="text-sm font-medium text-slate-600 flex-1 truncate">
                         {cat.category}
                       </span>
-                      <span className="text-sm font-bold text-slate-800 dark:text-white tabular-nums">
+                      <span className="text-sm font-bold text-slate-900 tabular-nums">
                         {cat.count}
                       </span>
                     </div>
@@ -416,10 +419,10 @@ const OrganizerDashboard = () => {
           animate="visible"
           variants={fadeUp}
           custom={5}
-          className="bg-white dark:bg-[#161d2f] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6"
+          className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6"
         >
-          <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-5 flex items-center gap-2.5">
-            <span className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
+          <h2 className="text-lg font-bold text-slate-900 mb-5 flex items-center gap-2.5">
+            <span className="w-8 h-8 rounded-lg bg-yellow-50 flex items-center justify-center text-yellow-600">
               <span className="material-symbols-outlined text-[18px]">
                 leaderboard
               </span>
@@ -430,23 +433,23 @@ const OrganizerDashboard = () => {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-slate-200 dark:border-slate-700">
-                    <th className="text-left text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider py-3 px-3">
+                  <tr className="border-b border-slate-200">
+                    <th className="text-left text-[11px] font-bold text-slate-400 uppercase tracking-wider py-3 px-3">
                       Event
                     </th>
-                    <th className="text-left text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider py-3 px-3">
+                    <th className="text-left text-[11px] font-bold text-slate-400 uppercase tracking-wider py-3 px-3">
                       Category
                     </th>
-                    <th className="text-left text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider py-3 px-3">
+                    <th className="text-left text-[11px] font-bold text-slate-400 uppercase tracking-wider py-3 px-3">
                       Date
                     </th>
-                    <th className="text-right text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider py-3 px-3">
+                    <th className="text-right text-[11px] font-bold text-slate-400 uppercase tracking-wider py-3 px-3">
                       Registrations
                     </th>
-                    <th className="text-right text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider py-3 px-3">
+                    <th className="text-right text-[11px] font-bold text-slate-400 uppercase tracking-wider py-3 px-3">
                       Bookmarks
                     </th>
-                    <th className="text-right text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider py-3 px-3">
+                    <th className="text-right text-[11px] font-bold text-slate-400 uppercase tracking-wider py-3 px-3">
                       Actions
                     </th>
                   </tr>
@@ -455,32 +458,32 @@ const OrganizerDashboard = () => {
                   {eventPerformance.map((event, i) => (
                     <tr
                       key={event._id}
-                      className={`border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-[#1c2438] transition-colors ${
-                        i % 2 === 0 ? "" : "bg-slate-50/50 dark:bg-slate-800/20"
+                      className={`border-b border-slate-100 hover:bg-yellow-50/40 transition-colors ${
+                        i % 2 === 0 ? "" : "bg-slate-50/40"
                       }`}
                     >
                       <td className="py-3.5 px-3">
-                        <p className="text-sm font-semibold text-slate-800 dark:text-white truncate max-w-[200px]">
+                        <p className="text-sm font-semibold text-slate-900 truncate max-w-[200px]">
                           {event.title}
                         </p>
                       </td>
                       <td className="py-3.5 px-3">
-                        <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
+                        <span className="text-xs font-bold text-slate-600">
                           {event.category}
                         </span>
                       </td>
                       <td className="py-3.5 px-3">
-                        <span className="text-xs text-slate-400 dark:text-slate-500">
+                        <span className="text-xs text-slate-500">
                           {formatDate(event.startDate)}
                         </span>
                       </td>
                       <td className="py-3.5 px-3 text-right">
-                        <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
+                        <span className="text-sm font-bold text-emerald-600 tabular-nums">
                           {event.registrations}
                         </span>
                       </td>
                       <td className="py-3.5 px-3 text-right">
-                        <span className="text-sm font-bold text-amber-600 dark:text-amber-400 tabular-nums">
+                        <span className="text-sm font-bold text-amber-600 tabular-nums">
                           {event.bookmarks}
                         </span>
                       </td>
@@ -489,28 +492,28 @@ const OrganizerDashboard = () => {
                           <button
                             onClick={() => handleViewParticipants(event)}
                             title="View Participants"
-                            className="p-2 text-slate-400 hover:text-[#0d4af2] hover:bg-[#0d4af2]/10 rounded-lg transition-colors cursor-pointer"
+                            className="p-2 text-slate-400 hover:text-slate-900 hover:bg-yellow-100 rounded-lg transition-colors cursor-pointer"
                           >
                             <span className="material-symbols-outlined text-sm">group</span>
                           </button>
                           <button
                             onClick={() => handleAnnounce(event)}
                             title="Post Announcement"
-                            className="p-2 text-slate-400 hover:text-[#0d4af2] hover:bg-[#0d4af2]/10 rounded-lg transition-colors cursor-pointer"
+                            className="p-2 text-slate-400 hover:text-slate-900 hover:bg-yellow-100 rounded-lg transition-colors cursor-pointer"
                           >
                             <span className="material-symbols-outlined text-sm">campaign</span>
                           </button>
                           <button
                             onClick={() => handleEdit(event)}
                             title="Edit Event"
-                            className="p-2 text-slate-400 hover:text-emerald-500 hover:bg-emerald-500/10 rounded-lg transition-colors cursor-pointer"
+                            className="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors cursor-pointer"
                           >
                             <span className="material-symbols-outlined text-sm">edit</span>
                           </button>
                           <button
                             onClick={() => handleDelete(event._id)}
                             title="Delete Event"
-                            className="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-500/10 rounded-lg transition-colors cursor-pointer"
+                            className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
                           >
                             <span className="material-symbols-outlined text-sm">delete</span>
                           </button>

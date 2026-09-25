@@ -79,11 +79,7 @@ function App() {
             <Route path="aboutus" element={<AboutUsPage />} />
             <Route
               path="events"
-              element={
-                <UserRoute>
-                  <EventsPage />
-                </UserRoute>
-              }
+              element={<EventsPage />}
             />
             <Route path="forgot-password" element={<ForgotPassword />} />
             <Route

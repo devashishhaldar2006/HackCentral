@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import EventCard from "../components/ui/EventCard";
 import { EventCardSkeleton } from "../components/ui/Skeleton";
+
 const SavedEventsPage = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,23 +33,27 @@ const SavedEventsPage = () => {
     fetchSavedEvents();
   }, [userId]);
 
-
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0a0f1e] pt-8 pb-16 px-4">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-slate-50 text-slate-900 pt-10 pb-20 px-4">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-10">
-          <div className="flex items-center gap-3 mb-2">
-            <span className="material-symbols-outlined text-3xl text-[#0d4af2]">
-              bookmark
-            </span>
-            <h1 className="text-3xl font-black text-slate-900 dark:text-white">
-              Saved Events
+        <div className="mb-10 pb-6 border-b border-slate-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <div className="yellow-badge mb-2">SAVED EVENTS</div>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              Bookmarked <span className="text-yellow-500">Hackathons</span>
             </h1>
+            <p className="text-slate-600 text-sm mt-1">
+              Events you've saved for future participation.
+            </p>
           </div>
-          <p className="text-slate-500 dark:text-slate-400 text-sm">
-            Events you've bookmarked for later
-          </p>
+          <Link
+            to="/events"
+            className="btn-white self-start sm:self-auto text-xs py-2 px-4"
+          >
+            <span className="material-symbols-outlined text-base text-yellow-600">search</span>
+            <span>Browse More</span>
+          </Link>
         </div>
 
         {/* Loading */}
@@ -62,39 +67,36 @@ const SavedEventsPage = () => {
 
         {/* Error */}
         {!loading && error && (
-          <div className="flex items-center justify-center py-24">
-            <div className="text-center">
-              <span className="material-symbols-outlined text-5xl text-red-400 mb-3 block">
-                error
-              </span>
-              <p className="text-red-500 font-semibold">{error}</p>
-            </div>
+          <div className="text-center py-20 bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
+            <span className="material-symbols-outlined text-5xl text-red-400 mb-3 block">
+              error
+            </span>
+            <p className="text-red-500 text-sm font-semibold">{error}</p>
           </div>
         )}
 
         {/* Empty state */}
         {!loading && !error && events.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-24 gap-5">
-            <div className="w-20 h-20 rounded-full bg-[#0d4af2]/10 flex items-center justify-center">
-              <span className="material-symbols-outlined text-4xl text-[#0d4af2]">
+          <div className="flex flex-col items-center justify-center py-24 gap-5 bg-white rounded-3xl border border-slate-200 text-center p-8 shadow-sm">
+            <div className="w-16 h-16 rounded-2xl bg-yellow-100 flex items-center justify-center">
+              <span className="material-symbols-outlined text-3xl text-yellow-600">
                 bookmark_border
               </span>
             </div>
-            <div className="text-center">
-              <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+            <div>
+              <h2 className="text-xl font-bold text-slate-900 mb-2">
                 No saved events yet
               </h2>
-              <p className="text-slate-500 dark:text-slate-400 text-sm max-w-sm">
-                Browse hackathons and click the bookmark icon to save events
-                you're interested in.
+              <p className="text-slate-500 text-xs sm:text-sm max-w-sm">
+                Browse hackathons and click the bookmark icon to keep track of upcoming events.
               </p>
             </div>
             <Link
               to="/events"
-              className="mt-2 inline-flex items-center gap-2 bg-[#0d4af2] text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-[#0d4af2]/90 transition-colors"
+              className="btn-yellow"
             >
               <span className="material-symbols-outlined text-sm">search</span>
-              Browse Events
+              <span>Browse Events</span>
             </Link>
           </div>
         )}
@@ -102,9 +104,8 @@ const SavedEventsPage = () => {
         {/* Events grid */}
         {!loading && !error && events.length > 0 && (
           <>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
-              {events.length} saved{" "}
-              {events.length === 1 ? "event" : "events"}
+            <p className="text-xs font-semibold text-slate-500 mb-6 uppercase">
+              {events.length} SAVED {events.length === 1 ? "EVENT" : "EVENTS"}
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {events.map((event, idx) => (

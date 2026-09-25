@@ -4,44 +4,35 @@ import { BASE_URL } from "../lib/constants";
 import { motion, AnimatePresence } from "framer-motion";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-  exit: { opacity: 0, y: -20, transition: { duration: 0.3 } }
+  hidden: { opacity: 0, y: 15 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
+  exit: { opacity: 0, y: -15, transition: { duration: 0.2 } }
 };
 
 const ProjectLabPage = () => {
   const [activeTab, setActiveTab] = useState("evaluator");
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0a0f1e] text-slate-900 dark:text-white p-4 sm:p-6 pb-20 transition-colors duration-300">
+    <div className="min-h-screen bg-slate-50 text-slate-900 p-4 sm:p-6 pb-20">
       <div className="max-w-7xl mx-auto">
         <header className="mb-10 text-center flex flex-col items-center">
-          <motion.h1 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-black mb-4 tracking-tight"
-          >
-            Project <span className="text-[#0d4af2]">Lab</span>
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
-            className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl"
-          >
-            AI-powered tools to evaluate your ideas and generate professional pitch decks. 
-            Level up your hackathon projects.
-          </motion.p>
+          <div className="yellow-badge mb-3">AI PROJECT WORKSPACE</div>
+          <h1 className="text-3xl md:text-5xl font-extrabold mb-3 text-slate-900 tracking-tight">
+            Project <span className="text-yellow-500">Lab</span>
+          </h1>
+          <p className="text-slate-600 text-base max-w-2xl">
+            Machine intelligence to evaluate your hackathon concepts and generate pitch decks before submitting.
+          </p>
         </header>
 
         {/* Tabs */}
         <div className="flex justify-center mb-8">
-          <div className="bg-white dark:bg-slate-800/50 p-1 rounded-xl flex space-x-1 shadow-sm border border-slate-200 dark:border-slate-800">
+          <div className="bg-white p-1.5 rounded-2xl flex space-x-2 border border-slate-200 shadow-sm">
             <button
               onClick={() => setActiveTab("evaluator")}
-              className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-300 flex items-center gap-2 cursor-pointer ${
+              className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 cursor-pointer ${
                 activeTab === "evaluator" 
-                  ? "bg-[#0d4af2] text-white shadow-md shadow-[#0d4af2]/20" 
-                  : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
+                  ? "bg-yellow-400 text-slate-950 shadow-sm" 
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
               }`}
             >
               <span className="material-symbols-outlined text-[18px]">analytics</span>
@@ -49,10 +40,10 @@ const ProjectLabPage = () => {
             </button>
             <button
               onClick={() => setActiveTab("pitchDeck")}
-              className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-300 flex items-center gap-2 cursor-pointer ${
+              className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 cursor-pointer ${
                 activeTab === "pitchDeck" 
-                  ? "bg-[#0d4af2] text-white shadow-md shadow-[#0d4af2]/20" 
-                  : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
+                  ? "bg-yellow-400 text-slate-950 shadow-sm" 
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
               }`}
             >
               <span className="material-symbols-outlined text-[18px]">co_present</span>
@@ -74,32 +65,33 @@ const ProjectLabPage = () => {
 };
 
 // Sub-components
-const ScoreBar = ({ label, score, colorClass, bgClass }) => (
+const ScoreBar = ({ label, score }) => (
   <div className="mb-4">
-    <div className="flex justify-between text-sm mb-1.5 font-bold text-slate-700 dark:text-slate-300">
+    <div className="flex justify-between text-xs font-bold mb-1.5 text-slate-700">
       <span>{label}</span>
-      <span className={colorClass}>{score}/10</span>
+      <span className="text-yellow-600">{score}/10</span>
     </div>
-    <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+    <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
       <motion.div 
         initial={{ width: 0 }}
         animate={{ width: `${score * 10}%` }}
-        transition={{ duration: 1, ease: "easeOut" }}
-        className={`h-full rounded-full ${bgClass}`} 
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="h-full rounded-full bg-yellow-400" 
       />
     </div>
   </div>
 );
 
-const SectionCard = ({ icon, title, content, colorClass }) => (
-  <div className="bg-slate-50 dark:bg-slate-800/30 p-5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-[#0d4af2]/30 transition-all shadow-sm">
-    <h3 className={`text-md font-bold mb-2 flex items-center gap-2 ${colorClass}`}>
-      <span className="material-symbols-outlined text-[20px]">{icon}</span> 
+const SectionCard = ({ icon, title, content }) => (
+  <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 hover:border-yellow-300 transition-all shadow-sm">
+    <h3 className="text-sm font-bold mb-2 flex items-center gap-2 text-yellow-800">
+      <span className="material-symbols-outlined text-[18px] text-yellow-600">{icon}</span> 
       {title}
     </h3>
-    <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed font-medium">{content}</p>
+    <p className="text-slate-700 text-xs sm:text-sm leading-relaxed">{content}</p>
   </div>
 );
+
 // Evaluator Component
 const Evaluator = () => {
   const [formData, setFormData] = useState({ title: "", description: "", techStack: "" });
@@ -135,121 +127,121 @@ const Evaluator = () => {
       className="grid grid-cols-1 lg:grid-cols-12 gap-8"
     >
       {/* Input Form */}
-      <div className="lg:col-span-5 bg-white dark:bg-[#161d2f] p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm h-fit">
-        <h2 className="text-xl font-bold mb-6 flex items-center gap-2 text-slate-900 dark:text-white">
-          <span className="material-symbols-outlined text-[#0d4af2]">edit_document</span>
+      <div className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm h-fit">
+        <h2 className="text-xl font-bold mb-6 flex items-center gap-2 text-slate-900">
+          <span className="material-symbols-outlined text-yellow-500">edit_document</span>
           Project Details
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Project Title</label>
+            <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Project Title</label>
             <input
               type="text"
               name="title"
               required
-              className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#0d4af2] focus:border-transparent transition-all outline-none"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 text-sm focus:border-yellow-400 focus:bg-white transition-all outline-none"
               placeholder="e.g. HackCentral"
               onChange={handleChange}
             />
           </div>
           <div>
-            <label className="block text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Description</label>
+            <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Description</label>
             <textarea
               name="description"
               required
               rows="5"
-              className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#0d4af2] focus:border-transparent transition-all outline-none resize-none"
-              placeholder="Describe your project's problem and solution..."
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 text-sm focus:border-yellow-400 focus:bg-white transition-all outline-none resize-none"
+              placeholder="Detail your problem statement, solution, and novelty..."
               onChange={handleChange}
             />
           </div>
           <div>
-            <label className="block text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Tech Stack (Optional)</label>
+            <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Tech Stack (Optional)</label>
             <input
               type="text"
               name="techStack"
-              className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#0d4af2] focus:border-transparent transition-all outline-none"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 text-sm focus:border-yellow-400 focus:bg-white transition-all outline-none"
               placeholder="e.g. React, Node.js, MongoDB"
               onChange={handleChange}
             />
           </div>
           {error && (
-            <div className="flex items-center gap-2 text-red-500 text-sm bg-red-50 dark:bg-red-500/10 p-3 rounded-lg border border-red-200 dark:border-red-500/20">
-              <span className="material-symbols-outlined text-[18px]">error</span>
+            <div className="flex items-center gap-2 text-red-600 text-xs bg-red-50 p-3 rounded-xl border border-red-200">
+              <span className="material-symbols-outlined text-[16px]">error</span>
               {error}
             </div>
           )}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#0d4af2] hover:bg-[#0d4af2]/90 text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-lg shadow-[#0d4af2]/20 flex justify-center items-center gap-2 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-bold text-xs uppercase tracking-wider py-3.5 px-6 rounded-xl transition-all shadow-sm flex justify-center items-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loading ? (
               <span className="flex items-center gap-2">
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                Analyzing...
+                <div className="w-4 h-4 border-2 border-slate-950/30 border-t-slate-950 rounded-full animate-spin" />
+                Analyzing idea...
               </span>
             ) : (
-              <>Evaluate Idea <span className="material-symbols-outlined text-[18px]">arrow_forward</span></>
+              <>Evaluate Idea <span className="material-symbols-outlined text-[16px]">arrow_forward</span></>
             )}
           </button>
         </form>
       </div>
 
       {/* Output View */}
-      <div className="lg:col-span-7 bg-white dark:bg-[#161d2f] p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-y-auto" style={{ maxHeight: "calc(100vh - 220px)" }}>
+      <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm overflow-y-auto" style={{ maxHeight: "calc(100vh - 220px)" }}>
         {result ? (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h2 className="text-2xl font-black mb-6 text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-4">
+            <h2 className="text-2xl font-bold mb-6 text-slate-900 border-b border-slate-100 pb-4">
               Evaluation Results
             </h2>
             
             {/* Scores Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
               <div>
-                <ScoreBar label="Innovation" score={Number(result.innovationScore) || 0} colorClass="text-[#0d4af2]" bgClass="bg-[#0d4af2]" />
-                <ScoreBar label="Technical Complexity" score={Number(result.technicalComplexity) || 0} colorClass="text-violet-500" bgClass="bg-violet-500" />
+                <ScoreBar label="Innovation" score={Number(result.innovationScore) || 0} />
+                <ScoreBar label="Technical Complexity" score={Number(result.technicalComplexity) || 0} />
               </div>
               <div>
-                <ScoreBar label="Market Potential" score={Number(result.marketPotential) || 0} colorClass="text-emerald-500" bgClass="bg-emerald-500" />
-                <ScoreBar label="Presentation Readiness" score={Number(result.presentationReadiness) || 0} colorClass="text-amber-500" bgClass="bg-amber-500" />
+                <ScoreBar label="Market Potential" score={Number(result.marketPotential) || 0} />
+                <ScoreBar label="Presentation Readiness" score={Number(result.presentationReadiness) || 0} />
               </div>
             </div>
 
             {/* Overall Feedback */}
-            <div className="bg-[#0d4af2]/5 border border-[#0d4af2]/20 p-5 rounded-xl mb-8">
-              <h3 className="text-[#0d4af2] font-bold mb-2 flex items-center gap-2">
-                <span className="material-symbols-outlined text-[18px]">insights</span>
+            <div className="bg-yellow-50 border border-yellow-200 p-5 rounded-2xl mb-8">
+              <h3 className="text-yellow-900 font-bold text-sm mb-2 flex items-center gap-2">
+                <span className="material-symbols-outlined text-[18px] text-yellow-600">insights</span>
                 Overall Feedback
               </h3>
-              <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm font-medium">{result.overallFeedback}</p>
+              <p className="text-slate-800 leading-relaxed text-xs sm:text-sm">{result.overallFeedback}</p>
             </div>
 
             {/* Strengths & Weaknesses */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-              <div className="bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-900/30 p-5 rounded-xl">
-                <h3 className="text-emerald-600 dark:text-emerald-400 font-bold mb-3 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[18px]">verified</span>
+              <div className="bg-emerald-50/60 border border-emerald-200 p-5 rounded-2xl">
+                <h3 className="text-emerald-800 font-bold text-xs mb-3 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[16px] text-emerald-600">verified</span>
                   Strengths
                 </h3>
                 <ul className="space-y-2">
                   {(Array.isArray(result.strengths) ? result.strengths : []).map((s, i) => (
-                    <li key={i} className="text-sm text-slate-700 dark:text-slate-300 flex items-start gap-2">
-                      <span className="material-symbols-outlined text-emerald-500 text-[16px] mt-0.5 shrink-0">check</span> 
+                    <li key={i} className="text-xs text-slate-700 flex items-start gap-2">
+                      <span className="material-symbols-outlined text-emerald-600 text-[14px] mt-0.5 shrink-0">check</span> 
                       <span>{s}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30 p-5 rounded-xl">
-                <h3 className="text-red-600 dark:text-red-400 font-bold mb-3 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[18px]">warning</span>
+              <div className="bg-red-50/60 border border-red-200 p-5 rounded-2xl">
+                <h3 className="text-red-800 font-bold text-xs mb-3 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[16px] text-red-600">warning</span>
                   Weaknesses
                 </h3>
                 <ul className="space-y-2">
                   {(Array.isArray(result.weaknesses) ? result.weaknesses : []).map((w, i) => (
-                    <li key={i} className="text-sm text-slate-700 dark:text-slate-300 flex items-start gap-2">
-                      <span className="material-symbols-outlined text-red-500 text-[16px] mt-0.5 shrink-0">close</span> 
+                    <li key={i} className="text-xs text-slate-700 flex items-start gap-2">
+                      <span className="material-symbols-outlined text-red-500 text-[14px] mt-0.5 shrink-0">close</span> 
                       <span>{w}</span>
                     </li>
                   ))}
@@ -258,15 +250,15 @@ const Evaluator = () => {
             </div>
 
             {/* Improvements */}
-            <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 p-5 rounded-xl">
-              <h3 className="text-slate-800 dark:text-white font-bold mb-3 flex items-center gap-2">
-                <span className="material-symbols-outlined text-[18px] text-amber-500">lightbulb</span>
+            <div className="bg-slate-50 border border-slate-200 p-5 rounded-2xl">
+              <h3 className="text-slate-800 font-bold text-xs mb-3 flex items-center gap-2">
+                <span className="material-symbols-outlined text-[16px] text-yellow-600">lightbulb</span>
                 Suggested Improvements
               </h3>
-              <ul className="space-y-3">
+              <ul className="space-y-2">
                 {(Array.isArray(result.improvements) ? result.improvements : []).map((imp, i) => (
-                  <li key={i} className="text-sm text-slate-700 dark:text-slate-300 flex items-start gap-2 font-medium">
-                    <span className="material-symbols-outlined text-amber-500 text-[16px] mt-0.5 shrink-0">arrow_right</span> 
+                  <li key={i} className="text-xs text-slate-700 flex items-start gap-2">
+                    <span className="material-symbols-outlined text-yellow-600 text-[14px] mt-0.5 shrink-0">arrow_right</span> 
                     <span>{imp}</span>
                   </li>
                 ))}
@@ -274,10 +266,10 @@ const Evaluator = () => {
             </div>
           </motion.div>
         ) : (
-          <div className="h-full flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 min-h-[400px]">
-            <span className="material-symbols-outlined text-6xl mb-4 text-slate-300 dark:text-slate-600">query_stats</span>
-            <p className="font-medium text-lg">Waiting for input...</p>
-            <p className="text-sm mt-2 text-center max-w-sm">Enter your project title and description to receive an AI-generated evaluation report.</p>
+          <div className="h-full flex flex-col items-center justify-center text-slate-400 min-h-[360px]">
+            <span className="material-symbols-outlined text-5xl mb-3 text-slate-300">query_stats</span>
+            <p className="font-bold text-base text-slate-700">Waiting for project input</p>
+            <p className="text-xs mt-1 text-center max-w-sm text-slate-500">Provide your project title and details on the left to get a comprehensive report.</p>
           </div>
         )}
       </div>
@@ -320,34 +312,34 @@ const PitchDeck = () => {
       className="grid grid-cols-1 lg:grid-cols-12 gap-8"
     >
       {/* Input Form */}
-      <div className="lg:col-span-4 bg-white dark:bg-[#161d2f] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm h-fit">
-        <h2 className="text-lg font-bold mb-5 flex items-center gap-2 text-slate-900 dark:text-white">
-          <span className="material-symbols-outlined text-violet-500">assignment</span>
-          Project Inputs
+      <div className="lg:col-span-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm h-fit">
+        <h2 className="text-lg font-bold mb-5 flex items-center gap-2 text-slate-900">
+          <span className="material-symbols-outlined text-yellow-500">assignment</span>
+          Project Details
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3.5">
           <div>
-            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Title</label>
-            <input type="text" name="title" required className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-sm" onChange={handleChange} />
+            <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Title</label>
+            <input type="text" name="title" required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 outline-none text-xs focus:border-yellow-400" onChange={handleChange} />
           </div>
           <div>
-            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Problem Statement</label>
-            <textarea name="problem" required rows="3" className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-sm resize-none" onChange={handleChange} />
+            <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Problem Statement</label>
+            <textarea name="problem" required rows="3" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 outline-none text-xs resize-none focus:border-yellow-400" onChange={handleChange} />
           </div>
           <div>
-            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Solution</label>
-            <textarea name="solution" required rows="3" className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-sm resize-none" onChange={handleChange} />
+            <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Solution</label>
+            <textarea name="solution" required rows="3" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 outline-none text-xs resize-none focus:border-yellow-400" onChange={handleChange} />
           </div>
           <div>
-            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Target Audience</label>
-            <input type="text" name="targetAudience" className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-sm" onChange={handleChange} />
+            <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Target Audience</label>
+            <input type="text" name="targetAudience" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 outline-none text-xs focus:border-yellow-400" onChange={handleChange} />
           </div>
           <div>
-            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Tech Stack</label>
-            <input type="text" name="techStack" className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-sm" onChange={handleChange} />
+            <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Tech Stack</label>
+            <input type="text" name="techStack" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 outline-none text-xs focus:border-yellow-400" onChange={handleChange} />
           </div>
           {error && (
-            <div className="flex items-center gap-2 text-red-500 text-xs bg-red-50 dark:bg-red-500/10 p-2 rounded-lg border border-red-200 dark:border-red-500/20">
+            <div className="flex items-center gap-2 text-red-600 text-xs bg-red-50 p-2.5 rounded-xl border border-red-200">
               <span className="material-symbols-outlined text-[16px]">error</span>
               {error}
             </div>
@@ -355,45 +347,45 @@ const PitchDeck = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 px-4 rounded-lg transition-all shadow-md shadow-violet-600/20 text-sm mt-2 flex justify-center items-center gap-2 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-bold uppercase text-xs tracking-wider py-3 px-4 rounded-xl transition-all shadow-sm mt-2 flex justify-center items-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loading ? (
               <span className="flex items-center gap-2">
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                Generating...
+                <div className="w-4 h-4 border-2 border-slate-950/30 border-t-slate-950 rounded-full animate-spin" />
+                Generating deck...
               </span>
             ) : (
-              <>Generate Deck <span className="material-symbols-outlined text-[18px]">magic_button</span></>
+              <>Generate Deck <span className="material-symbols-outlined text-[16px]">auto_fix_high</span></>
             )}
           </button>
         </form>
       </div>
 
       {/* Output Deck */}
-      <div className="lg:col-span-8 bg-white dark:bg-[#161d2f] p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-y-auto" style={{ maxHeight: "calc(100vh - 220px)" }}>
+      <div className="lg:col-span-8 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm overflow-y-auto" style={{ maxHeight: "calc(100vh - 220px)" }}>
         {result ? (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-            <div className="text-center mb-8 pb-6 border-b border-slate-100 dark:border-slate-800">
-              <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-2">{formData.title || "Your Project"}</h2>
-              <p className="text-lg text-violet-500 font-bold italic">"{result.elevatorPitch}"</p>
+            <div className="text-center mb-6 pb-6 border-b border-slate-100">
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">{formData.title || "Your Project"}</h2>
+              <p className="text-base text-yellow-700 font-semibold italic">"{result.elevatorPitch}"</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <SectionCard icon="warning" title="The Problem" content={result.problemStatement} colorClass="text-red-500" />
-              <SectionCard icon="lightbulb" title="Our Solution" content={result.solutionOverview} colorClass="text-emerald-500" />
-              <SectionCard icon="group" title="Target Audience" content={result.targetAudience} colorClass="text-amber-500" />
-              <SectionCard icon="trending_up" title="Market Opportunity" content={result.marketOpportunity} colorClass="text-[#0d4af2]" />
-              <SectionCard icon="monetization_on" title="Business Model" content={result.businessModel} colorClass="text-violet-500" />
-              <SectionCard icon="code" title="Technical Architecture" content={result.technicalArchitecture} colorClass="text-cyan-500" />
-              <SectionCard icon="sports_score" title="Competitive Advantage" content={result.competitiveAdvantage} colorClass="text-orange-500" />
-              <SectionCard icon="rocket_launch" title="Future Scope" content={result.futureScope} colorClass="text-teal-500" />
+              <SectionCard icon="warning" title="The Problem" content={result.problemStatement} />
+              <SectionCard icon="lightbulb" title="Our Solution" content={result.solutionOverview} />
+              <SectionCard icon="group" title="Target Audience" content={result.targetAudience} />
+              <SectionCard icon="trending_up" title="Market Opportunity" content={result.marketOpportunity} />
+              <SectionCard icon="monetization_on" title="Business Model" content={result.businessModel} />
+              <SectionCard icon="code" title="Technical Architecture" content={result.technicalArchitecture} />
+              <SectionCard icon="sports_score" title="Competitive Advantage" content={result.competitiveAdvantage} />
+              <SectionCard icon="rocket_launch" title="Future Scope" content={result.futureScope} />
             </div>
           </motion.div>
         ) : (
-          <div className="h-full flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 min-h-[400px]">
-            <span className="material-symbols-outlined text-6xl mb-4 text-slate-300 dark:text-slate-600">slideshow</span>
-            <p className="font-medium text-lg">Ready to pitch?</p>
-            <p className="text-sm mt-2 text-center max-w-sm">Provide your project details to generate a structured pitch deck instantly.</p>
+          <div className="h-full flex flex-col items-center justify-center text-slate-400 min-h-[360px]">
+            <span className="material-symbols-outlined text-5xl mb-3 text-slate-300">slideshow</span>
+            <p className="font-bold text-base text-slate-700">Ready to pitch?</p>
+            <p className="text-xs mt-1 text-center max-w-sm text-slate-500">Provide your inputs to generate a structured pitch deck instantly.</p>
           </div>
         )}
       </div>

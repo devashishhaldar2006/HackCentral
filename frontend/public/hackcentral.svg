@@ -1,3 +1,11 @@
-<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-  <path fill="#0d4af2" d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" />
+<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Rounded Background Container -->
+  <rect width="48" height="48" rx="12" fill="#FACC15"/>
+  <!-- Modern Geometric Hackathon 'H' + Core Diamond / Hub -->
+  <path d="M14 13C14 11.8954 14.8954 11 16 11H17C18.1046 11 19 11.8954 19 13V35C19 36.1046 18.1046 37 17 37H16C14.8954 37 14 36.1046 14 35V13Z" fill="#0F172A"/>
+  <path d="M29 13C29 11.8954 29.8954 11 31 11H32C33.1046 11 34 11.8954 34 13V35C34 36.1046 33.1046 37 32 37H31C29.8954 37 29 36.1046 29 35V13Z" fill="#0F172A"/>
+  <!-- Central crossbar with angled cutouts / nexus -->
+  <rect x="18" y="21.5" width="12" height="5" rx="1.5" fill="#0F172A"/>
+  <!-- Central spark/diamond node in pure white -->
+  <polygon points="24,19 27,24 24,29 21,24" fill="#FFFFFF"/>
 </svg>

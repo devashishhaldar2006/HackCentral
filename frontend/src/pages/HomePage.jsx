@@ -1,22 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { fetchEvents } from "../api/events";
-import heroImage from "../assets/hero-bg.png";
 import { STATS, STEPS, TESTIMONIALS } from "../api/homeData";
-
 import EventCard from "../components/ui/EventCard";
+import InteractiveBackgroundVideo from "../components/ui/InteractiveBackgroundVideo";
 
 const HomePage = () => {
-  const [visible, setVisible] = useState(false);
   const [featuredEvents, setFeaturedEvents] = useState([]);
   const [eventsLoading, setEventsLoading] = useState(true);
 
-  useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 100);
-    return () => clearTimeout(t);
-  }, []);
-
-  // Fetch featured events from API
   useEffect(() => {
     const loadFeatured = async () => {
       try {
@@ -32,85 +24,74 @@ const HomePage = () => {
   }, []);
 
   return (
-    <>
-      {/* ───────── HERO ───────── */}
-      <section className="relative w-full overflow-hidden bg-[#060c1f]">
-        {/* background image overlay */}
-        <div className="absolute inset-0">
-          <img
-            src={heroImage}
-            alt=""
-            className="w-full h-full object-cover opacity-30"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#060c1f]/60 via-[#060c1f]/80 to-[#060c1f]"></div>
-        </div>
+    <div className="relative w-full bg-white text-slate-900">
+      {/* ───────── HERO SECTION ───────── */}
+      <section className="relative min-h-[88vh] flex items-center justify-center overflow-hidden border-b border-slate-100">
+        {/* Interactive Video Background on Pure White */}
+        <InteractiveBackgroundVideo />
 
-        {/* animated gradient orbs */}
-        <div className="absolute top-20 left-1/4 w-[500px] h-[500px] rounded-full bg-[#0d4af2]/20 blur-[120px] animate-pulse"></div>
-        <div className="absolute bottom-10 right-1/4 w-[400px] h-[400px] rounded-full bg-purple-600/15 blur-[100px] animate-pulse delay-1000"></div>
+        {/* Hero Content */}
+        <div className="relative z-10 max-w-5xl mx-auto px-4 pt-16 pb-20 md:pt-24 md:pb-28 flex flex-col items-center text-center">
+          {/* Badge */}
+          <div className="yellow-badge mb-6 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse" />
+            <span>GLOBAL HACKATHON PLATFORM</span>
+            <span className="text-yellow-600/40">•</span>
+            <span>50,000+ DEVELOPERS</span>
+          </div>
 
-        <div
-          className={`relative z-10 max-w-7xl mx-auto px-4 pt-24 pb-28 md:pt-36 md:pb-40 flex flex-col items-center text-center transition-all duration-1000 ${
-            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          {/* badge */}
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0d4af2]/15 border border-[#0d4af2]/30 text-[#5b8def] text-xs font-bold uppercase tracking-wider mb-8 backdrop-blur-sm">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0d4af2] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#0d4af2]"></span>
-            </span>
-            Trusted by 50,000+ Developers
-          </span>
-
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-[1.1] tracking-tight max-w-4xl">
-            Where Builders{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0d4af2] via-blue-400 to-cyan-400">
-              Connect
-            </span>
-            <br />& Innovations{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-rose-400">
-              Begin
+          {/* Clean Main Title */}
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-[1.1] max-w-4xl">
+            Where Developers <br />
+            <span className="relative inline-block text-slate-900">
+              Build & Compete
+              <span className="absolute -bottom-1 left-0 right-0 h-3 bg-yellow-300/60 -z-10 rounded"></span>
             </span>
           </h1>
 
-          <p className="mt-6 text-slate-400 text-lg md:text-xl max-w-2xl leading-relaxed">
-            Discover hackathons, level up with our Resource Hub, and refine your ideas in the Project Lab — all on one platform designed for the next generation of developers.
+          {/* Subtitle */}
+          <p className="mt-6 text-slate-600 text-lg sm:text-xl max-w-2xl font-normal leading-relaxed">
+            Discover hackathons worldwide, evaluate concepts in the Project Lab, and connect with teammates to win awards.
           </p>
 
-          {/* CTA buttons */}
-          <div className="mt-10 flex flex-col sm:flex-row gap-4">
+          {/* Call to Actions */}
+          <div className="mt-9 flex flex-col sm:flex-row items-center gap-4">
             <Link
               to="/signin?mode=signup"
               id="hero-get-started"
-              className="group relative px-8 py-4 bg-[#0d4af2] hover:bg-[#0b3fd4] text-white font-bold rounded-xl shadow-2xl shadow-[#0d4af2]/30 transition-all duration-300 hover:shadow-[#0d4af2]/50 hover:-translate-y-0.5 text-base flex items-center gap-2"
+              className="btn-yellow"
             >
-              Get Started — It's Free
-              <span className="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">
-                arrow_forward
-              </span>
+              <span>Get Started Free</span>
+              <span className="material-symbols-outlined text-lg">arrow_forward</span>
             </Link>
             <Link
               to="/events"
               id="hero-explore"
-              className="px-8 py-4 border border-slate-700 hover:border-[#0d4af2]/50 text-slate-300 hover:text-white font-bold rounded-xl transition-all duration-300 hover:-translate-y-0.5 text-base flex items-center gap-2"
+              className="btn-white"
             >
-              <span className="material-symbols-outlined text-lg">explore</span>
-              Explore Hackathons
+              <span className="material-symbols-outlined text-lg text-yellow-600">
+                explore
+              </span>
+              <span>Browse Hackathons</span>
             </Link>
           </div>
 
-          {/* hero stat bar */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10 w-full max-w-3xl">
+          {/* Stats Cards in White & Yellow Minimalist Accent */}
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl">
             {STATS.map((s) => (
-              <div key={s.label} className="text-center space-y-1">
-                <span className="material-symbols-outlined text-[#0d4af2] text-3xl">
-                  {s.icon}
-                </span>
-                <p className="text-2xl md:text-3xl font-black text-white">
+              <div
+                key={s.label}
+                className="bg-white border border-slate-200/80 rounded-2xl p-5 text-left shadow-sm hover:border-yellow-400 hover:shadow-md transition-all group"
+              >
+                <div className="w-10 h-10 rounded-xl bg-yellow-100 flex items-center justify-center mb-3">
+                  <span className="material-symbols-outlined text-yellow-700 text-xl">
+                    {s.icon}
+                  </span>
+                </div>
+                <p className="text-2xl sm:text-3xl font-extrabold text-slate-900 group-hover:text-yellow-600 transition-colors">
                   {s.value}
                 </p>
-                <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider">
+                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mt-1">
                   {s.label}
                 </p>
               </div>
@@ -120,87 +101,76 @@ const HomePage = () => {
       </section>
 
       {/* ───────── FEATURED EVENTS ───────── */}
-      <section className="w-full py-20 px-4 bg-[#f5f6f8] dark:bg-[#0a0f1e]">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
-            <div>
-              <span className="inline-block text-[#0d4af2] font-bold text-sm uppercase tracking-wider mb-2">
-                🔥 Trending Now
-              </span>
-              <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
-                Featured Events
-              </h2>
-              <p className="mt-2 text-slate-500 dark:text-slate-400 max-w-lg">
-                Hand-picked hackathons and workshops happening soon. Don't miss
-                out on your chance to build, learn and win.
-              </p>
-            </div>
-            <Link
-              to="/events"
-              className="mt-4 md:mt-0 text-[#0d4af2] hover:text-[#0b3fd4] font-bold text-sm flex items-center gap-1 transition-colors"
-            >
-              View All Events
-              <span className="material-symbols-outlined text-sm">
-                arrow_forward
-              </span>
-            </Link>
+      <section className="w-full py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+          <div>
+            <div className="yellow-badge mb-2">🔥 HAPPENING NOW</div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              Featured Hackathons
+            </h2>
+            <p className="mt-2 text-slate-600 text-sm sm:text-base">
+              Hand-picked competitions with global prize pools and active registrations.
+            </p>
           </div>
+          <Link
+            to="/events"
+            className="inline-flex items-center gap-2 text-sm font-bold text-yellow-600 hover:text-yellow-700 transition-colors"
+          >
+            <span>View All Events</span>
+            <span className="material-symbols-outlined text-sm">arrow_forward</span>
+          </Link>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {eventsLoading
-              ? [...Array(6)].map((_, i) => (
-                  <div key={i} className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden animate-pulse">
-                    <div className="h-44 bg-slate-200 dark:bg-slate-800"></div>
-                    <div className="p-5 space-y-4">
-                      <div className="h-5 bg-slate-200 dark:bg-slate-800 rounded w-3/4"></div>
-                      <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/2"></div>
-                      <div className="flex gap-2">
-                        <div className="h-6 w-16 bg-slate-200 dark:bg-slate-800 rounded"></div>
-                        <div className="h-6 w-16 bg-slate-200 dark:bg-slate-800 rounded"></div>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              : featuredEvents.slice(0, 6).map((event, idx) => (
-                  <EventCard key={event._id} event={event} idx={idx} />
-                ))}
-          </div>
+        {/* Events Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {eventsLoading
+            ? [...Array(6)].map((_, i) => (
+                <div
+                  key={i}
+                  className="bg-white border border-slate-200 rounded-2xl p-5 space-y-4 animate-pulse"
+                >
+                  <div className="h-44 bg-slate-100 rounded-xl"></div>
+                  <div className="h-5 bg-slate-100 rounded w-3/4"></div>
+                  <div className="h-4 bg-slate-100 rounded w-1/2"></div>
+                </div>
+              ))
+            : featuredEvents.slice(0, 6).map((event, idx) => (
+                <EventCard key={event._id} event={event} idx={idx} />
+              ))}
         </div>
       </section>
 
       {/* ───────── HOW IT WORKS ───────── */}
-      <section className="w-full py-20 px-4 bg-white dark:bg-[#101522]">
-        <div className="max-w-7xl mx-auto text-center">
-          <span className="inline-block text-[#0d4af2] font-bold text-sm uppercase tracking-wider mb-2">
-            Simple Process
-          </span>
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
-            How HackCentral Works
-          </h2>
-          <p className="mt-3 text-slate-500 dark:text-slate-400 max-w-xl mx-auto">
-            From sign-up to submission, we've streamlined every step so you can
-            focus on what matters — building.
-          </p>
+      <section className="w-full py-20 px-4 bg-slate-50 border-y border-slate-100">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="yellow-badge mb-2">SIMPLE WORKFLOW</span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              How HackCentral Works
+            </h2>
+            <p className="mt-2 text-slate-600 text-sm sm:text-base">
+              From discovering opportunities to pitching your solution and winning prizes.
+            </p>
+          </div>
 
-          <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {STEPS.map((s, i) => (
               <div
                 key={s.title}
-                className="group relative bg-[#f5f6f8] dark:bg-[#0a0f1e] border border-slate-200 dark:border-slate-800 rounded-2xl p-8 hover:border-[#0d4af2]/40 transition-all duration-300 hover:-translate-y-1"
+                className="bg-white border border-slate-200/80 rounded-2xl p-7 relative shadow-sm hover:border-yellow-400 hover:shadow-md transition-all group"
               >
-                {/* step number */}
-                <span className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-[#0d4af2] text-white text-xs font-black flex items-center justify-center shadow-lg shadow-[#0d4af2]/30">
-                  {i + 1}
-                </span>
-                <div className="w-14 h-14 rounded-xl bg-[#0d4af2]/10 flex items-center justify-center mx-auto mb-5 group-hover:bg-[#0d4af2]/20 transition-colors">
-                  <span className="material-symbols-outlined text-[#0d4af2] text-3xl">
+                <div className="w-12 h-12 rounded-xl bg-yellow-400/20 text-yellow-800 flex items-center justify-center mb-6 font-bold text-lg group-hover:bg-yellow-400 transition-colors">
+                  <span className="material-symbols-outlined text-2xl text-yellow-800 group-hover:text-slate-900">
                     {s.icon}
                   </span>
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                <div className="text-xs font-bold text-yellow-600 uppercase tracking-wider mb-1">
+                  STEP 0{i + 1}
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">
                   {s.title}
                 </h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   {s.desc}
                 </p>
               </div>
@@ -210,27 +180,25 @@ const HomePage = () => {
       </section>
 
       {/* ───────── TESTIMONIALS ───────── */}
-      <section className="w-full py-20 px-4 bg-[#f5f6f8] dark:bg-[#0a0f1e]">
-        <div className="max-w-7xl mx-auto text-center">
-          <span className="inline-block text-[#0d4af2] font-bold text-sm uppercase tracking-wider mb-2">
-            Community Love
-          </span>
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
-            What Developers Say
+      <section className="w-full py-20 px-4 max-w-7xl mx-auto">
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <span className="yellow-badge mb-2">COMMUNITY REPUTATION</span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Loved by Developers
           </h2>
-          <p className="mt-3 text-slate-500 dark:text-slate-400 max-w-lg mx-auto">
-            Join thousands of developers who have accelerated their careers
-            through HackCentral.
+          <p className="mt-2 text-slate-600 text-sm sm:text-base">
+            Join thousands of developers worldwide accelerating their careers on HackCentral.
           </p>
+        </div>
 
-          <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
-            {TESTIMONIALS.map((t) => (
-              <div
-                key={t.name}
-                className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl p-8 text-left hover:border-[#0d4af2]/30 transition-all duration-300 group hover:-translate-y-1 hover:shadow-lg"
-              >
-                {/* star row */}
-                <div className="flex gap-1 mb-4 text-amber-400">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {TESTIMONIALS.map((t) => (
+            <div
+              key={t.name}
+              className="bg-white border border-slate-200/80 rounded-2xl p-8 shadow-sm flex flex-col justify-between hover:border-yellow-400 transition-all"
+            >
+              <div>
+                <div className="flex gap-1 text-yellow-400 mb-4">
                   {[...Array(5)].map((_, i) => (
                     <span
                       key={i}
@@ -241,67 +209,60 @@ const HomePage = () => {
                     </span>
                   ))}
                 </div>
-                <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6">
+                <p className="text-slate-700 text-sm sm:text-base leading-relaxed mb-6">
                   "{t.text}"
                 </p>
-                <div className="flex items-center gap-3">
-                  <img
-                    src={t.avatar}
-                    alt={t.name}
-                    className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700"
-                  />
-                  <div>
-                    <p className="font-bold text-slate-900 dark:text-white text-sm">
-                      {t.name}
-                    </p>
-                    <p className="text-xs text-slate-500">{t.role}</p>
-                  </div>
+              </div>
+              <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
+                <img
+                  src={t.avatar}
+                  alt={t.name}
+                  className="w-10 h-10 rounded-full border border-yellow-300 bg-yellow-50"
+                />
+                <div>
+                  <p className="font-bold text-slate-900 text-sm">
+                    {t.name}
+                  </p>
+                  <p className="text-xs text-slate-500 font-medium">
+                    {t.role}
+                  </p>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* ───────── CTA BANNER ───────── */}
-      <section className="w-full py-20 px-4 bg-white dark:bg-[#101522]">
-        <div className="max-w-4xl mx-auto relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0d4af2] via-[#1e5af5] to-[#3b6ff7] p-12 md:p-16 text-center shadow-2xl shadow-[#0d4af2]/20">
-          {/* deco */}
-          <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/3"></div>
-          <div className="absolute bottom-0 left-0 w-60 h-60 rounded-full bg-white/5 translate-y-1/2 -translate-x-1/3"></div>
-
-          <div className="relative z-10">
-            <h2 className="text-3xl md:text-5xl font-black text-white leading-tight">
-              Ready to Build Something
-              <br />
-              <span className="text-cyan-200">Extraordinary?</span>
+      {/* ───────── CALL TO ACTION ───────── */}
+      <section className="w-full py-16 px-4">
+        <div className="max-w-5xl mx-auto bg-gradient-to-br from-yellow-50 via-white to-yellow-100/50 border border-yellow-200 rounded-3xl p-10 sm:p-14 text-center shadow-sm">
+          <div className="max-w-2xl mx-auto space-y-5">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              Ready to Build Your Next Big Idea?
             </h2>
-            <p className="mt-4 text-blue-100/80 text-lg max-w-xl mx-auto">
-              Join 50,000+ developers already winning hackathons, refining their
-              ideas, and launching careers on HackCentral.
+            <p className="text-slate-600 text-base">
+              Join HackCentral today to discover competitions, evaluate projects with AI, and showcase your achievements.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 to="/signin?mode=signup"
                 id="cta-signup"
-                className="px-8 py-4 bg-white text-[#0d4af2] font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2 justify-center"
+                className="btn-yellow"
               >
-                Join HackCentral
-                <span className="material-symbols-outlined text-lg">
-                  arrow_forward
-                </span>
+                <span>Create Free Account</span>
+                <span className="material-symbols-outlined text-lg">arrow_forward</span>
               </Link>
               <Link
                 to="/events"
-                className="px-8 py-4 border-2 border-white/30 text-white font-bold rounded-xl transition-all duration-300 hover:bg-white/10 hover:-translate-y-0.5"
+                className="btn-white"
               >
-                Browse Events
+                <span>Explore Events</span>
               </Link>
             </div>
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 
