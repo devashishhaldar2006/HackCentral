@@ -16,15 +16,38 @@ const VALID_CATEGORIES = [
 
 const VALID_MODES = ["Online", "Offline", "Hybrid"];
 
-// Default curated banners per source to ensure 100% reliable image rendering
-const FALLBACK_IMAGES = {
-  Codeforces: "https://i.postimg.cc/s2gDBvz9/img-4.png",
-  LeetCode: "https://i.postimg.cc/9X6tHq5g/img-8.png",
-  CodeChef: "https://i.postimg.cc/kD3yT0sK/img-1.png",
-  HackerRank: "https://i.postimg.cc/Xq4j98y7/img-10.png",
-  Devpost: "https://i.postimg.cc/7ZFffSXY/img-15.png",
-  Default: "https://i.postimg.cc/Xq4j98y7/img-10.png",
-};
+// Curated, diverse, high-definition tech and hackathon banners
+const TECH_BANNER_POOL = [
+  "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80", // Cyber Matrix code
+  "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80", // Cyberpunk neon tech
+  "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80", // Coding on laptop
+  "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80", // Hackathon neon banner
+  "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80", // Hackathon collaborative team
+  "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80", // Cloud servers & networking
+  "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80", // Modern abstract glowing geometric
+  "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=800&q=80", // AI neural brains & circuits
+  "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=800&q=80", // Syntax highlighted code
+  "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=800&q=80", // Minimalist developer workspace
+  "https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=800&q=80", // Neon futuristic gaming
+  "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80", // Electronic processor chip
+  "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80", // Collaborative hack meeting
+  "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80", // Tech office workspace
+  "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80", // Global digital space network
+  "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=80", // Geometric mathematics / algorithms
+];
+
+/**
+ * Deterministically pick an aesthetic image based on string hash
+ */
+function getDeterministicImage(seed) {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash << 5) - hash + seed.charCodeAt(i);
+    hash |= 0;
+  }
+  const index = Math.abs(hash) % TECH_BANNER_POOL.length;
+  return TECH_BANNER_POOL[index];
+}
 
 /**
  * Remove any HTML tags or script elements from scraped strings
@@ -92,7 +115,7 @@ export function normalizeEvent(raw) {
   const source = sanitizeText(raw.source) || "External";
   let image = sanitizeUrl(raw.image);
   if (!image) {
-    image = FALLBACK_IMAGES[source] || FALLBACK_IMAGES.Default;
+    image = getDeterministicImage(title + (raw.registrationLink || ""));
   }
 
   // Tags sanitization
