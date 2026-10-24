@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon src/app.js",
     "test": "vitest run",
-    "seed:events": "node src/scripts/seedEvents.js"
+    "seed:events": "node src/scripts/seedEvents.js",
+    "sync:events": "node src/scripts/syncLiveEvents.js"
   },
   "keywords": [],
   "author": "",
