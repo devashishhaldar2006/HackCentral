@@ -56,6 +56,7 @@
 - [❓ Problem Statement](#-problem-statement)
 - [✨ Key Features](#-key-features)
   - [👥 Participant / User Experience](#-participant--user-experience)
+  - [🌐 Autonomous Event Aggregator & Live Sync](#-autonomous-event-aggregator--live-sync)
   - [🏢 Organizer Portal](#-organizer-portal)
   - [🤖 AI Project Lab](#-ai-project-lab)
   - [⚡ Real-Time WebSocket Engine](#-real-time-websocket-engine)
@@ -90,19 +91,15 @@
 
 | Landing Page | Explore Events |
 | :---: | :---: |
-| ![Landing Page](https://i.postimg.cc/pr00Spmk/Screenshot-(1590).png) | ![Events](https://i.postimg.cc/9FMg7tSm/Screenshot-(1591).png) |
+| ![Landing Page](https://i.postimg.cc/8CtT7Ynt/Screenshot-(1906).png) | ![Events](https://i.postimg.cc/N0Y09mGR/Screenshot-(1903).png) |
 
 | User Dashboard & XP | Project Lab (AI Evaluator) |
 | :---: | :---: |
-| ![Dashboard](https://i.postimg.cc/CKyc9yKS/Screenshot-(1592).png) | ![Project Lab](https://i.postimg.cc/JnxKyG5r/Screenshot-(1593).png) |
+| ![Dashboard](https://i.postimg.cc/hjYgrdn2/Screenshot-(1907).png) | ![Project Lab](https://i.postimg.cc/NGVf8Wf9/Screenshot-(1904).png) |
 
-| Organizer Dashboard | Event Details & Registrations |
+| Organizer Dashboard | Resource Hub |
 | :---: | :---: |
-| ![Organizer Dashboard](https://i.postimg.cc/q7dGj8m0/Screenshot-(1595).png) | ![Event Details](https://i.postimg.cc/1tvcmby4/Screenshot-(1596).png) |
-
-| Resource Hub | Real-Time Notifications |
-| :---: | :---: |
-| ![Resource Hub](https://i.postimg.cc/J4GKn7DW/Screenshot-(1594).png) | ![Socket Notifications](https://i.postimg.cc/j2WNs5gK/Screenshot-2026-06-28-171112.png) |
+| ![Organizer Dashboard](https://i.postimg.cc/XNyXPVP4/Screenshot-(1909).png) | ![Resource Hub](https://i.postimg.cc/mgWLJCHX/Screenshot-(1905).png) |
 
 ---
 
@@ -126,6 +123,18 @@ Aspiring software engineers, college students, and tech enthusiasts frequently s
 - 📊 **User Dashboard**: Track upcoming hackathons, earned badges, participation streaks, and platform XP.
 - 📚 **Curated Resource Hub**: Guides, cheat-sheets, APIs, and starter kits to build hackathon-winning prototypes fast.
 - 👤 **Customizable Profile**: Showcase skills, interests, portfolio links (GitHub, LinkedIn), and upload custom avatars hosted on Cloudinary.
+
+### 🌐 Autonomous Event Aggregator & Live Sync
+- 🔄 **Multi-Platform Scraping & Ingestion**: Autonomous worker periodically fetches upcoming events from 5 premier developer hubs:
+  - **Devpost**: Global hackathons, prize pools, themes, and official submission URLs.
+  - **Codeforces**: Official rated Div 1, 2, and 3 rounds via official REST APIs.
+  - **LeetCode**: Weekly and Biweekly contests via official GraphQL query endpoints.
+  - **CodeChef**: Starters, DSA challenges, and rated competitive tournaments.
+  - **HackerRank**: Automated hackathon & coding contest discovery.
+- 🛡️ **Schema-Safe Sanitization**: Strips HTML/XSS vectors, validates genuine HTTP/S registration links, and asserts enum integrity against strict MongoDB schemas.
+- 🎨 **Dynamic Deterministic Thumbnails**: High-resolution Unsplash tech photography mapped deterministically per contest title for rich visual variety, while preserving native sponsor banners for Devpost hackathons.
+- ⚡ **Zero-Downtime Idempotent Upserts**: MongoDB `bulkWrite` with `{ upsert: true }` keyed by `registrationLink` guarantees zero duplicate cards and updates dates/prizes seamlessly without touching user-submitted records.
+- ⏰ **Scheduled Cloud Execution**: Runs autonomously every 3 days at 00:00 UTC via GitHub Actions for **$0 infrastructure cost**.
 
 ### 🏢 Organizer Portal
 - 📊 **Dedicated Organizer Dashboard**: Real-time participant analytics, submission metrics, and live engagement tracking.
@@ -161,6 +170,13 @@ graph TD
     
     Gateway <--> Redis[(Redis Pub/Sub Adapter\nHorizontal Multi-Node Sync)]
     Gateway <--> API
+
+    subgraph Autonomous Event Pipeline [Zero-Cost Cloud Ingestion Engine]
+        Cron[GitHub Actions Runner\nCron: Every 3 Days] --> Worker[Scraper Ingestion Worker\nNode.js & Sanitizer Engine]
+        Worker -->|Fetch Hackathons| Devpost[Devpost API]
+        Worker -->|Fetch Contests| CP[Codeforces / LeetCode / CodeChef / HackerRank]
+        Worker -->|Atomic bulkWrite Upsert| DB
+    end
 ```
 
 ### Technology Breakdown
@@ -203,6 +219,7 @@ npm test
 - ✅ **CORS Security**: Strict validation of origin whitelisting, dev mode loopback isolation, and arbitrary third-party domain rejection.
 - ✅ **AI Schema Enforcement**: Robust Zod parsing ensuring Gemini JSON output strictly conforms to frontend contracts.
 - ✅ **Sanitization & Auth Persistence**: Protection against password leaks in responses via sanitized data utilities.
+- ✅ **Scraper Normalizer & XSS Sanitizer**: Unit tests validating HTML/script stripping, genuine URL checking, enum compliance, and graceful handling of malformed records.
 
 ---
 
@@ -266,6 +283,11 @@ cp .env.example .env
 npm run dev
 ```
 > Backend runs at `http://localhost:7777`
+
+```bash
+# Optional: Trigger immediate manual sync of live hackathons & coding contests
+npm run sync:events
+```
 
 ### 3. Frontend Installation & Run
 ```bash
